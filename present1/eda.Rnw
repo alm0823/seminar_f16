@@ -1,0 +1,71 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage,graphicx,float,amsmath,enumitem,hyperref}
+\setlist{parsep=5.5pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\baselineskip}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{EDA}
+\rhead{Consulting Seminar FALL 2016}
+\setlength{\headheight}{18pt}
+\setlength{\headsep}{2pt}
+
+\title{EDA}
+\author{Nnamdi, Paul, Andrea}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+<<setup, echo = FALSE, message = FALSE, cache = FALSE>>=
+library(knitr)
+opts_chunk$set(echo = FALSE, comment = NA, fig.align = "center",
+               fig.width = 6.5, fig.height = 4, fig.pos = "H",
+               size = "footnotesize", dev = "pdf",
+               dev.args = list(pointsize = 11))
+knit_theme$set("print")
+
+library(xtable)
+options(xtable.table.placement = "H", xtable.caption.placement = "top",
+        width = 80, scipen = 1, show.signif.stars = FALSE)
+
+library(TSA)#harmonic()
+library(mgcv)#gam()
+library(nlme)#gls()
+library(mosaic)#shuffle()
+library(car)#ss
+@
+
+
+{\bf We need to know exactly which phenotypes he would like assessed. His pairs plot is too small to read.}
+<<readin, include=FALSE>>=
+#change to your file path
+#setwd("C:/Users/Andrea Mack/Desktop/mack_hub/course_work/Consulting Seminar/seminar_f16/datasent102516")
+
+bz15 <- read.csv("Final Data Files-lodging files 10-13-2016-2015bz.csv")
+dim(bz15)
+
+summary(complete.cases(bz15))
+summary(bz15)
+
+str(bz15.pheno)
+colnames(bz15.pheno) <- c("avg.logding", "avg.height", "yield")
+bz15.pheno$yield <- as.numeric(as.character(bz15.pheno$yield))
+
+
+#for now, let's just look at lodging, height, and yield
+
+bz15.pheno <- bz15[,2:4]
+
+@
+
+<<initial.plots>>=
+pairs(bz15.pheno)
+str(bz15.pheno)
+
+boxplot(bz15.pheno)
+@
+
+
+\end{document}
