@@ -115,7 +115,7 @@ summary(out.em,perms = operm, alpha=0.1, pvalues = TRUE)
 binom.test(0,1000)$conf.int
 
 
-
+summary(out.em)
 @
 
 
