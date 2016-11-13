@@ -35,13 +35,14 @@ library(mgcv)#gam()
 library(nlme)#gls()
 library(mosaic)#shuffle()
 library(car)#ss
+require(qtl)
 @
 
 
 {\bf We need to know exactly which phenotypes he would like assessed. His pairs plot is too small to read.}
 <<readin, include=FALSE>>=
 #change to your file path
-#setwd("C:/Users/Andrea Mack/Desktop/mack_hub/course_work/Consulting Seminar/seminar_f16/datasent102516")
+setwd("C:/Users/Andrea Mack/Desktop/mack_hub/course_work/Consulting Seminar/seminar_f16/datasent102516")
 
 bz15 <- read.csv("Final Data Files-lodging files 10-13-2016-2015bz.csv")
 dim(bz15)
@@ -65,6 +66,56 @@ pairs(bz15.pheno)
 str(bz15.pheno)
 
 boxplot(bz15.pheno)
+
+
+data(hyper)
+summary(hyper)
+plotPheno(bz15.pheno)
+@
+
+<<lod.perm, cache = TRUE>>=
+
+#from p. 117 broman
+data(hyper)
+
+str(hyper)
+
+#first see p. 95, need to calculate lod at each qtl observed
+#this section has a good explanation of lod
+#go back and read this section!
+#describes lod and what scanone is doing
+out.em <- scanone(hyper, method = "em")
+
+#hyper is a list of 2
+#one list is the genotype data nested in each marker
+#there is also a map objecte nested in the geno data
+#the other is the phenotype data which is a dataframe
+
+#criteria:: backcrossed (genotyping?)
+
+#obtain qtl genotype probabilities
+hyper <- calc.genoprob(hyper, step=1, error.prob=0.001)
+
+#do the permutation test
+operm <- scanone(hyper, n.perm=1000, verbose=FALSE)
+
+#if selective genotyping done (define and ask Jamin) then 
+#1) strata <- c(their names)
+#2) scanone(~., perm.strata=strat, ~.)
+#see p.118
+
+#gives the genome scan adjusted pvalues for each lod peak
+summary(out.em,perms = operm, alpha=0.1, pvalues = TRUE)
+
+#surely, a confidence interval for the pvalue is better than a 
+#strict cut off
+#at each loci, the pvalue is below the threshold or not -- binom
+
+#return the CI for the pvalue at D4Mit164
+binom.test(0,1000)$conf.int
+
+
+
 @
 
 
