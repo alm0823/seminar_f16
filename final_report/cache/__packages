@@ -1,0 +1,14 @@
+base
+knitr
+xtable
+leaps
+locfit
+nlme
+mgcv
+tseries
+TSA
+qtl
+Rcpp
+mice
+ggplot2
+reshape2

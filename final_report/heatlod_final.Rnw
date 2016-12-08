@@ -1,0 +1,333 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage,graphicx,float,amsmath,enumitem,hyperref}
+\setlist{parsep=5.5pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\baselineskip}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{Missing Data and LOD}
+\rhead{Paul Harmon, Nnamdi Ekeiki, and Andrea Mack}
+\setlength{\headheight}{18pt}
+\setlength{\headsep}{2pt}
+
+\title{Pea Lodging Final Report}
+\author{Paul Harmon, Nnamdi Ekeiki, and Andrea Mack}
+\date{December 16, 2016}
+
+\begin{document}
+\maketitle
+
+<<setup, echo = FALSE, message = FALSE, cache = FALSE>>=
+library(knitr)
+opts_chunk$set(echo = FALSE, comment = NA, fig.align = "center",
+               fig.width = 6.5, fig.height = 4, fig.pos = "H",
+               size = "footnotesize", dev = "pdf",
+               dev.args = list(pointsize = 11))
+knit_theme$set("print")
+
+library(xtable)
+options(xtable.table.placement = "H", xtable.caption.placement = "top",
+        width = 80, scipen = 1, show.signif.stars = FALSE)
+
+library(TSA)
+require(qtl)
+require(mice)
+library(ggplot2)
+library(reshape2)
+
+@
+
+<<readin, include = FALSE>>=
+# this data was extracted from the file
+#Copy of MapDisto LOD 4, R=.15 with imputed and hets and distorteds remove-map written
+# that was sent 112116 from Jamin -- see email
+
+# gen_export is what map disto gave when I exported the data
+# it is in an odd format that I don't know how to work with
+gen_export <- read.table("datafromdisto_sent112116.txt", fill = TRUE)
+str(gen_export)
+
+# gen is what I copied directly from map disto
+gen.raw <- read.csv("raw_copied.csv", as.is = TRUE)
+gen <- read.csv("gen.csv", as.is = TRUE)
+dim(gen)
+
+###################################################################
+# below was used to create data set
+###################################################################
+# make ind x markers
+#gen <- t(gen)
+#dim(gen)
+# make row1 the column names
+#colnames(gen) <- c(gen[1,])
+# delete first row that was genetic marker identifiers
+#gen <- gen[-1,]
+#dim(gen)
+#str(gen)
+#write.csvs(gen, file = "gen.csv")
+#gen <- apply(gen, 2, function(t){as.factor(as.character(t))})
+
+#####################################################################
+
+gen[gen == "-"] <- NA
+gen <- apply(gen,2,function(t){factor(t,levels = c("A", "B"))})
+gen <- data.frame(gen)
+
+# converting data to long form for ggplot2 use
+
+gen$ind <- c(seq(1:257))
+gen$ind <- as.factor(as.character(gen$ind))
+
+colnames(gen) <- substring(colnames(gen),1,7)
+
+datf1_bz16 <- melt(gen, id.var = 'ind', na.rm = FALSE)
+datf1_bz16[is.na(datf1_bz16)] <- "missing"
+@
+
+\section{Visualizing Missing Data}
+\subsection{All Markers}
+
+<<missing.plot, caption = "Missing Genetic Data Plot", cache=TRUE>>=
+
+ggplot(datf1_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
+   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
+                                            guide = guide_legend(title = "") ) + 
+  ggtitle("Genetic Data") +
+ xlab("Genetic Marker") + ylab("Variety") +
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 90, hjust = 1, size = 0.5), 
+        axis.text.y = element_text(angle = 90, hjust = 1, size = 0.5))
+@
+
+<<missing.pattern, include = FALSE>>=
+str(md.pattern(gen))
+colnames(gen)
+
+gen_markers <- gen[,-c(1,611)]
+dim(gen_markers)
+marker_miss <- apply(gen_markers,2,function(t){length(which(is.na(t) == TRUE))})
+variety_miss <- apply(gen_markers,1,function(t){length(which(is.na(t) == TRUE))})
+
+marker_miss
+marker_miss.percent <- marker_miss/dim(gen_markers)[2]
+variety_miss.percent <- variety_miss/dim(gen_markers)[1]
+
+mmiss <- data.frame(rbind(marker_miss, marker_miss.percent))
+rownames(mmiss) <- c("Count", "Percent")
+
+vmiss <- data.frame(rbind(variety_miss, variety_miss.percent))
+rownames(vmiss) <- c("Count", "Percent")
+@
+
+<<xtable.misses, results = 'asis'>>=
+
+print(xtable(mmiss[,1:20]), scale = 0.5)
+print(xtable(mmiss[,21:40]), scale = 0.5)
+print(xtable(mmiss[,41:60]), scale = 0.5)
+print(xtable(mmiss[,61:80]), scale = 0.5)
+print(xtable(mmiss[,81:100]), scale = 0.5)
+print(xtable(mmiss[,101:120]), scale = 0.5)
+print(xtable(mmiss[,121:140]), scale = 0.5)
+print(xtable(mmiss[,141:160]), scale = 0.5)
+print(xtable(mmiss[,161:180]), scale = 0.5)
+print(xtable(mmiss[,181:200]), scale = 0.5)
+print(xtable(mmiss[,201:220]), scale = 0.5)
+print(xtable(mmiss[,221:240]), scale = 0.5)
+print(xtable(mmiss[,241:260]), scale = 0.5)
+print(xtable(mmiss[,261:280]), scale = 0.5)
+print(xtable(mmiss[,281:300]), scale = 0.5)
+print(xtable(mmiss[,301:320]), scale = 0.5)
+print(xtable(mmiss[,321:340]), scale = 0.5)
+print(xtable(mmiss[,341:360]), scale = 0.5)
+print(xtable(mmiss[,361:380]), scale = 0.5)
+print(xtable(mmiss[,381:400]), scale = 0.5)
+print(xtable(mmiss[,401:420]), scale = 0.5)
+print(xtable(mmiss[,421:440]), scale = 0.5)
+print(xtable(mmiss[,441:460]), scale = 0.5)
+print(xtable(mmiss[,461:480]), scale = 0.5)
+print(xtable(mmiss[,481:500]), scale = 0.5)
+print(xtable(mmiss[,501:520]), scale = 0.5)
+print(xtable(mmiss[,521:540]), scale = 0.5)
+print(xtable(mmiss[,541:560]), scale = 0.5)
+print(xtable(mmiss[,561:580]), scale = 0.5)
+print(xtable(mmiss[,581:600]), scale = 0.5)
+print(xtable(mmiss[,601:609]), scale = 0.5)
+
+
+
+print(xtable(vmiss[,1:20]), scale = 0.5)
+print(xtable(vmiss[,21:40]), scale = 0.5)
+print(xtable(vmiss[,41:60]), scale = 0.5)
+print(xtable(vmiss[,61:80]), scale = 0.5)
+print(xtable(vmiss[,81:100]), scale = 0.5)
+print(xtable(vmiss[,101:120]), scale = 0.5)
+print(xtable(vmiss[,121:140]), scale = 0.5)
+print(xtable(vmiss[,141:160]), scale = 0.5)
+print(xtable(vmiss[,161:180]), scale = 0.5)
+print(xtable(vmiss[,181:200]), scale = 0.5)
+print(xtable(vmiss[,201:220]), scale = 0.5)
+print(xtable(vmiss[,221:240]), scale = 0.5)
+print(xtable(vmiss[,241:257]), scale = 0.5)
+
+
+
+
+
+
+## read in phenotypic data
+## i need to figure out which phenotypic data correponds to what's in gen
+#moc1516 <- read.csv("Final Data Files-lodging files 10-13-2016-2015moc.csv")#257 rows
+
+
+# make a cross object
+# the cross object function assumes markers are in the correct order
+
+
+## next, subset by highest non - missing rate and remake plot
+@
+
+\subsection{Less than 25\% Missing}
+
+<<subset.25, warning=FALSE>>=
+mmiss25 <- which(mmiss[2,] <= 0.25)
+mmiss30 <- which(0.25 < mmiss[2,] & mmiss[2,]<= 0.30)
+
+mmiss35 <- which(0.30 < mmiss[2,] & mmiss[2,]<= 0.35)
+mmiss40 <- which(0.35 < mmiss[2,] & mmiss[2,]<= 0.40)
+mmiss45 <- which(0.40 < mmiss[2,] & mmiss[2,]<= 0.45)
+mmiss50 <- which(0.45 < mmiss[2,] & mmiss[2,]<= 0.50)
+
+
+#mmiss.all <- c(mmiss25,mmiss50,mmiss75,mmiss100)
+#good
+#mmiss.all %in% c(seq(1:610))
+#colnames(gen[,2:610])
+
+dat25_bz16 <- melt(gen[,c(mmiss25,611)], id.var = 'ind', na.rm = FALSE)
+dat25_bz16$value <- factor(dat25_bz16$value, levels = c("A","B","missing"))
+dat25_bz16[is.na(dat25_bz16)] <- "missing"
+
+dat30_bz16 <- melt(gen[,c(mmiss30,611)], id.var = 'ind', na.rm = FALSE)
+dat30_bz16$value <- factor(dat30_bz16$value, levels = c("A","B","missing"))
+dat30_bz16[is.na(dat30_bz16)] <- "missing"
+
+
+dat35_bz16 <- melt(gen[,c(mmiss35,611)], id.var = 'ind', na.rm = FALSE)
+dat35_bz16$value <- factor(dat35_bz16$value, levels = c("A","B","missing"))
+dat35_bz16[is.na(dat35_bz16)] <- "missing"
+
+dat40_bz16 <- melt(gen[,c(mmiss40,611)], id.var = 'ind', na.rm = FALSE)
+dat40_bz16$value <- factor(dat40_bz16$value, levels = c("A","B","missing"))
+dat40_bz16[is.na(dat40_bz16)] <- "missing"
+
+dat45_bz16 <- melt(gen[,c(mmiss45,611)], id.var = 'ind', na.rm = FALSE)
+dat45_bz16$value <- factor(dat45_bz16$value, levels = c("A","B","missing"))
+dat45_bz16[is.na(dat45_bz16)] <- "missing"
+
+dat50_bz16 <- melt(gen[,c(mmiss50,611)], id.var = 'ind', na.rm = FALSE)
+dat50_bz16$value <- factor(dat50_bz16$value, levels = c("A","B","missing"))
+dat50_bz16[is.na(dat50_bz16)] <- "missing"
+@
+
+
+<<missing.plot25, cache=TRUE, fig.height=7.5, warnings=FALSE>>=
+
+ggplot(dat25_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
+   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
+                                            guide = guide_legend(title = "") ) + 
+  ggtitle("Genetic Data < 25% Missing") +
+ xlab("Genetic Marker") + ylab("Variety") +
+  theme(legend.position = "bottom", legend.title = element_text(""),
+        axis.text.x = element_text(angle = 90, hjust = 1, size = 10), 
+        axis.text.y = element_text(angle = 0, hjust = 1, size = 10))
+@
+
+\subsection{Less than 30\% Missing}
+
+<<missing.plot30, cache=TRUE,fig.height=8>>=
+
+ggplot(dat30_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
+   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
+                                            guide = guide_legend(title = "") ) + 
+  ggtitle("Genetic Data 25 % < 30% Missing") +
+ xlab("Genetic Marker") + ylab("Variety") +
+  theme(legend.position = "bottom", legend.title = element_text(""),
+        axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
+        axis.text.y = element_text(angle = 0, hjust = 1, size = 1))
+@
+
+\subsection{Less than 35\% Missing}
+
+
+<<missing.plot35, cache=TRUE, fig.height=8>>=
+
+ggplot(dat35_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
+   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
+                                            guide = guide_legend(title = "") ) + 
+  ggtitle("Genetic Data 30 % < 35% Missing") +
+ xlab("Genetic Marker") + ylab("Variety") +
+  theme(legend.position = "bottom", legend.title = element_text(""),
+        axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
+        axis.text.y = element_text(angle = 90, hjust = 1, size = 1))
+@
+
+\subsection{Less than 40\% Missing}
+
+
+<<missing.plot40, cache=TRUE, fig.height=8>>=
+
+ggplot(dat40_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
+   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
+                                            guide = guide_legend(title = "") ) + 
+  ggtitle("Genetic Data 35 % < 40% Missing") +
+ xlab("Genetic Marker") + ylab("Variety") +
+  theme(legend.position = "bottom", legend.title = element_text(""),
+        axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
+        axis.text.y = element_text(angle = 90, hjust = 1, size = 1))
+@
+
+<<missing.plot45, cache=TRUE,fig.height=8, include = FALSE>>=
+
+ggplot(dat45_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
+   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
+                                            guide = guide_legend(title = "") ) + 
+  ggtitle("Genetic Data 40 % < 45% Missing") +
+ xlab("Genetic Marker") + ylab("Variety") +
+  theme(legend.position = "bottom", legend.title = element_text(""),
+        axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
+        axis.text.y = element_text(angle = 90, hjust = 1, size = 1))
+@
+
+<<missing.plot50, cache=TRUE, fig.height=8, include = FALSE>>=
+
+ggplot(dat50_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
+   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
+                                            guide = guide_legend(title = "") ) + 
+  ggtitle("Genetic Data 45 % < 50% Missing") +
+ xlab("Genetic Marker") + ylab("Variety") +
+  theme(legend.position = "bottom", legend.title = element_text(""),
+        axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
+        axis.text.y = element_text(angle = 90, hjust = 1, size = 1))
+@
+
+
+
+\section{Missing-ness}
+
+<<miss,include=FALSE, eval = FALSE>>=
+setwd("C:/Users/Andrea Mack/Desktop/mack_hub/course_work/Consulting Seminar/seminar_f16/datasent102516")
+
+#start with bz16
+phen_bz16 <- read.csv("Final Data Files-lodging files 10-13-2016-2015bz.csv")
+str(phen_bz16)
+dim(phen_bz16)
+
+rownames(gen)
+phen_bz16[phen_bz16 == "-"] <- NA
+summary(phen_bz16)
+
+#heatmap(gen)
+@
+
+\end{document}
