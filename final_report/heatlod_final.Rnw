@@ -330,4 +330,107 @@ summary(phen_bz16)
 #heatmap(gen)
 @
 
+
+##Site Year Combinations for Lodging
+
+
+<<siteyear, include = TRUE, eval = TRUE>>=
+setwd()
+bz13 <- read.csv("JaminB13.csv", header = TRUE)
+bz14 <- read.csv("JaminB14.csv", header = TRUE)
+bz15 <- read.csv("JaminB15edited.csv", header = TRUE)
+bz16 <- read.csv("JaminB16edited.csv", header = TRUE)
+moc15 <- read.csv("JaminM15edited.csv", header = TRUE)
+moc16 <- read.csv("JaminM16edited.csv", header = TRUE)
+
+#create and add in variables for each site/year combination
+bz13$Site <- bz14$Site <- bz15$Site <- bz16$Site <- "Bozeman"
+moc15$Site <- moc16$Site <- "Moccasin"
+bz13$Year <- 2013
+bz14$Year <- 2014
+bz15$Year <- moc15$Year <- 2015
+bz16$Year <- moc16$Year <- 2016
+
+#Merge into a single dataset
+#lodging response
+lodging<- c(bz14$Prcnt.Lodging,bz15$X..Lodging,bz16$X..Lodging.boze.2016,moc15$Lodging,moc16$X.lodging.2016)
+#site year combo as a factor
+site <- c(bz14$Site,bz15$Site, bz16$Site,moc15$Site,moc16$Site)
+year <- c(bz14$Year, bz15$Year,bz16$Year,moc15$Year,moc16$Year)
+siteyear <- as.factor(paste(site,year, sep = ""))
+
+year.site.mat <- matrix(cbind(lodging,site,year,siteyear))
+@
+
+##Exploratory Analysis: 
+The data were collected over a period of 4 field seasons at sites in Bozeman and 2 field seasons in Moccasin. Phenotypic data were analyzed in order to determine whether conditions were similar enough at each year/site combination to consider as a single dataset, or if they differ by enough that the sites and years need to be considered as different groups.  
+Because lodging is considered the response of interest, we examine the Percent Lodging measured at each site/year combination. Note that Percent Lodging is not measured in the 2013 Bozeman data; we did not include it in this analysis. Given the result of the analysis, we do not need to consider it into the analysis to determine that there are differences in the year/site combinations.  Visually, we can plot the mean percent lodging at each year/site combination to get an idea of differences between the years and sites. Below, we have percent lodging at each site. It appears that the Moccasin sites tend to be slightly less variable; moreover, the median percent lodging at each site appeared to be higher in 2015 than in 2016.
+
+<<meanvars, include = TRUE, eval = TRUE>>=
+#plots of percent lodging at each site #means
+a <- mean(bz14$Prcnt.Lodging, na.rm = TRUE)
+b <- mean(bz15$X..Lodging, na.rm = TRUE)  
+c <-mean(bz16$X..Lodging.boze.2016, na.rm = TRUE)  
+d <- mean(moc15$Lodging, na.rm = TRUE) 
+e <- mean(moc16$X.lodging.2016, na.rm = TRUE) 
+
+#var
+a.var <- var(bz14$Prcnt.Lodging, na.rm = TRUE)
+b.var <- var(bz15$X..Lodging, na.rm = TRUE)  
+c.var <-var(bz16$X..Lodging.boze.2016, na.rm = TRUE)  
+d.var <- var(moc15$Lodging, na.rm = TRUE) 
+e.var <- var(moc16$X.lodging.2016, na.rm = TRUE) 
+<<miss, include = TRUE, eval = TRUE>>=
+#Box Plots (Side by Side)
+boxplot(lodging~siteyear, cex = .8, col = c("tomato2","tomato2","tomato2","blue","blue"), main = "Lodging at each site/year combination", ylab = "Percent Lodging")
+@
+
+
+##Interaction Plot
+If the sites are reasonably similar, we would expect to see parallel lines that are either overlapping or very near each other.  The red line for Bozeman indicates that average percent lodging was higher in Bozeman than in Moccasin in both 2015 and 2016; however it may also have been more variable than in Moccasin. While the blue line and red line are both decreasing from 2015 to 2016, the difference in slopes indicates that there may be some interaction between year/site combinations.  More formal testing is necessary to assess differences between year and site combinations, but this visualization indicates some evidence of a difference in lodging in each location and year.
+
+<<interactionplot, include = TRUE, eval = TRUE>>=
+plot(seq(2014,2016,by = 1),c(a,b,c), type = "l", ylim = c(30,45),xaxt = 'n', main = "Interaction Plot", col = "tomato2", lwd = 2, xlab = "Year", ylab = "Mean Percent Lodging") 
+axis(side=1,at = c(2014,2015,2016),labels = TRUE)
+lines(x = c(2015,2016), y = c(d,e), type = "l", col = "blue", lwd = 2)
+legend('topright', fill = c("tomato2","blue"), legend = c("Bozeman", "Moccasin"))
+@
+
+##Regression Model
+  The regression treats Bozeman 2014 as the baseline (intercept) group. Each site-year combination is tested against the   baseline; small p-values indicate that the given group differs from the baseline. The p-values for each of the other site-year combinations are all quite small – the largest, for Bozeman 2015, is only 0.015, indicating strong evidence that each of the site/year combinations differ from the baseline. Moreover, the effect size ranges from 4 to 7 points on the 1-100 percent scale on which Percent Lodging is measured.  The confidence intervals given give estimates of the true mean lodging at each site/year combination. If all the intervals overlapped, we might have evidence that the combinations are at least reasonably similar; however, the 2016 interval in Moccasin and the 2014/2015 Bozeman intervals do not overlap. 
+
+<<miss, include = TRUE, eval = TRUE>>=
+#Fit A Simple Regression:
+
+lm.lodging <- lm(lodging ~ siteyear, data = as.data.frame(year.site.mat))
+summary(lm.lodging)
+b14mean <- c(0,rep(lm.lodging$coef[1],4))
+con <- confint(lm.lodging) 
+confint.table <-  con + b14mean 
+
+
+#display table of results
+pander(lm.lodging)
+pander(confint.table)
+@
+##Conclusion:
+This analysis indicates that the measurements taken at each site in each year should be treated separately; they should not be considered homogenous enough to be taken as a single group.  The inclusion of 2013 into the data is unlikely to change the results of this study because the differences between the combinations already considered are enough to justify splitting the dataset into separate groups. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \end{document}
