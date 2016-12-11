@@ -399,7 +399,7 @@ legend('topright', fill = c("tomato2","blue"), legend = c("Bozeman", "Moccasin")
 ##Regression Model
   The regression treats Bozeman 2014 as the baseline (intercept) group. Each site-year combination is tested against the   baseline; small p-values indicate that the given group differs from the baseline. The p-values for each of the other site-year combinations are all quite small – the largest, for Bozeman 2015, is only 0.015, indicating strong evidence that each of the site/year combinations differ from the baseline. Moreover, the effect size ranges from 4 to 7 points on the 1-100 percent scale on which Percent Lodging is measured.  The confidence intervals given give estimates of the true mean lodging at each site/year combination. If all the intervals overlapped, we might have evidence that the combinations are at least reasonably similar; however, the 2016 interval in Moccasin and the 2014/2015 Bozeman intervals do not overlap. 
 
-<<miss, include = TRUE, eval = TRUE>>=
+<<miss2, include = TRUE, eval = TRUE>>=
 #Fit A Simple Regression:
 
 lm.lodging <- lm(lodging ~ siteyear, data = as.data.frame(year.site.mat))
@@ -419,6 +419,21 @@ This analysis indicates that the measurements taken at each site in each year sh
 
 
 
+\section{Setting Significance Thresholds}
+
+The plots above include over 600 genetic markers. When a QTL analysis is done, a significance test is done for each marker. Multiple testing problems are quite common in genetic analyses. Jamin mentioned he would like to use LOD for setting a significance threshold. LOD is an abbreviation for the log-odds. LOD is the $log_{10}$ liklihood ratio comparing the null that there is not a QTL to the alternative, that there is.
+
+$Null Model, H_{o}: y_{i} \sim N(\mu, \sigma^2)$ i.e. there is no genetic dependency between the phenotype and the genotype
+
+- Where the maximum likelihood estimates (MLEs) for parameter estimates $\mu = \bar{y}; \sigma^2 = RSS_{o}/n$ are used.
+
+$Alternative Model, H_{a}: y_{i}|g_{i} \sim N(\mu_{g_{i}}, \sigma^2)$
+
+- Where $g_{i}$ = genotype of individual i at the marker (loci); each genotype group has a different mean; $\sigma^2$ = pooled RSS = $RSS_{1}$; again the MLEs. 
+
+LOD = $\frac{n}{2} \times log_{10}(\frac{RSS_{o}}{RSS_{1}})$
+
+LOD is related to the F statistic. LOD = $\frac{n}{2} \times [F({\frac{df}{n-df-1} + 1)]$ and similar to the F statistic, large LOD values are associated with strong evidence for the alternative, that there is a relationship to the genetic loci and the phenotype. Since F statistics help find p-values, and LOD is related to F statistics, by setting genome wide adjusted LOD thresholds, we can easily convert these back to genome wide adjusted p-values. Broman and Sen (2009) provide a method for generating genome wide adjusted LOD thresholds, and the corresponding genome-wide adjusted p-value thresholds in Section 4.3 using the {\texttt QTL} package in R. Future work with Jamin from the Consulting Seminar would benefit from exploring using this simulation method for setting the significance thresholds. Once the data is formatted as a cross object, the method is straightforward.
 
 
 
