@@ -315,7 +315,7 @@ ggplot(dat50_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
 
 \section{Missing-ness}
 
-<<miss,include=FALSE, eval = FALSE>>=
+<<miss7,include=FALSE, eval = FALSE>>=
 setwd("C:/Users/Andrea Mack/Desktop/mack_hub/course_work/Consulting Seminar/seminar_f16/datasent102516")
 
 #start with bz16
@@ -416,12 +416,351 @@ pander(confint.table)
 ##Conclusion:
 This analysis indicates that the measurements taken at each site in each year should be treated separately; they should not be considered homogenous enough to be taken as a single group.  The inclusion of 2013 into the data is unlikely to change the results of this study because the differences between the combinations already considered are enough to justify splitting the dataset into separate groups. 
 
+\section{Correlation Plots}
+Correlation describes the strength and direction of a linear association. The height of a ball thrown up in the air follows a quadratic pattern with time, therefore, in this example, there is a relationship between height of the ball and time. The relationship, however, is not linear, and so would not be described well with a measure of correlation. It is known that gravity {\it causes} the ball fall. Correlation, however, can only tell about associations, not causal relationships. An example of association might be that more students go to the library in the beginning of December than the end. There is an association between the number of students in the library and the time in December, but it is not December that is causing more students to go to the library, it is finals week. There is an association between the day in December and the number of students in the library, but the day in December does not {\it make} students go to the library at a certain rate.
+
+\subsection{Sites and Years Combined}
+
+The correlation between pairwise explanatory variables of the phenotypic data were assessed using the a pairwise correlation matrix. We assessed the pairwise correlations across sites for pairs of explanatory variables which were measured within these sites at least in two different years.
+
+The pairwise correlation matrix below shows that germination which was measured in Bozeman for all 3 years has weak correlation against all the variables measured. Also results from Bozeman shows that tendril length node of the plant was moderately to strongly correlated with the average length and tendril length of the plant with correlation coefficients of 0.61 and 0.48 respectively. The branch number and tiller diameter of the plant were also moderately correlated (r = 0.47). The maturity time of the plant was strongly and moderately correlated with the maximum nodes (r=0.65) and nodes of 1st flow (r=0.48). In addition, a correlation coefficient of 0.81 was observed for nodes 1st flow and maximum nodes of the plants.
+
+In Moccasin, only four variables were observed to have been measured both in 2015 and 2016. Of these variables, the length and main stem diameter of the plants are moderately correlated (r=-0.55). Also, the main stem diameter and root diameter of the plants are moderately correlated (r=0.45).
+
+<<merged>>=
+##Load Data (Bozeman 2014)
+mergedbzn<-read.csv(file.choose(),header=T)
+summary(mergedbzn)
+names(mergedbzn)
+
+##Relabeling COlumns
+install.packages("data.table")
+require(data.table)
+
+colnames(mergedbzn)[colnames(mergedbzn)=="Prcnt.Lodging"] <- "prcnt_lodging"
+colnames(mergedbzn)[colnames(mergedbzn)=="Germination.2014.."] <- "gemination"
+colnames(mergedbzn)[colnames(mergedbzn)=="branch.numb.2014"] <- "branch_numb"
+colnames(mergedbzn)[colnames(mergedbzn)=="Height"] <- "plant_height"
+colnames(mergedbzn)[colnames(mergedbzn)=="length"] <- "plant_length"
+colnames(mergedbzn)[colnames(mergedbzn)=="tendril.length.14.node.2014"] <- "tendril_length_node"
+colnames(mergedbzn)[colnames(mergedbzn)=="tendril.length.2014"] <- "tendril_length"
+colnames(mergedbzn)[colnames(mergedbzn)=="Nodes.1st.flow.2014"] <- "nodes_1st_flow"
+colnames(mergedbzn)[colnames(mergedbzn)=="max.nodes.2014"] <- "max_nodes"
+colnames(mergedbzn)[colnames(mergedbzn)=="internode.length.2014"] <- "internode_length"
+colnames(mergedbzn)[colnames(mergedbzn)=="Total.yield.2014"] <- "total_yield"
+colnames(mergedbzn)[colnames(mergedbzn)=="Avg.Yld.Plant.2014"] <- "avg_total_yield"
+colnames(mergedbzn)[colnames(mergedbzn)=="Main.stm.diameter.2014"] <- "main_stm_diam"
+colnames(mergedbzn)[colnames(mergedbzn)=="Average.compressed.main.stem.thickness.2014"] <- "comp_main_stm"
+colnames(mergedbzn)[colnames(mergedbzn)=="Tiller.diameter.2014"] <- "tiller_diam"
+colnames(mergedbzn)[colnames(mergedbzn)=="compressed.tiller.thickness.2014"] <- "comp_tiller_diam"
+colnames(mergedbzn)[colnames(mergedbzn)=="length.1"] <- "length_1"
+colnames(mergedbzn)[colnames(mergedbzn)=="Maturity.Time"] <- "mat_time"
+colnames(mergedbzn)[colnames(mergedbzn)=="Tendril.Width"] <- "tendril_Width"
+colnames(mergedbzn)[colnames(mergedbzn)=="Root.compressed.avg"] <- "root_comp"
+colnames(mergedbzn)[colnames(mergedbzn)=="avg.main..side.brnch.root"] <- "main_stm_branch"
+
+names(mergedbzn)
+
+##Drop Columns
+
+mergedbzn <- subset(mergedbzn, select = -c(Year,DNA.GENERATION, LINE.., Germination.2014NACHECKED, 
+                                           stand.good.1.Y..2.bad.sample..do.not.use.lines.labeled.2, 
+                                           prcnt.lodging.bad.germ.lines.includedNAchecked, flowering.time.2014,
+                                           white.flower..1.is.white, black.hilum.delta.A.NO.MOT, 
+                                           Brown.mottle..rerate.next.year..1.no.mot, np.neo, Late,
+                                           tall.dwf.based.on.grnhouse.data..field.2014, Afila.1.YES.DELTA.A,
+                                           internode_length, total_yield, comp_main_stm, length_1,
+                                           tendril_Width, root_comp, main_stm_branch))
+
+
+names(mergedbzn)
+
+##Reorder Colums
+mergedbzn = mergedbzn[, c(5:6, 1:4, 7:14)]
+names(mergedbzn)
+
+##Plot Correlation
+install.packages("psych")
+require(psych)
+pairs.panels(mergedbzn)
+@
+
+\subsection{Bozeman by Year}
+We assessed the pairwise correlation of the different sites each year. In 2014, twelve pairs of explanatory variables had correlation coefficients between 0.42 and 0.91. The pairwise correlations are shown in the matrix below. Germination and total yield was strongly correlated (r=0.66) while the length and internode length of the plants recorded a very high correlation coefficient (r=0.91). In 2015 and 2016, of the pairwise combinations assessed, 28 combinations yielded correlation coefficients between 0.40 and 0.85. The results are presented in the pairwise correlation matrices below.
+
+<<bz>>=
+##########################
+# Bozeman 2016 Dataset  #
+#########################
+
+##Load Data (Bozeman 2016)
+bozeman16<-read.csv(file.choose(),header=T)
+summary(bozeman16)
+
+##Relabel Names
+names(bozeman16)
+
+library(data.table)
+install.packages("data.table")
+require(data.table)
+
+##Relabeling COlumns
+colnames(bozeman16)[colnames(bozeman16)=="pctg_Lodging_boze_2016"] <- "prcnt_lodging"
+colnames(bozeman16)[colnames(bozeman16)=="GerminateNABozemanNA2016"] <- "germination"
+colnames(bozeman16)[colnames(bozeman16)=="Avg_brnch_numb_boz_2016"] <- "branch_numb"
+colnames(bozeman16)[colnames(bozeman16)=="avg_height_boze_2016"] <- "avg_plant_height"
+colnames(bozeman16)[colnames(bozeman16)=="avg_length_boze_2016"] <- "avg_plant_length"
+colnames(bozeman16)[colnames(bozeman16)=="Mat_time_boze_2016"] <- "maturity_time"
+colnames(bozeman16)[colnames(bozeman16)=="avg_tend_length_boze_2016"] <- "tendril_length"
+colnames(bozeman16)[colnames(bozeman16)=="Avg_Main_stem_diam_boze_2016"] <- "main_stem_diam"
+colnames(bozeman16)[colnames(bozeman16)=="avg_comp_mn_stm_dia_boze_2016"] <- "comp_main_stem_diam"
+colnames(bozeman16)[colnames(bozeman16)=="avg_comp_brnch_diam_boze_2016"] <- "comp_branch_diam"
+colnames(bozeman16)[colnames(bozeman16)=="avg_branch_diam_boze_2016"] <- "branch_diam"
+colnames(bozeman16)[colnames(bozeman16)=="comp_brnch_diam_boze_2016"] <- "comp_branch_diam"
+colnames(bozeman16)[colnames(bozeman16)=="avg_root_diam_boze_2016"] <- "root_diam"
+
+##Correlation
+install.packages("psych")
+require(psych)
+pairs.panels(bozeman16)
+
+names(bozeman16)
+
+##Drop Columns
+bozeman16v2 <- subset(bozeman16, select = -c(Line_name, planting_generation, 
+                              Unknown, dpo_boze_2016, plants_harvestedNA_Boze_2016,
+                              bif_boze_2016, Yield_boze_2016,
+                              white_flow_2016_boze, afila_2016_boze_) )
+names(bozeman16v2)
+
+##Reorder Colums
+bozeman16v3 = bozeman16v2[, c(5:6, 1:4, 7:12)]
+names(bozeman16v3)
+pairs.panels(bozeman16v3)
+
+##########################
+# Bozeman 2014 Dataset  #
+#########################
+
+##Load Data (Bozeman 2014)
+bozeman14<-read.csv(file.choose(),header=T)
+summary(bozeman14)
+names(bozeman14)
+
+##Relabeling COlumns
+colnames(bozeman14)[colnames(bozeman14)=="Prcnt.Lodging"] <- "prcnt_lodging"
+colnames(bozeman14)[colnames(bozeman14)=="Germination.2014.."] <- "gemination"
+colnames(bozeman14)[colnames(bozeman14)=="branch.numb.2014"] <- "branch_numb"
+colnames(bozeman14)[colnames(bozeman14)=="height"] <- "plant_height"
+colnames(bozeman14)[colnames(bozeman14)=="length"] <- "plant_length"
+colnames(bozeman14)[colnames(bozeman14)=="tendril.length.14.node.2014"] <- "tendril_length_node"
+colnames(bozeman14)[colnames(bozeman14)=="tendril.length.2014"] <- "tendril_length"
+colnames(bozeman14)[colnames(bozeman14)=="Nodes.1st.flow.2014"] <- "nodes_1st_flow"
+colnames(bozeman14)[colnames(bozeman14)=="max.nodes.2014"] <- "max_nodes"
+colnames(bozeman14)[colnames(bozeman14)=="internode.length.2014"] <- "internode_length"
+colnames(bozeman14)[colnames(bozeman14)=="Total.yield.2014"] <- "total_yield"
+colnames(bozeman14)[colnames(bozeman14)=="Avg.Yld.Plant.2014"] <- "avg_total_yield"
+colnames(bozeman14)[colnames(bozeman14)=="Main.stm.diameter.2014"] <- "main_stm_diam"
+colnames(bozeman14)[colnames(bozeman14)=="Average.compressed.main.stem.thickness.2014"] <- "comp_main_stm"
+colnames(bozeman14)[colnames(bozeman14)=="Tiller.diameter.2014"] <- "tiller_diam"
+colnames(bozeman14)[colnames(bozeman14)=="compressed.tiller.thickness.2014"] <- "comp_tiller_diam"
+colnames(bozeman14)[colnames(bozeman14)=="length.1"] <- "length_1"
+
+##Drop Columns
+
+bozeman14 <- subset(bozeman14, select = -c(DNA.GENERATION, LINE.., Germination.2014NACHECKED, 
+   stand.good.1.Y..2.bad.sample..do.not.use.lines.labeled.2, 
+   prcnt.lodging.bad.germ.lines.includedNAchecked, flowering.time.2014,
+   white.flower..1.is.white, black.hilum.delta.A.NO.MOT, 
+   Brown.mottle..rerate.next.year..1.no.mot, np.neo, Late,
+   tall.dwf.based.on.grnhouse.data..field.2014, Afila.1.YES.DELTA.A))
+
+names(bozeman14)
+
+##Reorder Colums
+bozeman14 = bozeman14[, c(5:6, 1:4, 7:17)]
+names(bozeman14)
+
+##Plot Correlation
+pairs.panels(bozeman14)
+
+##########################
+# Bozeman 2015 Dataset  #
+#########################
+
+##Load Data (Bozeman 2015)
+bozeman15<-read.csv(file.choose(),header=T)
+summary(bozeman15)
+names(bozeman15)
+
+##Relabeling COlumns
+colnames(bozeman15)[colnames(bozeman15)=="Yield"] <- "yield"
+colnames(bozeman15)[colnames(bozeman15)=="X..GERMINATION.AVG.with.bad.germinating.lines.left.in.and.adjusted.for.seeds.planted"] <- "avg_germination"
+colnames(bozeman15)[colnames(bozeman15)=="X..of.branch"] <- "branch_numb"
+colnames(bozeman15)[colnames(bozeman15)=="plants.harvested"] <- "plants_harvested"
+colnames(bozeman15)[colnames(bozeman15)=="X..Lodging"] <- "prcnt_lodging"
+colnames(bozeman15)[colnames(bozeman15)=="Average.height"] <- "plant_height"
+colnames(bozeman15)[colnames(bozeman15)=="average.length..Median.2015.40NA45cm."] <- "plant_length"
+colnames(bozeman15)[colnames(bozeman15)=="Mat.time"] <- "maturity_time"
+colnames(bozeman15)[colnames(bozeman15)=="tendril.width"] <- "tendril_width"
+colnames(bozeman15)[colnames(bozeman15)=="tendril.Length"] <- "tendril_length"
+colnames(bozeman15)[colnames(bozeman15)=="Nodes.1st.flow"] <- "nodes_1st_flow"
+colnames(bozeman15)[colnames(bozeman15)=="max.nodes"] <- "max_nodes"
+colnames(bozeman15)[colnames(bozeman15)=="main.stem.DIAm.avg"] <- "main_stem_diam"
+colnames(bozeman15)[colnames(bozeman15)=="Main.stem.comp..avg"] <- "comp_main_stem_diam"
+colnames(bozeman15)[colnames(bozeman15)=="tiller.Diam.AVG"] <- "tiller_diam"
+colnames(bozeman15)[colnames(bozeman15)=="tiller.compressed.avg"] <- "comp_tiller_avg"
+colnames(bozeman15)[colnames(bozeman15)=="Root.compressed.avg"] <- "avg_comp_root"
+colnames(bozeman15)[colnames(bozeman15)=="avg.main..side.brnch.root"] <- "main_branch_root"
+
+##Drop Columns
+bozeman15 <- subset(bozeman15, select = -c(line.., average.lodging.Moccasin.2015, AVERAGE.HEIGHT.Moccasin.2015,
+                    X..germ.avg.with.bad.germ.lines.removed.and.adjusted.for.seeds.planted, 
+                    X..Lodging.with.bad.germinating.lines.included, runt., white.flow., 
+                    black.hilum.LG.6.delta.A.NO.MOT, Brown.mottle..rerate.next.year..1.no.mot, 
+                    np.neo, Late.2015, average.length.2015, tall.dwf.based.on.grnhouse.data..field.2015, 
+                    AVERAGE.HEIGHT.Moccasin.2015..43NA58., X, Afila.2015, afilaNAdwf.only))
+
+##Reorder Colums
+bozeman15 = bozeman15[, c(5:6, 1:4, 7:18)]
+names(bozeman15)
+
+##Plot Correlation
+install.packages("psych")
+require(psych)
+pairs.panels(bozeman15)
+
+@
+
+\subsection{Mocassin by Year}
+
+<<moc>>=
+
+##########################
+# Mocassin 2016 Dataset  #
+#########################
+
+##Load Data (Moccasin 2016)
+moccasin16<-read.csv(file.choose(),header=T)
+summary(moccasin16)
+
+##Relabel Names
+names(moccasin16)
+
+library(data.table)
+install.packages("data.table")
+require(data.table)
+
+##Relabeling COlumns
+colnames(moccasin16)[colnames(moccasin16)=="pctg_Lodging_boze_2016"] <- "prcnt_lodging"
+colnames(moccasin16)[colnames(moccasin16)=="X..GerminationNAMoccasinNA2016"] <- "prcnt_germination"
+colnames(moccasin16)[colnames(moccasin16)=="Tendril.Length.2016"] <- "tendril_length"
+colnames(moccasin16)[colnames(moccasin16)=="Avg.branch.number.2016"] <- "branch_numb"
+colnames(moccasin16)[colnames(moccasin16)=="Mat.timeNA.MoccasinNA2016"] <- "maturity_time"
+colnames(moccasin16)[colnames(moccasin16)=="AVG.length.moc.2016"] <- "plant_length"
+colnames(moccasin16)[colnames(moccasin16)=="X.lodging.2016"] <- "prcnt_lodging"
+colnames(moccasin16)[colnames(moccasin16)=="Main.stem.diam.avg.2016"] <- "main_stem_diam"
+colnames(moccasin16)[colnames(moccasin16)=="avg.branch.diam.2016"] <- "branch_diam"
+colnames(moccasin16)[colnames(moccasin16)=="avg.root.diam.2016"] <- "root_diam"
+
+##Drop Columns
+names(moccasin16)
+moccasin16 <- subset(moccasin16, select = -c(Line.name,
+                     white.flow.moc.2016.checked, afila.2016.moc.checked))
+names(moccasin16)
+
+##Reorder Colums
+moccasin16 = moccasin16[, c(5:6, 1:4, 7:9)]
+names(moccasin16)
+
+##Correlation Plot
+install.packages("psych")
+require(psych)
+pairs.panels(moccasin16)
+
+
+##########################
+# Moccasin 2015 Dataset  #
+#########################
+
+##Load Data (Moccasin 2015)
+moccasin15<-read.csv(file.choose(),header=T)
+summary(moccasin15)
+names(moccasin15)
+
+##Relabeling COlumns
+colnames(moccasin15)[colnames(moccasin15)=="Lodging"] <- "prcnt_lodging"
+colnames(moccasin15)[colnames(moccasin15)=="stress.minus.equation"] <- "stress_m_eqn"
+colnames(moccasin15)[colnames(moccasin15)=="original.stress.equation"] <- "ognl_stress_eqn"
+colnames(moccasin15)[colnames(moccasin15)=="stress.minus.equation.with.standard.thickness"] <- "SME_Std_thickn"
+colnames(moccasin15)[colnames(moccasin15)=="Height"] <- "plant_height"
+colnames(moccasin15)[colnames(moccasin15)=="main.stem.DIAm.3"] <- "main_stem_diam"
+colnames(moccasin15)[colnames(moccasin15)=="tiller.Diam.3"] <- "tiller_diam"
+colnames(moccasin15)[colnames(moccasin15)=="tiller.compressed.3"] <- "tiller_comp"
+colnames(moccasin15)[colnames(moccasin15)=="till.comp.flex"] <- "till_comp_flex"
+colnames(moccasin15)[colnames(moccasin15)=="Flex.after.crushing"] <- "flex_crush"
+colnames(moccasin15)[colnames(moccasin15)=="Root"] <- "root"
+
+##Drop Columns
+names(moccasin15)
+
+moccasin15 <- subset(moccasin15, select = -c(X))
+names(moccasin15)
+
+##Plot Correlation
+pairs.panels(moccasin15)
+
+##########################
+# Mocassin Merged Dataset  #
+#########################
+
+##Load Data (Moccasin Merged)
+mergedmc<-read.csv(file.choose(),header=T)
+summary(mergedmc)
+names(mergedmc)
+
+##Relabeling COlumns
+library(data.table)
+install.packages("data.table")
+require(data.table)
+
+colnames(mergedmc)[colnames(mergedmc)=="pctg_Lodging_boze_2016"] <- "prcnt_lodging"
+colnames(mergedmc)[colnames(mergedmc)=="X..GerminationNAMoccasinNA2016"] <- "prcnt_germination"
+colnames(mergedmc)[colnames(mergedmc)=="Tendril.Length.2016"] <- "tendril_length"
+colnames(mergedmc)[colnames(mergedmc)=="Avg.branch.number.2016"] <- "branch_numb"
+colnames(mergedmc)[colnames(mergedmc)=="Mat.timeNA.MoccasinNA2016"] <- "maturity_time"
+colnames(mergedmc)[colnames(mergedmc)=="AVG.length.moc.2016"] <- "plant_length"
+colnames(mergedmc)[colnames(mergedmc)=="X.lodging.2016"] <- "prcnt_lodging"
+colnames(mergedmc)[colnames(mergedmc)=="Main.stem.diam.avg.2016"] <- "main_stem_diam"
+colnames(mergedmc)[colnames(mergedmc)=="avg.branch.diam.2016"] <- "branch_diam"
+colnames(mergedmc)[colnames(mergedmc)=="avg.root.diam.2016"] <- "root_diam"
+
+##Drop Columns
+names(mergedmc)
+mergedmc <- subset(mergedmc, select = -c(Line.name,
+                                             white.flow.moc.2016.checked, afila.2016.moc.checked
+                                         ))
+mergedmc <- subset(mergedmc, select = -c(prcnt_germination, tendril_length, branch_numb,
+                                         maturity_time, branch_diam))
+names(mergedmc)
+
+##Reorder Colums
+mergedmc = mergedmc[, c(2:1, 3:4)]
+names(mergedmc)
+
+##Correlation Plot
+install.packages("psych")
+require(psych)
+pairs.panels(moccasin16)
+@
+
+
 
 
 
 \section{Setting Significance Thresholds}
 
-The plots above include over 600 genetic markers. When a QTL analysis is done, a significance test is done for each marker. Multiple testing problems are quite common in genetic analyses. Jamin mentioned he would like to use LOD for setting a significance threshold. LOD is an abbreviation for the log-odds. LOD is the $log_{10}$ liklihood ratio comparing the null that there is not a QTL to the alternative, that there is.
+The pea genetic data include over 600 genetic markers. When a QTL analysis is done, a significance test is done for each marker. Multiple testing problems are quite common in genetic analyses. Jamin mentioned he would like to use LOD for setting a significance threshold. LOD is an abbreviation for the log-odds. LOD is the $log_{10}$ liklihood ratio comparing the null that there is not a QTL to the alternative, that there is.
 
 $Null Model, H_{o}: y_{i} \sim N(\mu, \sigma^2)$ i.e. there is no genetic dependency between the phenotype and the genotype
 
