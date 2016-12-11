@@ -86,6 +86,7 @@ datf1_bz16[is.na(datf1_bz16)] <- "missing"
 @
 
 \section{Visualizing Missing Data}
+Tables and plots are provided below to visualize and quantify the amount of missing data at each genetic marker and across each variety genotyped. The plots and tables are to help Jamin understand the quality of his data.
 \subsection{All Markers}
 
 <<missing.plot, caption = "Missing Genetic Data Plot", cache=TRUE>>=
