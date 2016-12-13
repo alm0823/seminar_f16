@@ -7,12 +7,12 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \lhead{Missing Data and LOD}
-\rhead{Paul Harmon, Nnamdi Ekeiki, and Andrea Mack}
+\rhead{Paul Harmon, Nnamdi Ezike, and Andrea Mack}
 \setlength{\headheight}{18pt}
 \setlength{\headsep}{2pt}
 
-\title{Pea Lodging Final Report}
-\author{Paul Harmon, Nnamdi Ekeiki, and Andrea Mack}
+\title{Pea Lodging Final Report For Jamin Smitchger}
+\author{Paul Harmon, Nnamdi Ezike, and Andrea Mack}
 \date{December 16, 2016}
 
 \begin{document}
@@ -31,8 +31,8 @@ options(xtable.table.placement = "H", xtable.caption.placement = "top",
         width = 80, scipen = 1, show.signif.stars = FALSE)
 
 library(TSA)
-require(qtl)
-require(mice)
+library(qtl)
+library(mice)
 library(ggplot2)
 library(reshape2)
 
@@ -45,6 +45,7 @@ library(reshape2)
 
 # gen_export is what map disto gave when I exported the data
 # it is in an odd format that I don't know how to work with
+setwd("C:/Users/Paul/Documents/seminar_f16/final_report") #sets wd
 gen_export <- read.table("datafromdisto_sent112116.txt", fill = TRUE)
 str(gen_export)
 
@@ -102,7 +103,7 @@ ggplot(datf1_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
 @
 
 <<missing.pattern, include = FALSE>>=
-str(md.pattern(gen))
+#str(md.pattern(gen))
 colnames(gen)
 
 gen_markers <- gen[,-c(1,611)]
@@ -190,7 +191,7 @@ print(xtable(vmiss[,241:257]), scale = 0.5)
 
 \subsection{Less than 25\% Missing}
 
-<<subset.25, warning=FALSE>>=
+<<subset.25, warning = FALSE>>=
 mmiss25 <- which(mmiss[2,] <= 0.25)
 mmiss30 <- which(0.25 < mmiss[2,] & mmiss[2,]<= 0.30)
 
@@ -232,7 +233,7 @@ dat50_bz16[is.na(dat50_bz16)] <- "missing"
 @
 
 
-<<missing.plot25, cache=TRUE, fig.height=7.5, warnings=FALSE>>=
+<<missing.plot25, cache=TRUE, fig.height=7.5, warning=FALSE>>=
 
 ggplot(dat25_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
    colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
@@ -246,7 +247,7 @@ ggplot(dat25_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
 
 \subsection{Less than 30\% Missing}
 
-<<missing.plot30, cache=TRUE,fig.height=8>>=
+<<missing.plot30, cache=TRUE,fig.height=8, warning = FALSE>>=
 
 ggplot(dat30_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
    colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
@@ -261,7 +262,7 @@ ggplot(dat30_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
 \subsection{Less than 35\% Missing}
 
 
-<<missing.plot35, cache=TRUE, fig.height=8>>=
+<<missing.plot35, cache=TRUE, fig.height=8, warning = FALSE, message = FALSE>>=
 
 ggplot(dat35_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
    colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
@@ -276,7 +277,7 @@ ggplot(dat35_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
 \subsection{Less than 40\% Missing}
 
 
-<<missing.plot40, cache=TRUE, fig.height=8>>=
+<<missing.plot40, cache=TRUE, fig.height=8, warning = FALSE, message = FALSE>>=
 
 ggplot(dat40_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
    colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
@@ -332,11 +333,11 @@ summary(phen_bz16)
 @
 
 
-##Site Year Combinations for Lodging
+\section{Site Year Combinations for Lodging}
 
 
-<<siteyear, include = TRUE, eval = TRUE>>=
-setwd()
+<<siteyear, include = TRUE, eval = TRUE, warning = FALSE>>=
+setwd("C:/Users/Paul/Documents")
 bz13 <- read.csv("JaminB13.csv", header = TRUE)
 bz14 <- read.csv("JaminB14.csv", header = TRUE)
 bz15 <- read.csv("JaminB15edited.csv", header = TRUE)
@@ -367,7 +368,7 @@ year.site.mat <- matrix(cbind(lodging,site,year,siteyear))
 The data were collected over a period of 4 field seasons at sites in Bozeman and 2 field seasons in Moccasin. Phenotypic data were analyzed in order to determine whether conditions were similar enough at each year/site combination to consider as a single dataset, or if they differ by enough that the sites and years need to be considered as different groups.  
 Because lodging is considered the response of interest, we examine the Percent Lodging measured at each site/year combination. Note that Percent Lodging is not measured in the 2013 Bozeman data; we did not include it in this analysis. Given the result of the analysis, we do not need to consider it into the analysis to determine that there are differences in the year/site combinations.  Visually, we can plot the mean percent lodging at each year/site combination to get an idea of differences between the years and sites. Below, we have percent lodging at each site. It appears that the Moccasin sites tend to be slightly less variable; moreover, the median percent lodging at each site appeared to be higher in 2015 than in 2016.
 
-<<meanvars, include = TRUE, eval = TRUE>>=
+<<meanvars, include = TRUE, eval = TRUE, warning = FALSE>>=
 #plots of percent lodging at each site #means
 a <- mean(bz14$Prcnt.Lodging, na.rm = TRUE)
 b <- mean(bz15$X..Lodging, na.rm = TRUE)  
@@ -381,13 +382,13 @@ b.var <- var(bz15$X..Lodging, na.rm = TRUE)
 c.var <-var(bz16$X..Lodging.boze.2016, na.rm = TRUE)  
 d.var <- var(moc15$Lodging, na.rm = TRUE) 
 e.var <- var(moc16$X.lodging.2016, na.rm = TRUE) 
-<<miss, include = TRUE, eval = TRUE>>=
+
 #Box Plots (Side by Side)
 boxplot(lodging~siteyear, cex = .8, col = c("tomato2","tomato2","tomato2","blue","blue"), main = "Lodging at each site/year combination", ylab = "Percent Lodging")
 @
 
 
-##Interaction Plot
+\subsection{Interaction Plot}
 If the sites are reasonably similar, we would expect to see parallel lines that are either overlapping or very near each other.  The red line for Bozeman indicates that average percent lodging was higher in Bozeman than in Moccasin in both 2015 and 2016; however it may also have been more variable than in Moccasin. While the blue line and red line are both decreasing from 2015 to 2016, the difference in slopes indicates that there may be some interaction between year/site combinations.  More formal testing is necessary to assess differences between year and site combinations, but this visualization indicates some evidence of a difference in lodging in each location and year.
 
 <<interactionplot, include = TRUE, eval = TRUE>>=
@@ -397,12 +398,12 @@ lines(x = c(2015,2016), y = c(d,e), type = "l", col = "blue", lwd = 2)
 legend('topright', fill = c("tomato2","blue"), legend = c("Bozeman", "Moccasin"))
 @
 
-##Regression Model
+\subsection{Regression Model}
   The regression treats Bozeman 2014 as the baseline (intercept) group. Each site-year combination is tested against the   baseline; small p-values indicate that the given group differs from the baseline. The p-values for each of the other site-year combinations are all quite small – the largest, for Bozeman 2015, is only 0.015, indicating strong evidence that each of the site/year combinations differ from the baseline. Moreover, the effect size ranges from 4 to 7 points on the 1-100 percent scale on which Percent Lodging is measured.  The confidence intervals given give estimates of the true mean lodging at each site/year combination. If all the intervals overlapped, we might have evidence that the combinations are at least reasonably similar; however, the 2016 interval in Moccasin and the 2014/2015 Bozeman intervals do not overlap. 
 
-<<miss2, include = TRUE, eval = TRUE>>=
+<<miss2, include = TRUE, eval = TRUE, warning = FALSE, message = FALSE>>=
 #Fit A Simple Regression:
-
+library(pander)
 lm.lodging <- lm(lodging ~ siteyear, data = as.data.frame(year.site.mat))
 summary(lm.lodging)
 b14mean <- c(0,rep(lm.lodging$coef[1],4))
@@ -414,7 +415,7 @@ confint.table <-  con + b14mean
 pander(lm.lodging)
 pander(confint.table)
 @
-##Conclusion:
+\subsection{Conclusion}
 This analysis indicates that the measurements taken at each site in each year should be treated separately; they should not be considered homogenous enough to be taken as a single group.  The inclusion of 2013 into the data is unlikely to change the results of this study because the differences between the combinations already considered are enough to justify splitting the dataset into separate groups. 
 
 \section{Correlation Plots}
@@ -428,9 +429,10 @@ The pairwise correlation matrix below shows that germination which was measured 
 
 In Moccasin, only four variables were observed to have been measured both in 2015 and 2016. Of these variables, the length and main stem diameter of the plants are moderately correlated (r=-0.55). Also, the main stem diameter and root diameter of the plants are moderately correlated (r=0.45).
 
-<<merged>>=
+<<merged, warning = FALSE, message = FALSE>>=
 ##Load Data (Bozeman 2014)
-mergedbzn<-read.csv(file.choose(),header=T)
+setwd("C:/Users/Paul/Documents")
+mergedbzn<-read.csv("Merged Bozeman.csv",header=T)
 summary(mergedbzn)
 names(mergedbzn)
 
@@ -460,7 +462,7 @@ colnames(mergedbzn)[colnames(mergedbzn)=="Tendril.Width"] <- "tendril_Width"
 colnames(mergedbzn)[colnames(mergedbzn)=="Root.compressed.avg"] <- "root_comp"
 colnames(mergedbzn)[colnames(mergedbzn)=="avg.main..side.brnch.root"] <- "main_stm_branch"
 
-names(mergedbzn)
+#names(mergedbzn)
 
 ##Drop Columns
 
@@ -474,11 +476,11 @@ mergedbzn <- subset(mergedbzn, select = -c(Year,DNA.GENERATION, LINE.., Germinat
                                            tendril_Width, root_comp, main_stm_branch))
 
 
-names(mergedbzn)
+#names(mergedbzn)
 
 ##Reorder Colums
 mergedbzn = mergedbzn[, c(5:6, 1:4, 7:14)]
-names(mergedbzn)
+#names(mergedbzn)
 
 ##Plot Correlation
 install.packages("psych")
@@ -489,21 +491,20 @@ pairs.panels(mergedbzn)
 \subsection{Bozeman by Year}
 We assessed the pairwise correlation of the different sites each year. In 2014, twelve pairs of explanatory variables had correlation coefficients between 0.42 and 0.91. The pairwise correlations are shown in the matrix below. Germination and total yield was strongly correlated (r=0.66) while the length and internode length of the plants recorded a very high correlation coefficient (r=0.91). In 2015 and 2016, of the pairwise combinations assessed, 28 combinations yielded correlation coefficients between 0.40 and 0.85. The results are presented in the pairwise correlation matrices below.
 
-<<bz>>=
+<<bz, message = FALSE, warning = FALSE>>=
 ##########################
 # Bozeman 2016 Dataset  #
 #########################
 
 ##Load Data (Bozeman 2016)
-bozeman16<-read.csv(file.choose(),header=T)
-summary(bozeman16)
+bozeman16<-bz16
+#summary(bozeman16)
 
 ##Relabel Names
-names(bozeman16)
+#names(bozeman16)
 
+ifelse(require(data.table), install.packages("data.table"), library(data.table))
 library(data.table)
-install.packages("data.table")
-require(data.table)
 
 ##Relabeling COlumns
 colnames(bozeman16)[colnames(bozeman16)=="pctg_Lodging_boze_2016"] <- "prcnt_lodging"
@@ -525,18 +526,18 @@ install.packages("psych")
 require(psych)
 pairs.panels(bozeman16)
 
-names(bozeman16)
+#names(bozeman16)
 
 ##Drop Columns
 bozeman16v2 <- subset(bozeman16, select = -c(Line_name, planting_generation, 
                               Unknown, dpo_boze_2016, plants_harvestedNA_Boze_2016,
                               bif_boze_2016, Yield_boze_2016,
                               white_flow_2016_boze, afila_2016_boze_) )
-names(bozeman16v2)
+#names(bozeman16v2)
 
 ##Reorder Colums
 bozeman16v3 = bozeman16v2[, c(5:6, 1:4, 7:12)]
-names(bozeman16v3)
+#names(bozeman16v3)
 pairs.panels(bozeman16v3)
 
 ##########################
@@ -544,9 +545,9 @@ pairs.panels(bozeman16v3)
 #########################
 
 ##Load Data (Bozeman 2014)
-bozeman14<-read.csv(file.choose(),header=T)
-summary(bozeman14)
-names(bozeman14)
+bozeman14<-bz14
+#summary(bozeman14)
+#names(bozeman14)
 
 ##Relabeling COlumns
 colnames(bozeman14)[colnames(bozeman14)=="Prcnt.Lodging"] <- "prcnt_lodging"
@@ -576,11 +577,11 @@ bozeman14 <- subset(bozeman14, select = -c(DNA.GENERATION, LINE.., Germination.2
    Brown.mottle..rerate.next.year..1.no.mot, np.neo, Late,
    tall.dwf.based.on.grnhouse.data..field.2014, Afila.1.YES.DELTA.A))
 
-names(bozeman14)
+#names(bozeman14)
 
 ##Reorder Colums
 bozeman14 = bozeman14[, c(5:6, 1:4, 7:17)]
-names(bozeman14)
+#names(bozeman14)
 
 ##Plot Correlation
 pairs.panels(bozeman14)
@@ -590,9 +591,9 @@ pairs.panels(bozeman14)
 #########################
 
 ##Load Data (Bozeman 2015)
-bozeman15<-read.csv(file.choose(),header=T)
-summary(bozeman15)
-names(bozeman15)
+bozeman15<-bz15
+#summary(bozeman15)
+#names(bozeman15)
 
 ##Relabeling COlumns
 colnames(bozeman15)[colnames(bozeman15)=="Yield"] <- "yield"
@@ -624,7 +625,7 @@ bozeman15 <- subset(bozeman15, select = -c(line.., average.lodging.Moccasin.2015
 
 ##Reorder Colums
 bozeman15 = bozeman15[, c(5:6, 1:4, 7:18)]
-names(bozeman15)
+#names(bozeman15)
 
 ##Plot Correlation
 install.packages("psych")
@@ -635,18 +636,18 @@ pairs.panels(bozeman15)
 
 \subsection{Mocassin by Year}
 
-<<moc>>=
+<<moc, warning = FALSE, message = FALSE>>=
 
 ##########################
 # Mocassin 2016 Dataset  #
 #########################
 
 ##Load Data (Moccasin 2016)
-moccasin16<-read.csv(file.choose(),header=T)
-summary(moccasin16)
+moccasin16<- moc16
+#summary(moccasin16)
 
 ##Relabel Names
-names(moccasin16)
+#names(moccasin16)
 
 library(data.table)
 install.packages("data.table")
@@ -665,14 +666,14 @@ colnames(moccasin16)[colnames(moccasin16)=="avg.branch.diam.2016"] <- "branch_di
 colnames(moccasin16)[colnames(moccasin16)=="avg.root.diam.2016"] <- "root_diam"
 
 ##Drop Columns
-names(moccasin16)
+#names(moccasin16)
 moccasin16 <- subset(moccasin16, select = -c(Line.name,
                      white.flow.moc.2016.checked, afila.2016.moc.checked))
-names(moccasin16)
+#names(moccasin16)
 
 ##Reorder Colums
-moccasin16 = moccasin16[, c(5:6, 1:4, 7:9)]
-names(moccasin16)
+moccasin16 <- moccasin16[, c(5:6, 1:4, 7:9)]
+#names(moccasin16)
 
 ##Correlation Plot
 install.packages("psych")
@@ -685,9 +686,9 @@ pairs.panels(moccasin16)
 #########################
 
 ##Load Data (Moccasin 2015)
-moccasin15<-read.csv(file.choose(),header=T)
-summary(moccasin15)
-names(moccasin15)
+moccasin15<-moc15
+#summary(moccasin15)
+#names(moccasin15)
 
 ##Relabeling COlumns
 colnames(moccasin15)[colnames(moccasin15)=="Lodging"] <- "prcnt_lodging"
@@ -703,10 +704,10 @@ colnames(moccasin15)[colnames(moccasin15)=="Flex.after.crushing"] <- "flex_crush
 colnames(moccasin15)[colnames(moccasin15)=="Root"] <- "root"
 
 ##Drop Columns
-names(moccasin15)
+#names(moccasin15)
 
 moccasin15 <- subset(moccasin15, select = -c(X))
-names(moccasin15)
+#names(moccasin15)
 
 ##Plot Correlation
 pairs.panels(moccasin15)
@@ -716,9 +717,9 @@ pairs.panels(moccasin15)
 #########################
 
 ##Load Data (Moccasin Merged)
-mergedmc<-read.csv(file.choose(),header=T)
-summary(mergedmc)
-names(mergedmc)
+mergedmc<-read.csv("Merged Moccasin.csv",header=T)
+#summary(mergedmc)
+#names(mergedmc)
 
 ##Relabeling COlumns
 library(data.table)
@@ -737,17 +738,17 @@ colnames(mergedmc)[colnames(mergedmc)=="avg.branch.diam.2016"] <- "branch_diam"
 colnames(mergedmc)[colnames(mergedmc)=="avg.root.diam.2016"] <- "root_diam"
 
 ##Drop Columns
-names(mergedmc)
+#names(mergedmc)
 mergedmc <- subset(mergedmc, select = -c(Line.name,
                                              white.flow.moc.2016.checked, afila.2016.moc.checked
                                          ))
 mergedmc <- subset(mergedmc, select = -c(prcnt_germination, tendril_length, branch_numb,
                                          maturity_time, branch_diam))
-names(mergedmc)
+#names(mergedmc)
 
 ##Reorder Colums
 mergedmc = mergedmc[, c(2:1, 3:4)]
-names(mergedmc)
+#names(mergedmc)
 
 ##Correlation Plot
 install.packages("psych")
@@ -774,10 +775,6 @@ $Alternative Model, H_{a}: y_{i}|g_{i} \sim N(\mu_{g_{i}}, \sigma^2)$
 LOD = $\frac{n}{2} \times log_{10}(\frac{RSS_{o}}{RSS_{1}})$
 
 LOD is related to the F statistic. LOD = $\frac{n}{2} \times [F({\frac{df}{n-df-1} + 1)]$ and similar to the F statistic, large LOD values are associated with strong evidence for the alternative, that there is a relationship to the genetic loci and the phenotype. Since F statistics help find p-values, and LOD is related to F statistics, by setting genome wide adjusted LOD thresholds, we can easily convert these back to genome wide adjusted p-values. Broman and Sen (2009) provide a method for generating genome wide adjusted LOD thresholds, and the corresponding genome-wide adjusted p-value thresholds in Section 4.3 using the {\texttt QTL} package in R. Future work with Jamin from the Consulting Seminar would benefit from exploring using this simulation method for setting the significance thresholds. Once the data is formatted as a cross object, the method is straightforward.
-
-
-
-
 
 
 
