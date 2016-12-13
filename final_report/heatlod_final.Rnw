@@ -364,7 +364,7 @@ siteyear <- as.factor(paste(site,year, sep = ""))
 year.site.mat <- matrix(cbind(lodging,site,year,siteyear))
 @
 
-##Exploratory Analysis: 
+\subsection{Exploratory Analysis} 
 The data were collected over a period of 4 field seasons at sites in Bozeman and 2 field seasons in Moccasin. Phenotypic data were analyzed in order to determine whether conditions were similar enough at each year/site combination to consider as a single dataset, or if they differ by enough that the sites and years need to be considered as different groups.  
 Because lodging is considered the response of interest, we examine the Percent Lodging measured at each site/year combination. Note that Percent Lodging is not measured in the 2013 Bozeman data; we did not include it in this analysis. Given the result of the analysis, we do not need to consider it into the analysis to determine that there are differences in the year/site combinations.  Visually, we can plot the mean percent lodging at each year/site combination to get an idea of differences between the years and sites. Below, we have percent lodging at each site. It appears that the Moccasin sites tend to be slightly less variable; moreover, the median percent lodging at each site appeared to be higher in 2015 than in 2016.
 
@@ -401,7 +401,7 @@ legend('topright', fill = c("tomato2","blue"), legend = c("Bozeman", "Moccasin")
 \subsection{Regression Model}
   The regression treats Bozeman 2014 as the baseline (intercept) group. Each site-year combination is tested against the   baseline; small p-values indicate that the given group differs from the baseline. The p-values for each of the other site-year combinations are all quite small – the largest, for Bozeman 2015, is only 0.015, indicating strong evidence that each of the site/year combinations differ from the baseline. Moreover, the effect size ranges from 4 to 7 points on the 1-100 percent scale on which Percent Lodging is measured.  The confidence intervals given give estimates of the true mean lodging at each site/year combination. If all the intervals overlapped, we might have evidence that the combinations are at least reasonably similar; however, the 2016 interval in Moccasin and the 2014/2015 Bozeman intervals do not overlap. 
 
-<<miss2, include = TRUE, eval = TRUE, warning = FALSE, message = FALSE>>=
+<<regression, include = FALSE, eval = TRUE, warning = FALSE, message = FALSE>>=
 #Fit A Simple Regression:
 library(pander)
 lm.lodging <- lm(lodging ~ siteyear, data = as.data.frame(year.site.mat))
@@ -409,17 +409,18 @@ summary(lm.lodging)
 b14mean <- c(0,rep(lm.lodging$coef[1],4))
 con <- confint(lm.lodging) 
 confint.table <-  con + b14mean 
+@
 
-
+<<tables, include = TRUE, warning = FALSE, message = FALSE>>=
 #display table of results
-pander(lm.lodging)
-pander(confint.table)
+print(pandoc.table(lm.lodging))
+print(pandoc.table(confint.table))
 @
 \subsection{Conclusion}
 This analysis indicates that the measurements taken at each site in each year should be treated separately; they should not be considered homogenous enough to be taken as a single group.  The inclusion of 2013 into the data is unlikely to change the results of this study because the differences between the combinations already considered are enough to justify splitting the dataset into separate groups. 
 
 \section{Correlation Plots}
-Correlation describes the strength and direction of a linear association. The height of a ball thrown up in the air follows a quadratic pattern with time, therefore, in this example, there is a relationship between height of the ball and time. The relationship, however, is not linear, and so would not be described well with a measure of correlation. It is known that gravity {\it causes} the ball fall. Correlation, however, can only tell about associations, not causal relationships. An example of association might be that more students go to the library in the beginning of December than the end. There is an association between the number of students in the library and the time in December, but it is not December that is causing more students to go to the library, it is finals week. There is an association between the day in December and the number of students in the library, but the day in December does not {\it make} students go to the library at a certain rate.
+Correlation describes the strength and direction of a linear association. Specifically, this analyis examines Pearson Correlations because the varibles are measured on a quantiative scale.  The strength of the linear association between variables is measured on a scale between -1 (a perfect negative association) and 1 (a perfect positive association). Correlation does not imply causal relationships. In examining, for instance, the relationship between lodging and stem width, the pearson correlation would only give information about the linear association between the two variables.  Indeed, even a strong association between the two variables cannot be interpreted that stem width causes lodging; rather, we would simply say that the two variables are associated with each other.  Since the phenotypes in each year at each site are considered seperate response values, we consider fitting correlation plots for each site/year combination. 
 
 \subsection{Sites and Years Combined}
 
@@ -433,12 +434,12 @@ In Moccasin, only four variables were observed to have been measured both in 201
 ##Load Data (Bozeman 2014)
 setwd("C:/Users/Paul/Documents")
 mergedbzn<-read.csv("Merged Bozeman.csv",header=T)
-summary(mergedbzn)
-names(mergedbzn)
+#summary(mergedbzn)
+#names(mergedbzn)
 
 ##Relabeling COlumns
-install.packages("data.table")
-require(data.table)
+
+library(data.table)
 
 colnames(mergedbzn)[colnames(mergedbzn)=="Prcnt.Lodging"] <- "prcnt_lodging"
 colnames(mergedbzn)[colnames(mergedbzn)=="Germination.2014.."] <- "gemination"
@@ -483,7 +484,7 @@ mergedbzn = mergedbzn[, c(5:6, 1:4, 7:14)]
 #names(mergedbzn)
 
 ##Plot Correlation
-install.packages("psych")
+#install.packages("psych")
 require(psych)
 pairs.panels(mergedbzn)
 @
@@ -491,7 +492,7 @@ pairs.panels(mergedbzn)
 \subsection{Bozeman by Year}
 We assessed the pairwise correlation of the different sites each year. In 2014, twelve pairs of explanatory variables had correlation coefficients between 0.42 and 0.91. The pairwise correlations are shown in the matrix below. Germination and total yield was strongly correlated (r=0.66) while the length and internode length of the plants recorded a very high correlation coefficient (r=0.91). In 2015 and 2016, of the pairwise combinations assessed, 28 combinations yielded correlation coefficients between 0.40 and 0.85. The results are presented in the pairwise correlation matrices below.
 
-<<bz, message = FALSE, warning = FALSE>>=
+<<bz, warning = FALSE, message = FALSE>>=
 ##########################
 # Bozeman 2016 Dataset  #
 #########################
@@ -503,7 +504,6 @@ bozeman16<-bz16
 ##Relabel Names
 #names(bozeman16)
 
-ifelse(require(data.table), install.packages("data.table"), library(data.table))
 library(data.table)
 
 ##Relabeling COlumns
@@ -522,7 +522,7 @@ colnames(bozeman16)[colnames(bozeman16)=="comp_brnch_diam_boze_2016"] <- "comp_b
 colnames(bozeman16)[colnames(bozeman16)=="avg_root_diam_boze_2016"] <- "root_diam"
 
 ##Correlation
-install.packages("psych")
+#install.packages("psych")
 require(psych)
 pairs.panels(bozeman16)
 
@@ -628,13 +628,13 @@ bozeman15 = bozeman15[, c(5:6, 1:4, 7:18)]
 #names(bozeman15)
 
 ##Plot Correlation
-install.packages("psych")
+#install.packages("psych")
 require(psych)
 pairs.panels(bozeman15)
 
 @
 
-\subsection{Mocassin by Year}
+\subsection{Moccasin by Year}
 
 <<moc, warning = FALSE, message = FALSE>>=
 
@@ -650,8 +650,8 @@ moccasin16<- moc16
 #names(moccasin16)
 
 library(data.table)
-install.packages("data.table")
-require(data.table)
+
+
 
 ##Relabeling COlumns
 colnames(moccasin16)[colnames(moccasin16)=="pctg_Lodging_boze_2016"] <- "prcnt_lodging"
@@ -676,8 +676,8 @@ moccasin16 <- moccasin16[, c(5:6, 1:4, 7:9)]
 #names(moccasin16)
 
 ##Correlation Plot
-install.packages("psych")
-require(psych)
+
+library(psych)
 pairs.panels(moccasin16)
 
 
@@ -690,7 +690,7 @@ moccasin15<-moc15
 #summary(moccasin15)
 #names(moccasin15)
 
-##Relabeling COlumns
+##Relabeling Columns
 colnames(moccasin15)[colnames(moccasin15)=="Lodging"] <- "prcnt_lodging"
 colnames(moccasin15)[colnames(moccasin15)=="stress.minus.equation"] <- "stress_m_eqn"
 colnames(moccasin15)[colnames(moccasin15)=="original.stress.equation"] <- "ognl_stress_eqn"
@@ -717,14 +717,14 @@ pairs.panels(moccasin15)
 #########################
 
 ##Load Data (Moccasin Merged)
+setwd("C:/Users/Paul/Documents")
 mergedmc<-read.csv("Merged Moccasin.csv",header=T)
 #summary(mergedmc)
 #names(mergedmc)
 
 ##Relabeling COlumns
 library(data.table)
-install.packages("data.table")
-require(data.table)
+
 
 colnames(mergedmc)[colnames(mergedmc)=="pctg_Lodging_boze_2016"] <- "prcnt_lodging"
 colnames(mergedmc)[colnames(mergedmc)=="X..GerminationNAMoccasinNA2016"] <- "prcnt_germination"
@@ -751,8 +751,6 @@ mergedmc = mergedmc[, c(2:1, 3:4)]
 #names(mergedmc)
 
 ##Correlation Plot
-install.packages("psych")
-require(psych)
 pairs.panels(moccasin16)
 @
 
