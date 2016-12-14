@@ -12,3 +12,5 @@ Rcpp
 mice
 ggplot2
 reshape2
+data.table
+psych

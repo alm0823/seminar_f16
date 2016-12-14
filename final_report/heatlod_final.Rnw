@@ -91,340 +91,20 @@ datf1_bz16[is.na(datf1_bz16)] <- "missing"
 @
 
 \section{Introduction}
-Jamin is a Ph.D. student in the Department of Plant Sciences and Plant Pathology at MSU. The primary focus is his research is to associate variation in genetic expression with variation in the expression of several phenotypic traits. Genotypic and pheynotypic data were collected on 297 varities of pea, from two locations (Bozeman and Mocassin), in YEARS. Phenotypic data includes percent lodging, tendril length, tendril node length, nodes at 1st flow, maximum number of nodes, germination, number of branches, plant height, plant length, average total yield, main stem diameter, tiller diameter, ``comp" tillder diameter, and maturation time, totaling 14 traits. Data from 609 genetic markers were collected. The end result of Jamin's research will include a quantitative trait loci (QTL) analysis which will inform him about which genetic markers variation in genetic marker expression associated with variation in phenotypic traits. This report does not provide the QTL analysis, but provides
+Jamin is a Ph.D. student in the Department of Plant Sciences and Plant Pathology at MSU. The primary focus is his research is to associate variation in genetic expression with variation in the expression of several phenotypic traits. Genotypic and pheynotypic data were collected on 257 varities of pea, from two locations (Bozeman and Mocassin), in YEARS. Phenotypic data includes percent lodging, tendril length, tendril node length, nodes at 1st flow, maximum number of nodes, germination, number of branches, plant height, plant length, average total yield, main stem diameter, tiller diameter, ``comp" tillder diameter, and maturation time, totaling 14 traits. Data from 609 genetic markers were collected. The end result of Jamin's research will include a quantitative trait loci (QTL) analysis which will inform him about which genetic markers variation in genetic marker expression associated with variation in phenotypic traits. Prior to the QTL analysis, understanding of the data and methods are necessary. The report includes:
 
-\section{Visualizing Missing Data}
-Tables and plots are provided below to visualize and quantify the amount of missing data at each genetic marker and across each variety genotyped. The plots and tables are to help Jamin understand the quality of his data.
-\subsection{All Markers}
+\begin{itemize}
 
-<<missing.plot, caption = "Missing Genetic Data Plot", cache=TRUE>>=
+\item Evaluation of correlations in pheynotypic data
 
-ggplot(datf1_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
-   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
-                                            guide = guide_legend(title = "") ) + 
-  ggtitle("Genetic Data") +
- xlab("Genetic Marker") + ylab("Variety") +
-  theme(legend.position = "bottom",
-        axis.text.x = element_text(angle = 90, hjust = 1, size = 0.5), 
-        axis.text.y = element_text(angle = 90, hjust = 1, size = 0.5))
-@
+\item Analysis of combining data from the different sites and years
 
-<<missing.pattern, include = FALSE>>=
-#str(md.pattern(gen))
-colnames(gen)
+\item Exploration of the rate of missing data
 
-gen_markers <- gen[,-c(1,611)]
-dim(gen_markers)
-marker_miss <- apply(gen_markers,2,function(t){length(which(is.na(t) == TRUE))})
-variety_miss <- apply(gen_markers,1,function(t){length(which(is.na(t) == TRUE))})
+\item Explanation of significance thresholds for QTL 
 
-marker_miss
-marker_miss.percent <- marker_miss/dim(gen_markers)[2]
-variety_miss.percent <- variety_miss/dim(gen_markers)[1]
-
-mmiss <- data.frame(rbind(marker_miss, marker_miss.percent))
-rownames(mmiss) <- c("Count", "Percent")
-
-vmiss <- data.frame(rbind(variety_miss, variety_miss.percent))
-rownames(vmiss) <- c("Count", "Percent")
-@
-
-<<xtable.misses, results = 'asis'>>=
-
-print(xtable(mmiss[,1:20]), scale = 0.5)
-print(xtable(mmiss[,21:40]), scale = 0.5)
-print(xtable(mmiss[,41:60]), scale = 0.5)
-print(xtable(mmiss[,61:80]), scale = 0.5)
-print(xtable(mmiss[,81:100]), scale = 0.5)
-print(xtable(mmiss[,101:120]), scale = 0.5)
-print(xtable(mmiss[,121:140]), scale = 0.5)
-print(xtable(mmiss[,141:160]), scale = 0.5)
-print(xtable(mmiss[,161:180]), scale = 0.5)
-print(xtable(mmiss[,181:200]), scale = 0.5)
-print(xtable(mmiss[,201:220]), scale = 0.5)
-print(xtable(mmiss[,221:240]), scale = 0.5)
-print(xtable(mmiss[,241:260]), scale = 0.5)
-print(xtable(mmiss[,261:280]), scale = 0.5)
-print(xtable(mmiss[,281:300]), scale = 0.5)
-print(xtable(mmiss[,301:320]), scale = 0.5)
-print(xtable(mmiss[,321:340]), scale = 0.5)
-print(xtable(mmiss[,341:360]), scale = 0.5)
-print(xtable(mmiss[,361:380]), scale = 0.5)
-print(xtable(mmiss[,381:400]), scale = 0.5)
-print(xtable(mmiss[,401:420]), scale = 0.5)
-print(xtable(mmiss[,421:440]), scale = 0.5)
-print(xtable(mmiss[,441:460]), scale = 0.5)
-print(xtable(mmiss[,461:480]), scale = 0.5)
-print(xtable(mmiss[,481:500]), scale = 0.5)
-print(xtable(mmiss[,501:520]), scale = 0.5)
-print(xtable(mmiss[,521:540]), scale = 0.5)
-print(xtable(mmiss[,541:560]), scale = 0.5)
-print(xtable(mmiss[,561:580]), scale = 0.5)
-print(xtable(mmiss[,581:600]), scale = 0.5)
-print(xtable(mmiss[,601:609]), scale = 0.5)
-
-
-
-print(xtable(vmiss[,1:20]), scale = 0.5)
-print(xtable(vmiss[,21:40]), scale = 0.5)
-print(xtable(vmiss[,41:60]), scale = 0.5)
-print(xtable(vmiss[,61:80]), scale = 0.5)
-print(xtable(vmiss[,81:100]), scale = 0.5)
-print(xtable(vmiss[,101:120]), scale = 0.5)
-print(xtable(vmiss[,121:140]), scale = 0.5)
-print(xtable(vmiss[,141:160]), scale = 0.5)
-print(xtable(vmiss[,161:180]), scale = 0.5)
-print(xtable(vmiss[,181:200]), scale = 0.5)
-print(xtable(vmiss[,201:220]), scale = 0.5)
-print(xtable(vmiss[,221:240]), scale = 0.5)
-print(xtable(vmiss[,241:257]), scale = 0.5)
-
-
-
-
-
-
-## read in phenotypic data
-## i need to figure out which phenotypic data correponds to what's in gen
-#moc1516 <- read.csv("Final Data Files-lodging files 10-13-2016-2015moc.csv")#257 rows
-
-
-# make a cross object
-# the cross object function assumes markers are in the correct order
-
-
-## next, subset by highest non - missing rate and remake plot
-@
-
-\subsection{Less than 25\% Missing}
-
-<<subset.25, warning = FALSE>>=
-mmiss25 <- which(mmiss[2,] <= 0.25)
-mmiss30 <- which(0.25 < mmiss[2,] & mmiss[2,]<= 0.30)
-
-mmiss35 <- which(0.30 < mmiss[2,] & mmiss[2,]<= 0.35)
-mmiss40 <- which(0.35 < mmiss[2,] & mmiss[2,]<= 0.40)
-mmiss45 <- which(0.40 < mmiss[2,] & mmiss[2,]<= 0.45)
-mmiss50 <- which(0.45 < mmiss[2,] & mmiss[2,]<= 0.50)
-
-
-#mmiss.all <- c(mmiss25,mmiss50,mmiss75,mmiss100)
-#good
-#mmiss.all %in% c(seq(1:610))
-#colnames(gen[,2:610])
-
-dat25_bz16 <- melt(gen[,c(mmiss25,611)], id.var = 'ind', na.rm = FALSE)
-dat25_bz16$value <- factor(dat25_bz16$value, levels = c("A","B","missing"))
-dat25_bz16[is.na(dat25_bz16)] <- "missing"
-
-dat30_bz16 <- melt(gen[,c(mmiss30,611)], id.var = 'ind', na.rm = FALSE)
-dat30_bz16$value <- factor(dat30_bz16$value, levels = c("A","B","missing"))
-dat30_bz16[is.na(dat30_bz16)] <- "missing"
-
-
-dat35_bz16 <- melt(gen[,c(mmiss35,611)], id.var = 'ind', na.rm = FALSE)
-dat35_bz16$value <- factor(dat35_bz16$value, levels = c("A","B","missing"))
-dat35_bz16[is.na(dat35_bz16)] <- "missing"
-
-dat40_bz16 <- melt(gen[,c(mmiss40,611)], id.var = 'ind', na.rm = FALSE)
-dat40_bz16$value <- factor(dat40_bz16$value, levels = c("A","B","missing"))
-dat40_bz16[is.na(dat40_bz16)] <- "missing"
-
-dat45_bz16 <- melt(gen[,c(mmiss45,611)], id.var = 'ind', na.rm = FALSE)
-dat45_bz16$value <- factor(dat45_bz16$value, levels = c("A","B","missing"))
-dat45_bz16[is.na(dat45_bz16)] <- "missing"
-
-dat50_bz16 <- melt(gen[,c(mmiss50,611)], id.var = 'ind', na.rm = FALSE)
-dat50_bz16$value <- factor(dat50_bz16$value, levels = c("A","B","missing"))
-dat50_bz16[is.na(dat50_bz16)] <- "missing"
-@
-
-
-<<missing.plot25, cache=TRUE, fig.height=7.5, warning=FALSE>>=
-
-ggplot(dat25_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
-   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
-                                            guide = guide_legend(title = "") ) + 
-  ggtitle("Genetic Data < 25% Missing") +
- xlab("Genetic Marker") + ylab("Variety") +
-  theme(legend.position = "bottom", legend.title = element_text(""),
-        axis.text.x = element_text(angle = 90, hjust = 1, size = 10), 
-        axis.text.y = element_text(angle = 0, hjust = 1, size = 10))
-@
-
-\subsection{Less than 30\% Missing}
-
-<<missing.plot30, cache=TRUE,fig.height=8, warning = FALSE>>=
-
-ggplot(dat30_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
-   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
-                                            guide = guide_legend(title = "") ) + 
-  ggtitle("Genetic Data 25 % < 30% Missing") +
- xlab("Genetic Marker") + ylab("Variety") +
-  theme(legend.position = "bottom", legend.title = element_text(""),
-        axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
-        axis.text.y = element_text(angle = 0, hjust = 1, size = 1))
-@
-
-\subsection{Less than 35\% Missing}
-
-
-<<missing.plot35, cache=TRUE, fig.height=8, warning = FALSE, message = FALSE>>=
-
-ggplot(dat35_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
-   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
-                                            guide = guide_legend(title = "") ) + 
-  ggtitle("Genetic Data 30 % < 35% Missing") +
- xlab("Genetic Marker") + ylab("Variety") +
-  theme(legend.position = "bottom", legend.title = element_text(""),
-        axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
-        axis.text.y = element_text(angle = 90, hjust = 1, size = 1))
-@
-
-\subsection{Less than 40\% Missing}
-
-
-<<missing.plot40, cache=TRUE, fig.height=8, warning = FALSE, message = FALSE>>=
-
-ggplot(dat40_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
-   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
-                                            guide = guide_legend(title = "") ) + 
-  ggtitle("Genetic Data 35 % < 40% Missing") +
- xlab("Genetic Marker") + ylab("Variety") +
-  theme(legend.position = "bottom", legend.title = element_text(""),
-        axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
-        axis.text.y = element_text(angle = 90, hjust = 1, size = 1))
-@
-
-<<missing.plot45, cache=TRUE,fig.height=8, include = FALSE>>=
-
-ggplot(dat45_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
-   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
-                                            guide = guide_legend(title = "") ) + 
-  ggtitle("Genetic Data 40 % < 45% Missing") +
- xlab("Genetic Marker") + ylab("Variety") +
-  theme(legend.position = "bottom", legend.title = element_text(""),
-        axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
-        axis.text.y = element_text(angle = 90, hjust = 1, size = 1))
-@
-
-<<missing.plot50, cache=TRUE, fig.height=8, include = FALSE>>=
-
-ggplot(dat50_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
-   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
-                                            guide = guide_legend(title = "") ) + 
-  ggtitle("Genetic Data 45 % < 50% Missing") +
- xlab("Genetic Marker") + ylab("Variety") +
-  theme(legend.position = "bottom", legend.title = element_text(""),
-        axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
-        axis.text.y = element_text(angle = 90, hjust = 1, size = 1))
-@
-
-
-
-\section{Missing-ness}
-
-<<miss7,include=FALSE, eval = FALSE>>=
-setwd("C:/Users/Andrea Mack/Desktop/mack_hub/course_work/Consulting Seminar/seminar_f16/datasent102516")
-
-#start with bz16
-phen_bz16 <- read.csv("Final Data Files-lodging files 10-13-2016-2015bz.csv")
-str(phen_bz16)
-dim(phen_bz16)
-
-rownames(gen)
-phen_bz16[phen_bz16 == "-"] <- NA
-summary(phen_bz16)
-
-#heatmap(gen)
-@
-
-
-\section{Site Year Combinations for Lodging}
-
-
-<<siteyear, include = TRUE, eval = FALSE, warning = FALSE>>=
-setwd("C:/Users/Paul/Documents")
-bz13 <- read.csv("JaminB13.csv", header = TRUE)
-bz14 <- read.csv("JaminB14.csv", header = TRUE)
-bz15 <- read.csv("JaminB15edited.csv", header = TRUE)
-bz16 <- read.csv("JaminB16edited.csv", header = TRUE)
-moc15 <- read.csv("JaminM15edited.csv", header = TRUE)
-moc16 <- read.csv("JaminM16edited.csv", header = TRUE)
-
-#create and add in variables for each site/year combination
-bz13$Site <- bz14$Site <- bz15$Site <- bz16$Site <- "Bozeman"
-moc15$Site <- moc16$Site <- "Moccasin"
-bz13$Year <- 2013
-bz14$Year <- 2014
-bz15$Year <- moc15$Year <- 2015
-bz16$Year <- moc16$Year <- 2016
-
-#Merge into a single dataset
-#lodging response
-lodging<- c(bz14$Prcnt.Lodging,bz15$X..Lodging,bz16$X..Lodging.boze.2016,moc15$Lodging,moc16$X.lodging.2016)
-#site year combo as a factor
-site <- c(bz14$Site,bz15$Site, bz16$Site,moc15$Site,moc16$Site)
-year <- c(bz14$Year, bz15$Year,bz16$Year,moc15$Year,moc16$Year)
-siteyear <- as.factor(paste(site,year, sep = ""))
-
-year.site.mat <- matrix(cbind(lodging,site,year,siteyear))
-@
-
-\subsection{Exploratory Analysis} 
-The data were collected over a period of 4 field seasons at sites in Bozeman and 2 field seasons in Moccasin. Phenotypic data were analyzed in order to determine whether conditions were similar enough at each year/site combination to consider as a single dataset, or if they differ by enough that the sites and years need to be considered as different groups.  
-Because lodging is considered the response of interest, we examine the Percent Lodging measured at each site/year combination. Note that Percent Lodging is not measured in the 2013 Bozeman data; we did not include it in this analysis. Given the result of the analysis, we do not need to consider it into the analysis to determine that there are differences in the year/site combinations.  Visually, we can plot the mean percent lodging at each year/site combination to get an idea of differences between the years and sites. Below, we have percent lodging at each site. It appears that the Moccasin sites tend to be slightly less variable; moreover, the median percent lodging at each site appeared to be higher in 2015 than in 2016.
-
-<<meanvars, include = TRUE, eval = FALSE, warning = FALSE>>=
-#plots of percent lodging at each site #means
-a <- mean(bz14$Prcnt.Lodging, na.rm = TRUE)
-b <- mean(bz15$X..Lodging, na.rm = TRUE)  
-c <-mean(bz16$X..Lodging.boze.2016, na.rm = TRUE)  
-d <- mean(moc15$Lodging, na.rm = TRUE) 
-e <- mean(moc16$X.lodging.2016, na.rm = TRUE) 
-
-#var
-a.var <- var(bz14$Prcnt.Lodging, na.rm = TRUE)
-b.var <- var(bz15$X..Lodging, na.rm = TRUE)  
-c.var <-var(bz16$X..Lodging.boze.2016, na.rm = TRUE)  
-d.var <- var(moc15$Lodging, na.rm = TRUE) 
-e.var <- var(moc16$X.lodging.2016, na.rm = TRUE) 
-
-#Box Plots (Side by Side)
-boxplot(lodging~siteyear, cex = .8, col = c("tomato2","tomato2","tomato2","blue","blue"), main = "Lodging at each site/year combination", ylab = "Percent Lodging")
-@
-
-
-\subsection{Interaction Plot}
-If the sites are reasonably similar, we would expect to see parallel lines that are either overlapping or very near each other.  The red line for Bozeman indicates that average percent lodging was higher in Bozeman than in Moccasin in both 2015 and 2016; however it may also have been more variable than in Moccasin. While the blue line and red line are both decreasing from 2015 to 2016, the difference in slopes indicates that there may be some interaction between year/site combinations.  More formal testing is necessary to assess differences between year and site combinations, but this visualization indicates some evidence of a difference in lodging in each location and year.
-
-<<interactionplot, include = TRUE, eval = FALSE>>=
-plot(seq(2014,2016,by = 1),c(a,b,c), type = "l", ylim = c(30,45),xaxt = 'n', main = "Interaction Plot", col = "tomato2", lwd = 2, xlab = "Year", ylab = "Mean Percent Lodging") 
-axis(side=1,at = c(2014,2015,2016),labels = TRUE)
-lines(x = c(2015,2016), y = c(d,e), type = "l", col = "blue", lwd = 2)
-legend('topright', fill = c("tomato2","blue"), legend = c("Bozeman", "Moccasin"))
-@
-
-\subsection{Regression Model}
-  The regression treats Bozeman 2014 as the baseline (intercept) group. Each site-year combination is tested against the   baseline; small p-values indicate that the given group differs from the baseline. The p-values for each of the other site-year combinations are all quite small – the largest, for Bozeman 2015, is only 0.015, indicating strong evidence that each of the site/year combinations differ from the baseline. Moreover, the effect size ranges from 4 to 7 points on the 1-100 percent scale on which Percent Lodging is measured.  The confidence intervals given give estimates of the true mean lodging at each site/year combination. If all the intervals overlapped, we might have evidence that the combinations are at least reasonably similar; however, the 2016 interval in Moccasin and the 2014/2015 Bozeman intervals do not overlap. 
-
-<<regression, include = FALSE, eval = FALSE, warning = FALSE, message = FALSE>>=
-#Fit A Simple Regression:
-library(pander)
-lm.lodging <- lm(lodging ~ siteyear, data = as.data.frame(year.site.mat))
-summary(lm.lodging)
-b14mean <- c(0,rep(lm.lodging$coef[1],4))
-con <- confint(lm.lodging) 
-confint.table <-  con + b14mean 
-@
-
-<<tables, include = TRUE, warning = FALSE, message = FALSE>>=
-#display table of results
-print(pandoc.table(lm.lodging))
-print(pandoc.table(confint.table))
-@
-\subsection{Conclusion}
-This analysis indicates that the measurements taken at each site in each year should be treated separately; they should not be considered homogenous enough to be taken as a single group.  The inclusion of 2013 into the data is unlikely to change the results of this study because the differences between the combinations already considered are enough to justify splitting the dataset into separate groups. 
+\item Suggestions for future work
+\end{itemize}
 
 \section{Correlation Plots}
 Correlation describes the strength and direction of a linear association. Specifically, this analyis examines Pearson Correlations because the varibles are measured on a quantiative scale.  The strength of the linear association between variables is measured on a scale between -1 (a perfect negative association) and 1 (a perfect positive association). Correlation does not imply causal relationships. In examining, for instance, the relationship between lodging and stem width, the pearson correlation would only give information about the linear association between the two variables.  Indeed, even a strong association between the two variables cannot be interpreted that stem width causes lodging; rather, we would simply say that the two variables are associated with each other.  Since the phenotypes in each year at each site are considered seperate response values, we consider fitting correlation plots for each site/year combination. 
@@ -439,7 +119,7 @@ In Moccasin, only four variables were observed to have been measured both in 201
 
 <<merged, warning = FALSE, message = FALSE>>=
 ##Load Data (Bozeman 2014)
-setwd("C:/Users/Paul/Documents")
+#setwd("C:/Users/Paul/Documents")
 mergedbzn<-read.csv("Merged Bozeman.csv",header=T)
 #summary(mergedbzn)
 #names(mergedbzn)
@@ -762,6 +442,273 @@ pairs.panels(moccasin16)
 @
 
 
+\section{Site Year Combinations for Lodging}
+
+
+<<siteyear, include = TRUE, eval = TRUE, warning = FALSE>>=
+setwd("C:/Users/Paul/Documents")
+bz13 <- read.csv("JaminB13.csv", header = TRUE)
+bz14 <- read.csv("JaminB14.csv", header = TRUE)
+bz15 <- read.csv("JaminB15edited.csv", header = TRUE)
+bz16 <- read.csv("JaminB16edited.csv", header = TRUE)
+moc15 <- read.csv("JaminM15edited.csv", header = TRUE)
+moc16 <- read.csv("JaminM16edited.csv", header = TRUE)
+
+#create and add in variables for each site/year combination
+bz13$Site <- bz14$Site <- bz15$Site <- bz16$Site <- "Bozeman"
+moc15$Site <- moc16$Site <- "Moccasin"
+bz13$Year <- 2013
+bz14$Year <- 2014
+bz15$Year <- moc15$Year <- 2015
+bz16$Year <- moc16$Year <- 2016
+
+#Merge into a single dataset
+#lodging response
+lodging<- c(bz14$Prcnt.Lodging,bz15$X..Lodging,bz16$X..Lodging.boze.2016,moc15$Lodging,moc16$X.lodging.2016)
+#site year combo as a factor
+site <- c(bz14$Site,bz15$Site, bz16$Site,moc15$Site,moc16$Site)
+year <- c(bz14$Year, bz15$Year,bz16$Year,moc15$Year,moc16$Year)
+siteyear <- as.factor(paste(site,year, sep = ""))
+
+year.site.mat <- matrix(cbind(lodging,site,year,siteyear))
+@
+
+\subsection{Exploratory Analysis} 
+The data were collected over a period of 4 field seasons at sites in Bozeman and 2 field seasons in Moccasin. Phenotypic data were analyzed in order to determine whether conditions were similar enough at each year/site combination to consider as a single dataset, or if they differ by enough that the sites and years need to be considered as different groups.  
+Because lodging is considered the response of interest, we examine the Percent Lodging measured at each site/year combination. Note that Percent Lodging is not measured in the 2013 Bozeman data; we did not include it in this analysis. Given the result of the analysis, we do not need to consider it into the analysis to determine that there are differences in the year/site combinations.  Visually, we can plot the mean percent lodging at each year/site combination to get an idea of differences between the years and sites. Below, we have percent lodging at each site. It appears that the Moccasin sites tend to be slightly less variable; moreover, the median percent lodging at each site appeared to be higher in 2015 than in 2016.
+
+<<meanvars, include = TRUE, eval = TRUE, warning = FALSE>>=
+#plots of percent lodging at each site #means
+a <- mean(bz14$Prcnt.Lodging, na.rm = TRUE)
+b <- mean(bz15$X..Lodging, na.rm = TRUE)  
+c <-mean(bz16$X..Lodging.boze.2016, na.rm = TRUE)  
+d <- mean(moc15$Lodging, na.rm = TRUE) 
+e <- mean(moc16$X.lodging.2016, na.rm = TRUE) 
+
+#var
+a.var <- var(bz14$Prcnt.Lodging, na.rm = TRUE)
+b.var <- var(bz15$X..Lodging, na.rm = TRUE)  
+c.var <-var(bz16$X..Lodging.boze.2016, na.rm = TRUE)  
+d.var <- var(moc15$Lodging, na.rm = TRUE) 
+e.var <- var(moc16$X.lodging.2016, na.rm = TRUE) 
+
+#Box Plots (Side by Side)
+boxplot(lodging~siteyear, cex = .8, col = c("tomato2","tomato2","tomato2","blue","blue"), main = "Lodging at each site/year combination", ylab = "Percent Lodging")
+@
+
+
+\subsection{Interaction Plot}
+If the sites are reasonably similar, we would expect to see parallel lines that are either overlapping or very near each other.  The red line for Bozeman indicates that average percent lodging was higher in Bozeman than in Moccasin in both 2015 and 2016; however it may also have been more variable than in Moccasin. While the blue line and red line are both decreasing from 2015 to 2016, the difference in slopes indicates that there may be some interaction between year/site combinations.  More formal testing is necessary to assess differences between year and site combinations, but this visualization indicates some evidence of a difference in lodging in each location and year.
+
+<<interactionplot, include = TRUE, eval = FALSE>>=
+plot(seq(2014,2016,by = 1),c(a,b,c), type = "l", ylim = c(30,45),xaxt = 'n', main = "Interaction Plot", col = "tomato2", lwd = 2, xlab = "Year", ylab = "Mean Percent Lodging") 
+axis(side=1,at = c(2014,2015,2016),labels = TRUE)
+lines(x = c(2015,2016), y = c(d,e), type = "l", col = "blue", lwd = 2)
+legend('topright', fill = c("tomato2","blue"), legend = c("Bozeman", "Moccasin"))
+@
+
+\subsection{Regression Model}
+  The regression treats Bozeman 2014 as the baseline (intercept) group. Each site-year combination is tested against the   baseline; small p-values indicate that the given group differs from the baseline. The p-values for each of the other site-year combinations are all quite small – the largest, for Bozeman 2015, is only 0.015, indicating strong evidence that each of the site/year combinations differ from the baseline. Moreover, the effect size ranges from 4 to 7 points on the 1-100 percent scale on which Percent Lodging is measured.  The confidence intervals given give estimates of the true mean lodging at each site/year combination. If all the intervals overlapped, we might have evidence that the combinations are at least reasonably similar; however, the 2016 interval in Moccasin and the 2014/2015 Bozeman intervals do not overlap. 
+
+<<regression, include = FALSE, eval = TRUE, warning = FALSE, message = FALSE>>=
+#Fit A Simple Regression:
+library(pander)
+lm.lodging <- lm(lodging ~ siteyear, data = as.data.frame(year.site.mat))
+summary(lm.lodging)
+b14mean <- c(0,rep(lm.lodging$coef[1],4))
+con <- confint(lm.lodging) 
+confint.table <-  con + b14mean 
+@
+
+<<tables, include = TRUE, warning = FALSE, message = FALSE>>=
+#display table of results
+print(pandoc.table(lm.lodging))
+print(pandoc.table(confint.table))
+@
+\subsection{Conclusion}
+This analysis indicates that the measurements taken at each site in each year should be treated separately; they should not be considered homogenous enough to be taken as a single group.  The inclusion of 2013 into the data is unlikely to change the results of this study because the differences between the combinations already considered are enough to justify splitting the dataset into separate groups. 
+
+
+
+\section{Missing Genetic Data}
+Quality of the genetic data can be explored through the percentage of varieties missing information at each genetic marker. Reviewing QTL literature may provide insight to acceptable missing rates. Plots are provided below to visualize the amount of missing data at each genetic marker and across each variety genotyped. Tables of missing rates are provided in the appendix. As the number of genetic markers and varieties are large, the tables will be more informative on the exact varities with certain missing rates. Rates of missing-ness at each genetic marker are first shown across all makers, and then are broken in to plots subsetted by genetic markers with less than 25\% missing, less than between 25\% and 30\% missing, less than between 30\% and 35\% missing, and less than between 35\% and 40\%. All genetic markers had at least 60\% of the data across all varities.
+
+\subsection{All Markers}
+
+<<missing.plot, fig.cap = 'Missing Genetic Data Plot'>>=
+
+ggplot(datf1_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
+   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
+                                            guide = guide_legend(title = "") ) + 
+  ggtitle("Genetic Data") +
+ xlab("Genetic Marker") + ylab("Variety") +
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 90, hjust = 1, size = 0.5), 
+        axis.text.y = element_blank())
+@
+
+<<missing.pattern, include = FALSE>>=
+#str(md.pattern(gen))
+colnames(gen)
+
+gen_markers <- gen[,-c(1,611)]
+dim(gen_markers)
+marker_miss <- apply(gen_markers,2,function(t){length(which(is.na(t) == TRUE))})
+variety_miss <- apply(gen_markers,1,function(t){length(which(is.na(t) == TRUE))})
+
+marker_miss
+marker_miss.percent <- marker_miss/dim(gen_markers)[2]
+variety_miss.percent <- variety_miss/dim(gen_markers)[1]
+
+mmiss <- data.frame(rbind(marker_miss, marker_miss.percent))
+rownames(mmiss) <- c("Count", "Percent")
+
+vmiss <- data.frame(rbind(variety_miss, variety_miss.percent))
+rownames(vmiss) <- c("Count", "Percent")
+@
+
+
+\subsection{Less than 25\% Missing}
+
+<<subset.25, warning = FALSE>>=
+mmiss25 <- which(mmiss[2,] <= 0.25)
+mmiss30 <- which(0.25 < mmiss[2,] & mmiss[2,]<= 0.30)
+
+mmiss35 <- which(0.30 < mmiss[2,] & mmiss[2,]<= 0.35)
+mmiss40 <- which(0.35 < mmiss[2,] & mmiss[2,]<= 0.40)
+mmiss45 <- which(0.40 < mmiss[2,] & mmiss[2,]<= 0.45)
+mmiss50 <- which(0.45 < mmiss[2,] & mmiss[2,]<= 0.50)
+
+
+#mmiss.all <- c(mmiss25,mmiss50,mmiss75,mmiss100)
+#good
+#mmiss.all %in% c(seq(1:610))
+#colnames(gen[,2:610])
+
+dat25_bz16 <- melt(gen[,c(mmiss25,610)], id.var = 'ind', na.rm = FALSE)
+dat25_bz16$value <- factor(dat25_bz16$value, levels = c("A","B","missing"))
+dat25_bz16[is.na(dat25_bz16)] <- "missing"
+
+dat30_bz16 <- melt(gen[,c(mmiss30,610)], id.var = 'ind', na.rm = FALSE)
+dat30_bz16$value <- factor(dat30_bz16$value, levels = c("A","B","missing"))
+dat30_bz16[is.na(dat30_bz16)] <- "missing"
+
+
+dat35_bz16 <- melt(gen[,c(mmiss35,610)], id.var = 'ind', na.rm = FALSE)
+dat35_bz16$value <- factor(dat35_bz16$value, levels = c("A","B","missing"))
+dat35_bz16[is.na(dat35_bz16)] <- "missing"
+
+dat40_bz16 <- melt(gen[,c(mmiss40,610)], id.var = 'ind', na.rm = FALSE)
+dat40_bz16$value <- factor(dat40_bz16$value, levels = c("A","B","missing"))
+dat40_bz16[is.na(dat40_bz16)] <- "missing"
+
+dat45_bz16 <- melt(gen[,c(mmiss45,610)], id.var = 'ind', na.rm = FALSE)
+dat45_bz16$value <- factor(dat45_bz16$value, levels = c("A","B","missing"))
+dat45_bz16[is.na(dat45_bz16)] <- "missing"
+
+dat50_bz16 <- melt(gen[,c(mmiss50,610)], id.var = 'ind', na.rm = FALSE)
+dat50_bz16$value <- factor(dat50_bz16$value, levels = c("A","B","missing"))
+dat50_bz16[is.na(dat50_bz16)] <- "missing"
+@
+
+
+<<missing.plot25, fig.height=7.5, warning=FALSE>>=
+
+ggplot(dat25_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
+   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
+                                            guide = guide_legend(title = "") ) + 
+  ggtitle("Genetic Data < 25% Missing") +
+ xlab("Genetic Marker") + ylab("Variety") +
+  theme(legend.position = "bottom", legend.title = element_text(""),
+        axis.text.x = element_text(angle = 90, hjust = 1, size = 10), 
+        axis.text.y = element_blank())
+@
+
+\subsection{Less than 30\% Missing}
+
+<<missing.plot30,fig.height=8, warning = FALSE>>=
+
+ggplot(dat30_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
+   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
+                                            guide = guide_legend(title = "") ) + 
+  ggtitle("Genetic Data < 25 % - 30% Missing") +
+ xlab("Genetic Marker") + ylab("Variety") +
+  theme(legend.position = "bottom", legend.title = element_text(""),
+        axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
+        axis.text.y = element_text(angle = 0, hjust = 1, size = 1))
+@
+
+\subsection{Less than 35\% Missing}
+
+
+<<missing.plot35, fig.height=8, warning = FALSE, message = FALSE>>=
+
+ggplot(dat35_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
+   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
+                                            guide = guide_legend(title = "") ) + 
+  ggtitle("Genetic Data < 30 % - 35% Missing") +
+ xlab("Genetic Marker") + ylab("Variety") +
+  theme(legend.position = "bottom", legend.title = element_text(""),
+        axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
+        axis.text.y = element_text(angle = 90, hjust = 1, size = 1))
+@
+
+\subsection{Less than 40\% Missing}
+
+
+<<missing.plot40, fig.height=8, warning = FALSE, message = FALSE>>=
+
+ggplot(dat40_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
+   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
+                                            guide = guide_legend(title = "") ) + 
+  ggtitle("Genetic Data < 35 % - 40% Missing") +
+ xlab("Genetic Marker") + ylab("Variety") +
+  theme(legend.position = "bottom", legend.title = element_text(""),
+        axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
+        axis.text.y = element_text(angle = 90, hjust = 1, size = 1))
+@
+
+<<missing.plot45,fig.height=8, include = FALSE, eval = FALSE>>=
+# 0 markers had more than 40% missing, so not needed
+ggplot(dat45_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
+   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
+                                            guide = guide_legend(title = "") ) + 
+  ggtitle("Genetic Data < 40 % - 45% Missing") +
+ xlab("Genetic Marker") + ylab("Variety") +
+  theme(legend.position = "bottom", legend.title = element_text(""),
+        axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
+        axis.text.y = element_text(angle = 90, hjust = 1, size = 1))
+@
+
+<<missing.plot50, fig.height=8, include = FALSE, eval = FALSE>>=
+
+ggplot(dat50_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
+   colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
+                                            guide = guide_legend(title = "") ) + 
+  ggtitle("Genetic Data < 45 % - 50% Missing") +
+ xlab("Genetic Marker") + ylab("Variety") +
+  theme(legend.position = "bottom", legend.title = element_text(""),
+        axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
+        axis.text.y = element_text(angle = 90, hjust = 1, size = 1))
+@
+
+
+
+<<miss7,include=FALSE, eval = FALSE>>=
+setwd("C:/Users/Andrea Mack/Desktop/mack_hub/course_work/Consulting Seminar/seminar_f16/datasent102516")
+
+#start with bz16
+phen_bz16 <- read.csv("Final Data Files-lodging files 10-13-2016-2015bz.csv")
+str(phen_bz16)
+dim(phen_bz16)
+
+rownames(gen)
+phen_bz16[phen_bz16 == "-"] <- NA
+summary(phen_bz16)
+
+#heatmap(gen)
+@
+
 
 
 
@@ -769,17 +716,106 @@ pairs.panels(moccasin16)
 
 The pea genetic data include over 600 genetic markers. When a QTL analysis is done, a significance test is done for each marker. Multiple testing problems are quite common in genetic analyses. Jamin mentioned he would like to use LOD for setting a significance threshold. LOD is an abbreviation for the log-odds. LOD is the $log_{10}$ liklihood ratio comparing the null that there is not a QTL to the alternative, that there is.
 
-$Null Model, H_{o}: y_{i} \sim N(\mu, \sigma^2)$ i.e. there is no genetic dependency between the phenotype and the genotype
+Null Model, $H_{o}: y_{i} \sim N(\mu, \sigma^2)$ i.e. there is no genetic dependency between the phenotype and the genotype
 
 - Where the maximum likelihood estimates (MLEs) for parameter estimates $\mu = \bar{y}; \sigma^2 = RSS_{o}/n$ are used.
 
-$Alternative Model, H_{a}: y_{i}|g_{i} \sim N(\mu_{g_{i}}, \sigma^2)$
+Alternative Model, $H_{a}: y_{i}|g_{i} \sim N(\mu_{g_{i}}, \sigma^2)$
 
 - Where $g_{i}$ = genotype of individual i at the marker (loci); each genotype group has a different mean; $\sigma^2$ = pooled RSS = $RSS_{1}$; again the MLEs. 
 
 LOD = $\frac{n}{2} \times log_{10}(\frac{RSS_{o}}{RSS_{1}})$
 
 LOD is related to the F statistic. LOD = $\frac{n}{2} \times [F({\frac{df}{n-df-1} + 1)]$ and similar to the F statistic, large LOD values are associated with strong evidence for the alternative, that there is a relationship to the genetic loci and the phenotype. Since F statistics help find p-values, and LOD is related to F statistics, by setting genome wide adjusted LOD thresholds, we can easily convert these back to genome wide adjusted p-values. Broman and Sen (2009) provide a method for generating genome wide adjusted LOD thresholds, and the corresponding genome-wide adjusted p-value thresholds in Section 4.3 using the {\texttt QTL} package in R. Future work with Jamin from the Consulting Seminar would benefit from exploring using this simulation method for setting the significance thresholds. Once the data is formatted as a cross object, the method is straightforward.
+
+\section{Future Work}
+
+Future work with Jamin should be more focused with the QTL analysis. Jamin currently is using the MapDisto macro in Excel and QTL Cartographer to do preliminary QTL analyses. Both programs provide extensive documentation on their functions. R is a common program for statisticians to use, and discussion around whether packages such as {\texttt QTL} in R or outside programs should be used in the final analysis would be benefitical. While identifying specific genetic markers associated with the most variation in phenotypic traits is the end goal of the project, a QTL analysis has many steps that should be taken before using outputted results. Broman and Sen (2009) is a good beginning reference for a QTL analysis. Because Jamin is interested in genetic variation associated with all phenotypic traits, the correlations between the traits should be accounted for in the final analysis. Adding in the recommendation to not combine across sites and years, we suggest the direction of the final QTL analysis done to include be in a multi-trait, multi-environemnt setting. A resource for an introduction to the mult-trait, multi-environment setting in QTL analyses is referenced by Margarido et al. (2015) as a potential starting point for the complex model that is suggested by the initial exploration done in this document.
+
+\newpage
+\section*{References}
+\setlength{\parindent}{-0.2in}
+\setlength{\leftskip}{0.2in}
+\setlength{\parskip}{3pt}
+\noindent
+
+Margarido et al. 2015. {\it Multi-trait multi-environment quantitative trait loci mapping for a sugarcane commerical cross provides insights on the inheritance of important traits}. Mol Breeding 35:175.
+
+Broman and Sen. 2009. {\it A guide to QTL mapping with R/QTL}. New York: Spring Science+Business Media. Retrieved from 
+
+\url{http://link.springer.com/book/10.1007%2F978-0-387-92125-9}.
+
+\setlength{\parindent}{0in}
+\setlength{\leftskip}{0in}
+\setlength{\parskip}{8pt}
+
+\newpage
+
+
+\section*{Appendix}
+{\bf Tables of Missing Rates by Genetic Marker}
+
+<<xtable.misses, results = 'asis'>>=
+
+print(xtable(mmiss[,1:20]), scale = 0.5)
+print(xtable(mmiss[,21:40]), scale = 0.5)
+print(xtable(mmiss[,41:60]), scale = 0.5)
+print(xtable(mmiss[,61:80]), scale = 0.5)
+print(xtable(mmiss[,81:100]), scale = 0.5)
+print(xtable(mmiss[,101:120]), scale = 0.5)
+print(xtable(mmiss[,121:140]), scale = 0.5)
+print(xtable(mmiss[,141:160]), scale = 0.5)
+print(xtable(mmiss[,161:180]), scale = 0.5)
+print(xtable(mmiss[,181:200]), scale = 0.5)
+print(xtable(mmiss[,201:220]), scale = 0.5)
+print(xtable(mmiss[,221:240]), scale = 0.5)
+print(xtable(mmiss[,241:260]), scale = 0.5)
+print(xtable(mmiss[,261:280]), scale = 0.5)
+print(xtable(mmiss[,281:300]), scale = 0.5)
+print(xtable(mmiss[,301:320]), scale = 0.5)
+print(xtable(mmiss[,321:340]), scale = 0.5)
+print(xtable(mmiss[,341:360]), scale = 0.5)
+print(xtable(mmiss[,361:380]), scale = 0.5)
+print(xtable(mmiss[,381:400]), scale = 0.5)
+print(xtable(mmiss[,401:420]), scale = 0.5)
+print(xtable(mmiss[,421:440]), scale = 0.5)
+print(xtable(mmiss[,441:460]), scale = 0.5)
+print(xtable(mmiss[,461:480]), scale = 0.5)
+print(xtable(mmiss[,481:500]), scale = 0.5)
+print(xtable(mmiss[,501:520]), scale = 0.5)
+print(xtable(mmiss[,521:540]), scale = 0.5)
+print(xtable(mmiss[,541:560]), scale = 0.5)
+print(xtable(mmiss[,561:580]), scale = 0.5)
+print(xtable(mmiss[,581:600]), scale = 0.5)
+print(xtable(mmiss[,601:609]), scale = 0.5)
+@
+
+{\bf Tables of Missing Rates by Variety}
+
+<<final, results = 'asis'>>=
+
+
+print(xtable(vmiss[,1:20]), scale = 0.5)
+print(xtable(vmiss[,21:40]), scale = 0.5)
+print(xtable(vmiss[,41:60]), scale = 0.5)
+print(xtable(vmiss[,61:80]), scale = 0.5)
+print(xtable(vmiss[,81:100]), scale = 0.5)
+print(xtable(vmiss[,101:120]), scale = 0.5)
+print(xtable(vmiss[,121:140]), scale = 0.5)
+print(xtable(vmiss[,141:160]), scale = 0.5)
+print(xtable(vmiss[,161:180]), scale = 0.5)
+print(xtable(vmiss[,181:200]), scale = 0.5)
+print(xtable(vmiss[,201:220]), scale = 0.5)
+print(xtable(vmiss[,221:240]), scale = 0.5)
+print(xtable(vmiss[,241:257]), scale = 0.5)
+
+# make a cross object
+# the cross object function assumes markers are in the correct order
+
+
+## next, subset by highest non - missing rate and remake plot
+@
+
 
 
 
