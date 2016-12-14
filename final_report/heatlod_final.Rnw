@@ -176,6 +176,34 @@ require(psych)
 pairs.panels(mergedbzn)
 @
 
+<<siteyear, include = TRUE, eval = TRUE, warning = FALSE>>=
+#setwd("C:/Users/Paul/Documents")
+bz13 <- read.csv("JaminB13.csv", header = TRUE)
+bz14 <- read.csv("JaminB14.csv", header = TRUE)
+bz15 <- read.csv("JaminB15edited.csv", header = TRUE)
+bz16 <- read.csv("JaminB16edited.csv", header = TRUE)
+moc15 <- read.csv("JaminM15edited.csv", header = TRUE)
+moc16 <- read.csv("JaminM16edited.csv", header = TRUE)
+
+#create and add in variables for each site/year combination
+bz13$Site <- bz14$Site <- bz15$Site <- bz16$Site <- "Bozeman"
+moc15$Site <- moc16$Site <- "Moccasin"
+bz13$Year <- 2013
+bz14$Year <- 2014
+bz15$Year <- moc15$Year <- 2015
+bz16$Year <- moc16$Year <- 2016
+
+#Merge into a single dataset
+#lodging response
+lodging<- c(bz14$Prcnt.Lodging,bz15$X..Lodging,bz16$X..Lodging.boze.2016,moc15$Lodging,moc16$X.lodging.2016)
+#site year combo as a factor
+site <- c(bz14$Site,bz15$Site, bz16$Site,moc15$Site,moc16$Site)
+year <- c(bz14$Year, bz15$Year,bz16$Year,moc15$Year,moc16$Year)
+siteyear <- as.factor(paste(site,year, sep = ""))
+
+year.site.mat <- matrix(cbind(lodging,site,year,siteyear))
+@
+
 \subsection{Bozeman by Year}
 We assessed the pairwise correlation of the different sites each year. In 2014, twelve pairs of explanatory variables had correlation coefficients between 0.42 and 0.91. The pairwise correlations are shown in the matrix below. Germination and total yield was strongly correlated (r=0.66) while the length and internode length of the plants recorded a very high correlation coefficient (r=0.91). In 2015 and 2016, of the pairwise combinations assessed, 28 combinations yielded correlation coefficients between 0.40 and 0.85. The results are presented in the pairwise correlation matrices below.
 
@@ -404,7 +432,7 @@ pairs.panels(moccasin15)
 #########################
 
 ##Load Data (Moccasin Merged)
-setwd("C:/Users/Paul/Documents")
+#setwd("C:/Users/Paul/Documents")
 mergedmc<-read.csv("Merged Moccasin.csv",header=T)
 #summary(mergedmc)
 #names(mergedmc)
@@ -445,33 +473,6 @@ pairs.panels(moccasin16)
 \section{Site Year Combinations for Lodging}
 
 
-<<siteyear, include = TRUE, eval = TRUE, warning = FALSE>>=
-setwd("C:/Users/Paul/Documents")
-bz13 <- read.csv("JaminB13.csv", header = TRUE)
-bz14 <- read.csv("JaminB14.csv", header = TRUE)
-bz15 <- read.csv("JaminB15edited.csv", header = TRUE)
-bz16 <- read.csv("JaminB16edited.csv", header = TRUE)
-moc15 <- read.csv("JaminM15edited.csv", header = TRUE)
-moc16 <- read.csv("JaminM16edited.csv", header = TRUE)
-
-#create and add in variables for each site/year combination
-bz13$Site <- bz14$Site <- bz15$Site <- bz16$Site <- "Bozeman"
-moc15$Site <- moc16$Site <- "Moccasin"
-bz13$Year <- 2013
-bz14$Year <- 2014
-bz15$Year <- moc15$Year <- 2015
-bz16$Year <- moc16$Year <- 2016
-
-#Merge into a single dataset
-#lodging response
-lodging<- c(bz14$Prcnt.Lodging,bz15$X..Lodging,bz16$X..Lodging.boze.2016,moc15$Lodging,moc16$X.lodging.2016)
-#site year combo as a factor
-site <- c(bz14$Site,bz15$Site, bz16$Site,moc15$Site,moc16$Site)
-year <- c(bz14$Year, bz15$Year,bz16$Year,moc15$Year,moc16$Year)
-siteyear <- as.factor(paste(site,year, sep = ""))
-
-year.site.mat <- matrix(cbind(lodging,site,year,siteyear))
-@
 
 \subsection{Exploratory Analysis} 
 The data were collected over a period of 4 field seasons at sites in Bozeman and 2 field seasons in Moccasin. Phenotypic data were analyzed in order to determine whether conditions were similar enough at each year/site combination to consider as a single dataset, or if they differ by enough that the sites and years need to be considered as different groups.  
@@ -508,12 +509,12 @@ legend('topright', fill = c("tomato2","blue"), legend = c("Bozeman", "Moccasin")
 @
 
 \subsection{Regression Model}
-  The regression treats Bozeman 2014 as the baseline (intercept) group. Each site-year combination is tested against the   baseline; small p-values indicate that the given group differs from the baseline. The p-values for each of the other site-year combinations are all quite small â€“ the largest, for Bozeman 2015, is only 0.015, indicating strong evidence that each of the site/year combinations differ from the baseline. Moreover, the effect size ranges from 4 to 7 points on the 1-100 percent scale on which Percent Lodging is measured.  The confidence intervals given give estimates of the true mean lodging at each site/year combination. If all the intervals overlapped, we might have evidence that the combinations are at least reasonably similar; however, the 2016 interval in Moccasin and the 2014/2015 Bozeman intervals do not overlap. 
+  The regression treats Bozeman 2014 as the baseline (intercept) group. Each site-year combination is tested against the   baseline; small p-values indicate that the given group differs from the baseline. The p-values for each of the other site-year combinations are all quite small â*** the largest, for Bozeman 2015, is only 0.015, indicating strong evidence that each of the site/year combinations differ from the baseline. Moreover, the effect size ranges from 4 to 7 points on the 1-100 percent scale on which Percent Lodging is measured.  The confidence intervals given give estimates of the true mean lodging at each site/year combination. If all the intervals overlapped, we might have evidence that the combinations are at least reasonably similar; however, the 2016 interval in Moccasin and the 2014/2015 Bozeman intervals do not overlap. 
 
 <<regression, include = FALSE, eval = TRUE, warning = FALSE, message = FALSE>>=
 #Fit A Simple Regression:
 library(pander)
-lm.lodging <- lm(lodging ~ siteyear, data = as.data.frame(year.site.mat))
+lm.lodging <- lm(lodging ~ siteyear, data = as.data.frame(year.site.mat), na.action = na.omit)
 summary(lm.lodging)
 b14mean <- c(0,rep(lm.lodging$coef[1],4))
 con <- confint(lm.lodging) 
