@@ -11,8 +11,9 @@
 \setlength{\headheight}{18pt}
 \setlength{\headsep}{2pt}
 
-\title{Pea Lodging Final Report For Jamin Smitchger}
-\author{Paul Harmon, Nnamdi Ezike, and Andrea Mack}
+\title{Pea Lodging Final Report}
+\author{Client: Jamin Smitchger\\
+Consultants: Paul Harmon, Nnamdi Ezike, and Andrea Mack}
 \date{December 16, 2016}
 
 \begin{document}
@@ -45,7 +46,7 @@ library(reshape2)
 
 # gen_export is what map disto gave when I exported the data
 # it is in an odd format that I don't know how to work with
-setwd("C:/Users/Paul/Documents/seminar_f16/final_report") #sets wd
+#setwd("C:/Users/Paul/Documents/seminar_f16/final_report") #sets wd
 gen_export <- read.table("datafromdisto_sent112116.txt", fill = TRUE)
 str(gen_export)
 
@@ -75,6 +76,9 @@ gen[gen == "-"] <- NA
 gen <- apply(gen,2,function(t){factor(t,levels = c("A", "B"))})
 gen <- data.frame(gen)
 
+# remove blank first column
+gen <- gen[,-1]
+
 # converting data to long form for ggplot2 use
 
 gen$ind <- c(seq(1:257))
@@ -85,6 +89,9 @@ colnames(gen) <- substring(colnames(gen),1,7)
 datf1_bz16 <- melt(gen, id.var = 'ind', na.rm = FALSE)
 datf1_bz16[is.na(datf1_bz16)] <- "missing"
 @
+
+\section{Introduction}
+Jamin is a Ph.D. student in the Department of Plant Sciences and Plant Pathology at MSU. The primary focus is his research is to associate variation in genetic expression with variation in the expression of several phenotypic traits. Genotypic and pheynotypic data were collected on 297 varities of pea, from two locations (Bozeman and Mocassin), in YEARS. Phenotypic data includes percent lodging, tendril length, tendril node length, nodes at 1st flow, maximum number of nodes, germination, number of branches, plant height, plant length, average total yield, main stem diameter, tiller diameter, ``comp" tillder diameter, and maturation time, totaling 14 traits. Data from 609 genetic markers were collected. The end result of Jamin's research will include a quantitative trait loci (QTL) analysis which will inform him about which genetic markers variation in genetic marker expression associated with variation in phenotypic traits. This report does not provide the QTL analysis, but provides
 
 \section{Visualizing Missing Data}
 Tables and plots are provided below to visualize and quantify the amount of missing data at each genetic marker and across each variety genotyped. The plots and tables are to help Jamin understand the quality of his data.
@@ -336,7 +343,7 @@ summary(phen_bz16)
 \section{Site Year Combinations for Lodging}
 
 
-<<siteyear, include = TRUE, eval = TRUE, warning = FALSE>>=
+<<siteyear, include = TRUE, eval = FALSE, warning = FALSE>>=
 setwd("C:/Users/Paul/Documents")
 bz13 <- read.csv("JaminB13.csv", header = TRUE)
 bz14 <- read.csv("JaminB14.csv", header = TRUE)
@@ -368,7 +375,7 @@ year.site.mat <- matrix(cbind(lodging,site,year,siteyear))
 The data were collected over a period of 4 field seasons at sites in Bozeman and 2 field seasons in Moccasin. Phenotypic data were analyzed in order to determine whether conditions were similar enough at each year/site combination to consider as a single dataset, or if they differ by enough that the sites and years need to be considered as different groups.  
 Because lodging is considered the response of interest, we examine the Percent Lodging measured at each site/year combination. Note that Percent Lodging is not measured in the 2013 Bozeman data; we did not include it in this analysis. Given the result of the analysis, we do not need to consider it into the analysis to determine that there are differences in the year/site combinations.  Visually, we can plot the mean percent lodging at each year/site combination to get an idea of differences between the years and sites. Below, we have percent lodging at each site. It appears that the Moccasin sites tend to be slightly less variable; moreover, the median percent lodging at each site appeared to be higher in 2015 than in 2016.
 
-<<meanvars, include = TRUE, eval = TRUE, warning = FALSE>>=
+<<meanvars, include = TRUE, eval = FALSE, warning = FALSE>>=
 #plots of percent lodging at each site #means
 a <- mean(bz14$Prcnt.Lodging, na.rm = TRUE)
 b <- mean(bz15$X..Lodging, na.rm = TRUE)  
@@ -391,7 +398,7 @@ boxplot(lodging~siteyear, cex = .8, col = c("tomato2","tomato2","tomato2","blue"
 \subsection{Interaction Plot}
 If the sites are reasonably similar, we would expect to see parallel lines that are either overlapping or very near each other.  The red line for Bozeman indicates that average percent lodging was higher in Bozeman than in Moccasin in both 2015 and 2016; however it may also have been more variable than in Moccasin. While the blue line and red line are both decreasing from 2015 to 2016, the difference in slopes indicates that there may be some interaction between year/site combinations.  More formal testing is necessary to assess differences between year and site combinations, but this visualization indicates some evidence of a difference in lodging in each location and year.
 
-<<interactionplot, include = TRUE, eval = TRUE>>=
+<<interactionplot, include = TRUE, eval = FALSE>>=
 plot(seq(2014,2016,by = 1),c(a,b,c), type = "l", ylim = c(30,45),xaxt = 'n', main = "Interaction Plot", col = "tomato2", lwd = 2, xlab = "Year", ylab = "Mean Percent Lodging") 
 axis(side=1,at = c(2014,2015,2016),labels = TRUE)
 lines(x = c(2015,2016), y = c(d,e), type = "l", col = "blue", lwd = 2)
@@ -401,7 +408,7 @@ legend('topright', fill = c("tomato2","blue"), legend = c("Bozeman", "Moccasin")
 \subsection{Regression Model}
   The regression treats Bozeman 2014 as the baseline (intercept) group. Each site-year combination is tested against the   baseline; small p-values indicate that the given group differs from the baseline. The p-values for each of the other site-year combinations are all quite small – the largest, for Bozeman 2015, is only 0.015, indicating strong evidence that each of the site/year combinations differ from the baseline. Moreover, the effect size ranges from 4 to 7 points on the 1-100 percent scale on which Percent Lodging is measured.  The confidence intervals given give estimates of the true mean lodging at each site/year combination. If all the intervals overlapped, we might have evidence that the combinations are at least reasonably similar; however, the 2016 interval in Moccasin and the 2014/2015 Bozeman intervals do not overlap. 
 
-<<regression, include = FALSE, eval = TRUE, warning = FALSE, message = FALSE>>=
+<<regression, include = FALSE, eval = FALSE, warning = FALSE, message = FALSE>>=
 #Fit A Simple Regression:
 library(pander)
 lm.lodging <- lm(lodging ~ siteyear, data = as.data.frame(year.site.mat))
