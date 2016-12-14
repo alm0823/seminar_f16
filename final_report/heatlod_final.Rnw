@@ -37,6 +37,7 @@ library(mice)
 library(ggplot2)
 library(reshape2)
 
+
 @
 
 <<readin, include = FALSE>>=
@@ -91,7 +92,7 @@ datf1_bz16[is.na(datf1_bz16)] <- "missing"
 @
 
 \section{Introduction}
-Jamin is a Ph.D. student in the Department of Plant Sciences and Plant Pathology at MSU. The primary focus is his research is to associate variation in genetic expression with variation in the expression of several phenotypic traits. Genotypic and pheynotypic data were collected on 257 varities of pea, from two locations (Bozeman and Mocassin), in YEARS. Phenotypic data includes percent lodging, tendril length, tendril node length, nodes at 1st flow, maximum number of nodes, germination, number of branches, plant height, plant length, average total yield, main stem diameter, tiller diameter, ``comp" tiller diameter, and maturation time, totaling 14 traits. Data from 609 genetic markers were collected. The end result of Jamin's research will include a quantitative trait loci (QTL) analysis which will inform him about which genetic markers variation in genetic marker expression associated with variation in phenotypic traits. Prior to the QTL analysis, understanding of the data and methods are necessary. The report includes:
+Jamin is a Ph.D. student in the Department of Plant Sciences and Plant Pathology at MSU. The primary focus is his research is to associate variation in genetic expression with variation in the expression of several phenotypic traits. Genotypic and pheynotypic data were collected on 257 varieties of pea, from two locations (Bozeman and Moccasin), in YEARS. Phenotypic data includes percent lodging, tendril length, tendril node length, nodes at 1st flow, maximum number of nodes, germination, number of branches, plant height, plant length, average total yield, main stem diameter, tiller diameter, ``comp" tiller diameter, and maturation time, totaling 14 traits. Data from 609 genetic markers were collected. The end result of Jamin's research will include a quantitative trait loci (QTL) analysis which will inform him about which genetic markers variation in genetic marker expression associated with variation in phenotypic traits. Prior to the QTL analysis, understanding of the data and methods are necessary. The report includes:
 
 \begin{itemize}
 
@@ -107,7 +108,7 @@ Jamin is a Ph.D. student in the Department of Plant Sciences and Plant Pathology
 \end{itemize}
 
 \section{Correlation Plots}
-Correlation describes the strength and direction of a linear association. Specifically, this analyis examines Pearson Correlations because the varibles are measured on a quantiative scale.  The strength of the linear association between variables is measured on a scale between -1 (a perfect negative association) and 1 (a perfect positive association). Correlation does not imply causal relationships. In examining, for instance, the relationship between lodging and stem width, the pearson correlation would only give information about the linear association between the two variables.  Indeed, even a strong association between the two variables cannot be interpreted that stem width causes lodging; rather, we would simply say that the two variables are associated with each other.  Since the phenotypes in each year at each site are considered seperate response values, we consider fitting correlation plots for each site/year combination. 
+Correlation describes the strength and direction of a linear association. Specifically, this analysis examines Pearson Correlations because the variables are measured on a quantitative scale.  The strength of the linear association between variables is measured on a scale between -1 (a perfect negative association) and 1 (a perfect positive association). Correlation does not imply causal relationships. In examining, for instance, the relationship between lodging and stem width, the pearson correlation would only give information about the linear association between the two variables.  Indeed, even a strong association between the two variables cannot be interpreted that stem width causes lodging; rather, we would simply say that the two variables are associated with each other.  Since the phenotypes in each year at each site are considered separate response values, we consider fitting correlation plots for each site/year combination. 
 
 \subsection{Sites and Years Combined}
 
@@ -195,7 +196,7 @@ bz16$Year <- moc16$Year <- 2016
 
 #Merge into a single dataset
 #lodging response
-lodging<- c(bz14$Prcnt.Lodging,bz15$X..Lodging,bz16$X..Lodging.boze.2016,moc15$Lodging,moc16$X.lodging.2016)
+lodging<- c(bz14$Prcnt.Lodging,bz15$X..Lodging,bz16$pctg_Lodging_boze_2016,moc15$Lodging,moc16$X.lodging.2016)
 #site year combo as a factor
 site <- c(bz14$Site,bz15$Site, bz16$Site,moc15$Site,moc16$Site)
 year <- c(bz14$Year, bz15$Year,bz16$Year,moc15$Year,moc16$Year)
@@ -471,6 +472,32 @@ pairs.panels(moccasin16)
 
 
 \section{Site Year Combinations for Lodging}
+<<intro, include = FALSE >>=
+bz13 <- read.csv("JaminB13.csv", header = TRUE)
+bz14 <- read.csv("JaminB14.csv", header = TRUE)
+bz15 <- read.csv("JaminB15edited.csv", header = TRUE)
+bz16 <- read.csv("JaminB16edited.csv", header = TRUE)
+moc15 <- read.csv("JaminM15edited.csv", header = TRUE)
+moc16 <- read.csv("JaminM16edited.csv", header = TRUE)
+
+#create and add in variables for each site/year combination
+bz13$Site <- bz14$Site <- bz15$Site <- bz16$Site <- "Bozeman"
+moc15$Site <- moc16$Site <- "Moccasin"
+bz13$Year <- 2013
+bz14$Year <- 2014
+bz15$Year <- moc15$Year <- 2015
+bz16$Year <- moc16$Year <- 2016
+
+#Merge into a single dataset
+#lodging response
+lodging<- c(bz14$Prcnt.Lodging,bz15$X..Lodging,bz16$pctg_Lodging_boze_2016,moc15$Lodging,moc16$X.lodging.2016)
+#site year combo as a factor
+site <- c(bz14$Site,bz15$Site, bz16$Site,moc15$Site,moc16$Site)
+year <- c(bz14$Year, bz15$Year,bz16$Year,moc15$Year,moc16$Year)
+siteyear <- as.factor(paste(site,year, sep = ""))
+
+year.site.mat <- matrix(cbind(lodging,site,year,siteyear))
+@
 
 
 
@@ -482,14 +509,14 @@ Because lodging is considered the response of interest, we examine the Percent L
 #plots of percent lodging at each site #means
 a <- mean(bz14$Prcnt.Lodging, na.rm = TRUE)
 b <- mean(bz15$X..Lodging, na.rm = TRUE)  
-c <-mean(bz16$X..Lodging.boze.2016, na.rm = TRUE)  
+c <-mean(bz16$pctg_Lodging_boze_2016, na.rm = TRUE)  
 d <- mean(moc15$Lodging, na.rm = TRUE) 
 e <- mean(moc16$X.lodging.2016, na.rm = TRUE) 
 
 #var
 a.var <- var(bz14$Prcnt.Lodging, na.rm = TRUE)
 b.var <- var(bz15$X..Lodging, na.rm = TRUE)  
-c.var <-var(bz16$X..Lodging.boze.2016, na.rm = TRUE)  
+c.var <-var(bz16$pctg_Lodging_boze_2016, na.rm = TRUE)  
 d.var <- var(moc15$Lodging, na.rm = TRUE) 
 e.var <- var(moc16$X.lodging.2016, na.rm = TRUE) 
 
@@ -501,16 +528,17 @@ boxplot(lodging~siteyear, cex = .8, col = c("tomato2","tomato2","tomato2","blue"
 \subsection{Interaction Plot}
 If the sites are reasonably similar, we would expect to see parallel lines that are either overlapping or very near each other.  The red line for Bozeman indicates that average percent lodging was higher in Bozeman than in Moccasin in both 2015 and 2016; however it may also have been more variable than in Moccasin. While the blue line and red line are both decreasing from 2015 to 2016, the difference in slopes indicates that there may be some interaction between year/site combinations.  More formal testing is necessary to assess differences between year and site combinations, but this visualization indicates some evidence of a difference in lodging in each location and year.
 
-<<interactionplot, include = TRUE, eval = FALSE>>=
+<<interactionplot, include = TRUE, eval = TRUE>>=
 plot(seq(2014,2016,by = 1),c(a,b,c), type = "l", ylim = c(30,45),xaxt = 'n', main = "Interaction Plot", col = "tomato2", lwd = 2, xlab = "Year", ylab = "Mean Percent Lodging") 
 axis(side=1,at = c(2014,2015,2016),labels = TRUE)
 lines(x = c(2015,2016), y = c(d,e), type = "l", col = "blue", lwd = 2)
 legend('topright', fill = c("tomato2","blue"), legend = c("Bozeman", "Moccasin"))
 @
-
+\pagebreak
 \subsection{Regression Model}
-  The regression treats Bozeman 2014 as the baseline (intercept) group. Each site-year combination is tested against the   baseline; small p-values indicate that the given group differs from the baseline. The p-values for each of the other site-year combinations are all quite small â*** the largest, for Bozeman 2015, is only 0.015, indicating strong evidence that each of the site/year combinations differ from the baseline. Moreover, the effect size ranges from 4 to 7 points on the 1-100 percent scale on which Percent Lodging is measured.  The confidence intervals given give estimates of the true mean lodging at each site/year combination. If all the intervals overlapped, we might have evidence that the combinations are at least reasonably similar; however, the 2016 interval in Moccasin and the 2014/2015 Bozeman intervals do not overlap. 
-
+  The regression treats Bozeman 2014 as the baseline (intercept) group. Each site-year combination is tested against the   baseline; small p-values indicate that the given group differs from the baseline. The p-values for each of the other site-year combinations are all quite small ?*** the largest, for Bozeman 2015, is only 0.015, indicating strong evidence that each of the site/year combinations differ from the baseline. Moreover, the effect size ranges from 4 to 7 points on the 1-100 percent scale on which Percent Lodging is measured.  The confidence intervals given give estimates of the true mean lodging at each site/year combination. If all the intervals overlapped, we might have evidence that the combinations are at least reasonably similar; however, the 2016 interval in Moccasin and the 2014/2015 Bozeman intervals do not overlap. 
+  
+\includegraphics [width = 6.5in] {RegressionResults}
 <<regression, include = FALSE, eval = TRUE, warning = FALSE, message = FALSE>>=
 #Fit A Simple Regression:
 library(pander)
@@ -521,18 +549,18 @@ con <- confint(lm.lodging)
 confint.table <-  con + b14mean 
 @
 
-<<tables, include = TRUE, warning = FALSE, message = FALSE>>=
+<<tables, include = FALSE, warning = FALSE, message = FALSE>>=
 #display table of results
 print(pandoc.table(lm.lodging))
 print(pandoc.table(confint.table))
 @
-\subsection{Conclusion}
-This analysis indicates that the measurements taken at each site in each year should be treated separately; they should not be considered homogenous enough to be taken as a single group.  The inclusion of 2013 into the data is unlikely to change the results of this study because the differences between the combinations already considered are enough to justify splitting the dataset into separate groups. 
+\subsection{Discussion}
+This analysis indicates that the measurements taken at each site in each year should be treated separately; they should not be considered homogeneous enough to be taken as a single group.  The inclusion of 2013 into the data is unlikely to change the results of this study because the differences between the combinations already considered are enough to justify splitting the dataset into separate groups. 
 
 
-
+\pagebreak
 \section{Missing Genetic Data}
-Quality of the genetic data can be explored through the percentage of varieties missing information at each genetic marker. Reviewing QTL literature may provide insight to acceptable missing rates. Plots are provided below to visualize the amount of missing data at each genetic marker and across each variety genotyped. Tables of missing rates are provided in the appendix. As the number of genetic markers and varieties are large, the tables will be more informative on the exact varities with certain missing rates. Rates of missing-ness at each genetic marker are first shown across all makers, and then are broken in to plots subsetted by genetic markers with less than 25\% missing, less than between 25\% and 30\% missing, less than between 30\% and 35\% missing, and less than between 35\% and 40\%. All genetic markers had at least 60\% of the data across all varities.
+Quality of the genetic data can be explored through the percentage of varieties missing information at each genetic marker. Reviewing QTL literature may provide insight to acceptable missing rates. Plots are provided below to visualize the amount of missing data at each genetic marker and across each variety genotyped. Tables of missing rates are provided in the appendix. As the number of genetic markers and varieties are large, the tables will be more informative on the exact varieties with certain missing rates. Rates of missing-ness at each genetic marker are first shown across all makers, and then are broken in to plots subsetted by genetic markers with less than 25\% missing, less than between 25\% and 30\% missing, less than between 30\% and 35\% missing, and less than between 35\% and 40\%. All genetic markers had at least 60\% of the data across all varieties.
 
 \subsection{All Markers}
 
@@ -567,7 +595,7 @@ rownames(mmiss) <- c("Count", "Percent")
 vmiss <- data.frame(rbind(variety_miss, variety_miss.percent))
 rownames(vmiss) <- c("Count", "Percent")
 @
-
+\pagebreak
 
 \subsection{Less than 25\% Missing}
 
@@ -624,7 +652,7 @@ ggplot(dat25_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
         axis.text.x = element_text(angle = 90, hjust = 1, size = 10), 
         axis.text.y = element_blank())
 @
-
+\pagebreak
 \subsection{Less than 30\% Missing}
 
 <<missing.plot30,fig.height=8, warning = FALSE>>=
@@ -638,7 +666,7 @@ ggplot(dat30_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
         axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
         axis.text.y = element_text(angle = 0, hjust = 1, size = 1))
 @
-
+\pagebreak
 \subsection{Less than 35\% Missing}
 
 
@@ -653,7 +681,7 @@ ggplot(dat35_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
         axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
         axis.text.y = element_text(angle = 90, hjust = 1, size = 1))
 @
-
+\pagebreak
 \subsection{Less than 40\% Missing}
 
 
@@ -715,7 +743,7 @@ summary(phen_bz16)
 
 \section{Setting Significance Thresholds}
 
-The pea genetic data include over 600 genetic markers. When a QTL analysis is done, a significance test is done for each marker. Multiple testing problems are quite common in genetic analyses. Jamin mentioned he would like to use LOD for setting a significance threshold. LOD is an abbreviation for the log-odds. LOD is the $log_{10}$ liklihood ratio comparing the null that there is not a QTL to the alternative, that there is.
+The pea genetic data include over 600 genetic markers. When a QTL analysis is done, a significance test is done for each marker. Multiple testing problems are quite common in genetic analyses. Jamin mentioned he would like to use LOD for setting a significance threshold. LOD is an abbreviation for the log-odds. LOD is the $log_{10}$ likelihood ratio comparing the null that there is not a QTL to the alternative, that there is.
 
 Null Model, $H_{o}: y_{i} \sim N(\mu, \sigma^2)$ i.e. there is no genetic dependency between the phenotype and the genotype
 
@@ -731,7 +759,7 @@ LOD is related to the F statistic. LOD = $\frac{n}{2} \times [F({\frac{df}{n-df-
 
 \section{Future Work}
 
-Future work with Jamin should be more focused with the QTL analysis. Jamin currently is using the MapDisto macro in Excel and QTL Cartographer to do preliminary QTL analyses. Both programs provide extensive documentation on their functions. R is a common program for statisticians to use, and discussion around whether packages such as {\texttt QTL} in R or outside programs should be used in the final analysis would be benefitical. While identifying specific genetic markers associated with the most variation in phenotypic traits is the end goal of the project, a QTL analysis has many steps that should be taken before using outputted results. Broman and Sen (2009) is a good beginning reference for a QTL analysis. Because Jamin is interested in genetic variation associated with all phenotypic traits, the correlations between the traits should be accounted for in the final analysis. Adding in the recommendation to not combine across sites and years, we suggest the direction of the final QTL analysis done to include be in a multi-trait, multi-environemnt setting. A resource for an introduction to the mult-trait, multi-environment setting in QTL analyses is referenced by Margarido et al. (2015) as a potential starting point for the complex model that is suggested by the initial exploration done in this document.
+Future work with Jamin should be more focused with the QTL analysis. Jamin currently is using the MapDisto macro in Excel and QTL Cartographer to do preliminary QTL analyses. Both programs provide extensive documentation on their functions. R is a common program for statisticians to use, and discussion around whether packages such as {\texttt QTL} in R or outside programs should be used in the final analysis would be beneficial. While identifying specific genetic markers associated with the most variation in phenotypic traits is the end goal of the project, a QTL analysis has many steps that should be taken before using outputted results. Broman and Sen (2009) is a good beginning reference for a QTL analysis. Because Jamin is interested in genetic variation associated with all phenotypic traits, the correlations between the traits should be accounted for in the final analysis. Adding in the recommendation to not combine across sites and years, we suggest the direction of the final QTL analysis done to include be in a multi-trait, multi-environment setting. A resource for an introduction to the multi-trait, multi-environment setting in QTL analyses is referenced by Margarido et al. (2015) as a potential starting point for the complex model that is suggested by the initial exploration done in this document.
 
 \newpage
 \section*{References}
