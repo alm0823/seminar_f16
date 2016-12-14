@@ -497,13 +497,14 @@ year <- c(bz14$Year, bz15$Year,bz16$Year,moc15$Year,moc16$Year)
 siteyear <- as.factor(paste(site,year, sep = ""))
 
 year.site.mat <- matrix(cbind(lodging,site,year,siteyear))
+
 @
 
 
 
 \subsection{Exploratory Analysis} 
 The data were collected over a period of 4 field seasons at sites in Bozeman and 2 field seasons in Moccasin. Phenotypic data were analyzed in order to determine whether conditions were similar enough at each year/site combination to consider as a single dataset, or if they differ by enough that the sites and years need to be considered as different groups.  
-Because lodging is considered the response of interest, we examine the Percent Lodging measured at each site/year combination. Note that Percent Lodging is not measured in the 2013 Bozeman data; we did not include it in this analysis. Given the result of the analysis, we do not need to consider it into the analysis to determine that there are differences in the year/site combinations.  Visually, we can plot the mean percent lodging at each year/site combination to get an idea of differences between the years and sites. Below, we have percent lodging at each site. It appears that the Moccasin sites tend to be slightly less variable; moreover, the median percent lodging at each site appeared to be higher in 2015 than in 2016.
+Because lodging is considered the response of interest, we examine the Percent Lodging measured at each site/year combination. Note that Percent Lodging is not measured in the 2013 Bozeman data; we did not include it in this analysis. Given the result of the analysis, we do not need to consider it into the analysis to determine that there are differences in the year/site combinations.  Visually, we can create beanplots to assess the differences mean percent lodging at each year/site combination.  Below, we have percent lodging at each site. Moccasin appears to have, in both years, slighly less variability in lodging than Bozeman.
 
 <<meanvars, include = TRUE, eval = TRUE, warning = FALSE>>=
 #plots of percent lodging at each site #means
@@ -520,13 +521,13 @@ c.var <-var(bz16$pctg_Lodging_boze_2016, na.rm = TRUE)
 d.var <- var(moc15$Lodging, na.rm = TRUE) 
 e.var <- var(moc16$X.lodging.2016, na.rm = TRUE) 
 
-#Box Plots (Side by Side)
-boxplot(lodging~siteyear, cex = .8, col = c("tomato2","tomato2","tomato2","blue","blue"), main = "Lodging at each site/year combination", ylab = "Percent Lodging")
+#Bean Plots (Side by Side)
+beanplot(lodging~siteyear, cex = .8, col = c("gold2","black","red","blue"), main = "Lodging at each site/year combination", ylab = "Percent Lodging", names = c("BZ14","BZ15","BZ16","Moc15","Moc16"))
 @
 
 
 \subsection{Interaction Plot}
-If the sites are reasonably similar, we would expect to see parallel lines that are either overlapping or very near each other.  The red line for Bozeman indicates that average percent lodging was higher in Bozeman than in Moccasin in both 2015 and 2016; however it may also have been more variable than in Moccasin. While the blue line and red line are both decreasing from 2015 to 2016, the difference in slopes indicates that there may be some interaction between year/site combinations.  More formal testing is necessary to assess differences between year and site combinations, but this visualization indicates some evidence of a difference in lodging in each location and year.
+If the sites are reasonably similar, we would expect to see parallel lines that are either overlapping or very near each other.  The red line for Bozeman indicates that average percent lodging was higher in Bozeman than in Moccasin in both 2015 and 2016.  The bars indicate the variability of lodging for each year in Bozeman - it appears that for most years, Bozeman was slightly more variable than Moccasin. While the blue line and red line are both decreasing from 2015 to 2016, the difference in slopes indicates that there may be some interaction between year/site combinations.  More formal testing is necessary to assess differences between year and site combinations, but this visualization indicates some evidence of a difference in lodging in each location and year.
 
 <<interactionplot, include = TRUE, eval = TRUE>>=
 plot(seq(2014,2016,by = 1),c(a,b,c), type = "l", ylim = c(30,45),xaxt = 'n', main = "Interaction Plot", col = "tomato2", lwd = 2, xlab = "Year", ylab = "Mean Percent Lodging") 
@@ -536,23 +537,261 @@ legend('topright', fill = c("tomato2","blue"), legend = c("Bozeman", "Moccasin")
 @
 \pagebreak
 \subsection{Regression Model}
-  The regression treats Bozeman 2014 as the baseline (intercept) group. Each site-year combination is tested against the   baseline; small p-values indicate that the given group differs from the baseline. The p-values for each of the other site-year combinations are all quite small ?*** the largest, for Bozeman 2015, is only 0.015, indicating strong evidence that each of the site/year combinations differ from the baseline. Moreover, the effect size ranges from 4 to 7 points on the 1-100 percent scale on which Percent Lodging is measured.  The confidence intervals given give estimates of the true mean lodging at each site/year combination. If all the intervals overlapped, we might have evidence that the combinations are at least reasonably similar; however, the 2016 interval in Moccasin and the 2014/2015 Bozeman intervals do not overlap. 
+  The regression treats Bozeman 2014 as the baseline (intercept) group. Each site-year combination is tested against the   baseline; small p-values indicate that the given group differs from the baseline. The p-values for each of the other site-year combinations are all quite small.  The the largest, for Bozeman 2015, is only 0.015, indicating strong evidence that each of the site/year combinations differ from the baseline. Moreover, the effect size ranges from 4 to 7 points on the 1-100 percent scale on which Percent Lodging is measured.  The confidence intervals given give estimates of the true mean lodging at each site/year combination. If all the intervals overlapped, we might have evidence that the combinations are at least reasonably similar; however, the 2016 interval in Moccasin and the 2014/2015 Bozeman intervals do not overlap. 
   
 \includegraphics [width = 6.5in] {RegressionResults}
 <<regression, include = FALSE, eval = TRUE, warning = FALSE, message = FALSE>>=
 #Fit A Simple Regression:
 library(pander)
 lm.lodging <- lm(lodging ~ siteyear, data = as.data.frame(year.site.mat), na.action = na.omit)
+summary(lm.lodging)$fstat
 summary(lm.lodging)
-b14mean <- c(0,rep(lm.lodging$coef[1],4))
-con <- confint(lm.lodging) 
-confint.table <-  con + b14mean 
+
+#fit cell means model
+lm.cellmeans <- lm(lodging ~ siteyear -1, data = as.data.frame(year.site.mat), na.action = na.omit)
+summary(lm.cellmeans)
+pander(confint(lm.cellmeans)) #gives a better confidence interval
+
+
 @
 
 <<tables, include = FALSE, warning = FALSE, message = FALSE>>=
-#display table of results
-print(pandoc.table(lm.lodging))
-print(pandoc.table(confint.table))
+#display a better interaction plot with results
+intplot<-function (formula = NULL, data = NULL, type = "b", x.cont = FALSE, 
+          legend = TRUE, trace.label = NULL, leg.lab = NULL, fixed = FALSE, 
+          x.leg = NULL, y.leg = NULL, cex.leg = 1, ncol = 1, pch = c(16, 
+                                                                     21, 15, 22, 17, 24, c(3:14)), fun = function(x) mean(x, 
+                                                                                                                          na.rm = TRUE), ci.fun = function(x) c(fun(x) - se(x), 
+                                                                                                                                                                fun(x) + se(x)), err.width = if (length(levels(as.factor(x.factor))) > 
+                                                                                                                                                                                                   10) 0 else 0.1, err.col = col, err.lty = 1, xlim = NULL, 
+          ylim = NULL, cex = NULL, lwd = NULL, col = "black", cex.axis = 1, 
+          xaxt = "s",main=NULL ,cld=F, cldshift=0.1,cldcol="white", ...) 
+{
+  #Modifications by Mark Greenwood, September, 2014 based on interface from compareCatsL by Bryan Hanson, DePauw Univ, Jan 2010 and using the lineplot.CI from the sciplot package
+  
+  se<-function (x, na.rm = TRUE){ sqrt(var(x, na.rm = na.rm)/length(x[complete.cases(x)]))}
+  
+  fun <- eval(substitute(fun), envir = data)
+  ci.fun = eval(substitute(ci.fun),envir=data)
+    
+    #
+  
+  
+      response <- eval(parse(text=as.character(formula[[2]])),data)
+      respname<-formula[[2]]
+      x.factor <- factor(eval(parse(text=as.character(formula[[3]][3])),data))
+      xfname<-((formula[[3]][[3]]))
+      group <- factor(eval(parse(text=as.character(formula[[3]][2])),data))
+      grpname<-(formula[[3]][[2]])
+        
+    #
+    
+    
+   
+  subset = NULL
+  int.plot <- function(x.factor = x.factor, group = group, 
+                       response = response, type = c("l", "p", "b"), legend = legend, 
+                       trace.label = deparse(substitute(group)), fixed = FALSE, 
+                       xlab = deparse(xfname), ylab = ylabel, 
+                       lty = nc:1, pch = NA, xpd = NULL, leg.bg = par("bg"), 
+                       leg.bty = "n", xtick = FALSE, xlim = xlim, ylim = ylim, 
+                       axes = TRUE, ...) {
+    ylabel <- paste("Mean of ", deparse(respname), "plus/minus 1 SE")
+    mainlabel=main
+    if (is.null(mainlabel))    mainlabel<- paste("Interaction plot of", deparse(respname), "based on",deparse(xfname), "and", deparse(grpname) )
+    type <- match.arg(type)
+    cells <- tapply(response, list(x.factor, group), fun)
+    nr <- nrow(cells)
+    nc <- ncol(cells)
+    xvals <- if (x.cont) 
+      as.numeric(levels(as.factor(x.factor)))
+    else 1:nr
+    if (is.ordered(x.factor)) {
+      wn <- getOption("warn")
+      options(warn = -1)
+      xnm <- as.numeric(levels(x.factor))
+      options(warn = wn)
+      if (!any(is.na(xnm))) 
+        xvals <- xnm
+    }
+    xlabs <- rownames(cells)
+    ylabs <- colnames(cells)
+    nch <- max(sapply(ylabs, nchar, type = "width"))
+    if (is.null(xlabs)) 
+      xlabs <- as.character(xvals)
+    if (is.null(ylabs)) 
+      ylabs <- as.character(1:nc)
+    if (is.null(xlim)) {
+      xlim <- range(xvals)
+      xleg <- xlim[2] + 0.05 * diff(xlim)
+      xlim <- xlim + c(-0.2/nr, if (legend & is.null(x.leg) & 
+                                      is.null(y.leg)) 0.2 + 0.02 * nch else 0.2/nr) * 
+        diff(xlim)
+    }
+    else {
+      xlim
+      xleg <- xlim[2] - 0.25 * diff(xlim)
+    }
+    matplot(xvals, cells, ..., type = type, xlim = xlim, 
+            ylim = ylim, xlab = xlab, ylab = ylab, axes = axes, 
+            xaxt = "n", col = col, lty = lty, lwd = lwd, pch = pch,main=mainlabel)
+    if (axes && xaxt != "n") {
+      axisInt <- function(x, main, sub, lwd, bg, log, asp, 
+                          ...) axis(1, x, ...)
+      mgp. <- par("mgp")
+      if (!xtick) 
+        mgp.[2] <- 0
+      axisInt(1, at = xvals, labels = xlabs, tick = xtick, 
+              mgp = mgp., xaxt = xaxt, ...)
+    }
+    ord <- sort.list(cells[nr, ], decreasing = TRUE)
+    if (legend) {
+      yrng <- diff(ylim)
+      yleg <- ylim[2] - 0.1 * yrng
+      if (!is.null(xpd) || {
+        xpd. <- par("xpd")
+        !is.na(xpd.) && !xpd. && (xpd <- TRUE)
+      }) {
+        op <- par(xpd = xpd)
+        on.exit(par(op))
+      }
+      text(xleg, ylim[2] - 0.05 * yrng, paste("  ", trace.label), 
+           adj = 0)
+      if (!fixed) {
+        ylabs <- ylabs[ord]
+        lty <- lty[1 + (ord - 1)%%length(lty)]
+        col <- col[1 + (ord - 1)%%length(col)]
+        pch <- pch[ord]
+      }
+    }
+    invisible()
+    return.data <- if (legend) 
+      list(pch = pch, ord = ord, xleg = xleg, yleg = yleg, 
+           ylabs = ylabs, lty = lty, leg.bty = leg.bty, 
+           leg.bg = leg.bg, ord = ord, xvals = xvals, cells = cells)
+    else list(pch = pch, ord = ord, xvals = xvals)
+    return(return.data)
+  }
+  if (length(group[[1]]) > 1) 
+      group <- factor(interaction(group, lex.order = TRUE))
+    group <- factor(group)
+    groups <- list(x.factor, group)
+  
+  mn.data <- tapply(response, groups, fun)
+  CI.data <- tapply(response, groups, ci.fun)
+  plot.limits = c(min(c(unlist(mn.data), unlist(CI.data)), 
+                      na.rm = TRUE), max(c(unlist(mn.data), unlist(CI.data)), 
+                                         na.rm = TRUE))
+  if (is.null(group)) {
+    nlevels.x <- if (x.cont) 
+      as.numeric(levels(as.factor(x.factor)))
+    else 1:nrow(mn.data)
+    plot(nlevels.x, mn.data, xaxt = "n", type = type, col = col, 
+         pch = NA, cex = cex, cex.axis = cex.axis, lwd = lwd, 
+         xlim = if (is.null(xlim)) {
+           c(min(nlevels.x) - 0.2, max(nlevels.x) + 0.2)
+         }
+         else xlim, ylim = if (is.null(ylim)) 
+           plot.limits
+         else ylim, ...)
+    if (xaxt != "n") 
+      axis(1, labels = names(mn.data), at = nlevels.x, 
+           cex.axis = cex.axis, ...)
+  }
+  else leg.vals <- int.plot(x.factor, group, response, type = type, 
+                            xlim = xlim, ylim = if (is.null(ylim)) 
+                              plot.limits
+                            else ylim, cex.axis = cex.axis, trace.label = trace.label, 
+                            pch = NA, legend = legend, ...)
+  if (is.null(group)) {
+    nlevels.x <- if (x.cont) 
+      as.numeric(levels(as.factor(x.factor)))
+    else 1:nrow(mn.data)
+    CI.seln <- !is.na(mn.data)
+    CI.plot <- matrix(unlist(CI.data[CI.seln]), nrow = sum(CI.seln), 
+                      byrow = TRUE)
+    arrows(nlevels.x[CI.seln], CI.plot[, 1], nlevels.x[CI.seln], 
+           CI.plot[, 2], angle = 90, col = err.col, length = err.width, 
+           code = 3, lwd = lwd, lty = err.lty)
+  }
+  else {
+    nlevels.y <- ncol(mn.data)
+    for (i in 1:nlevels.y) {
+      CI.seln <- !is.na(mn.data)[, i]
+      CI.plot <- matrix(unlist(CI.data[CI.seln, i]), nrow = sum(CI.seln), 
+                        byrow = TRUE)
+      arrows(leg.vals$xvals[CI.seln], CI.plot[, 1], leg.vals$xvals[CI.seln], 
+             CI.plot[, 2], angle = 90, length = err.width, 
+             col = if (length(err.col) > 1) 
+               err.col[i]
+             else err.col, lty = if (length(err.lty) > 1) 
+               err.lty[i]
+             else err.lty, code = 3, lwd = lwd)
+    }
+  }
+  if (type %in% c("p", "b")) {
+    if (is.null(group)) {
+      nlevels.x <- if (x.cont) 
+        as.numeric(levels(as.factor(x.factor)))
+      else 1:nrow(mn.data)
+      points(nlevels.x, mn.data, pch = pch[1], bg = "white", 
+             cex = cex, col = col)
+    }
+    else {
+      nlevels.y <- dim(mn.data)[2]
+      for (i in 1:nlevels.y) points(leg.vals$xvals, mn.data[, 
+                                                            i], pch = pch[i], bg = "white", col = if (length(col) > 
+                                                                                                        1) 
+                                                              col[i]
+                                    else col, cex = cex)
+    }
+  }
+  if (legend & !is.null(group)) {
+    legend(x = if (is.null(x.leg)) 
+      leg.vals$xleg
+      else x.leg, y = if (is.null(y.leg)) 
+        leg.vals$yleg
+      else y.leg, legend = if (!is.null(leg.lab)) 
+        leg.lab
+      else {
+        if (fixed) 
+          levels(as.factor(unlist(group)))
+        else leg.vals$ylabs
+      }, pch = if (type %in% c("p", "b")) {
+        if (!fixed) 
+          pch[leg.vals$ord]
+        else pch
+      }, col = if (type %in% c("p", "b")) {
+        if (!fixed & length(col) > 1) 
+          col[leg.vals$ord]
+        else col
+      }, lty = if (type %in% c("l", "b")) {
+        if (fixed) 
+          leg.vals$lty[order(leg.vals$ord)]
+        else leg.vals$lty
+      }, ncol = ncol, bty = leg.vals$leg.bty, bg = leg.vals$leg.bg, 
+      cex = cex.leg)
+  }
+  if (cld==T){
+    #First, flatten two way model and run Tukey HSD
+    #Create interaction version of two-way ANOVA model:
+    intvar<-interaction(x.factor,group)
+    require(multcomp)
+    cldres<-cld(glht(lm(response~intvar),linfct=mcp(intvar="Tukey")))
+    ymeans<-predict(lm(response~intvar),newdata=data.frame(intvar=levels(intvar)))
+    #Then put letters from compact letter display (CLD) on the plot at close to correct locations
+    if (cldcol=="white"){cldcol<-as.numeric((data.frame(cldres$mcletters$Letters))[,1])+1}
+    #Need x-location from x.factor
+    text(x=rep(1:length(levels(x.factor)),length(unique(group))),y=ymeans+cldshift, labels=cldres$mcletters$Letters,col=cldcol,cex=1.3*cex.axis)
+    
+    
+  }
+  
+  invisible(list(vals = mn.data, CI = CI.data))
+}
+
+intplot(lodging ~ site * year)
+
 @
 \subsection{Discussion}
 This analysis indicates that the measurements taken at each site in each year should be treated separately; they should not be considered homogeneous enough to be taken as a single group.  The inclusion of 2013 into the data is unlikely to change the results of this study because the differences between the combinations already considered are enough to justify splitting the dataset into separate groups. 
