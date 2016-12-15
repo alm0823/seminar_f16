@@ -505,7 +505,9 @@ year.site.mat <- matrix(cbind(lodging,site,year,siteyear))
 \subsection{Exploratory Analysis} 
 The data were collected over a period of 4 field seasons at sites in Bozeman and 2 field seasons in Moccasin. Phenotypic data were analyzed in order to determine whether conditions were similar enough at each year/site combination to consider as a single dataset, or if they differ by enough that the sites and years need to be considered as different groups.  
 
-Though QTL analyses of all phenotypic traits of is interest, lodging is the primary response of interest. Therefore, we examine the Percent Lodging measured at each site/year combination. Note that Percent Lodging is not measured in the 2013 Bozeman data; we did not include it in this analysis. Given the result of the analysis, we do not need to consider it into the analysis to determine that there are differences in the year/site combinations. {\it The previous sentence doesn't make sense.} Visually, we can create beanplots to assess the differences mean percent lodging at each year/site combination.  These show both the variability of the distribution, like a traditional boxplot would, as well as information about the skew and modes. Over all years in Bozeman it appears that the distribution of lodging was slightly more variable {\it clarify - more variable than Mocassin or just bz16?}; however, for some reason in 2016 the Bozeman site exhibited positive skew.  This indicates that in 2016, the majority of pea plants were lodged to a lesser degree than in 2015 or 2014.  The horizontal black bars indicate the original data values. 
+Though QTL analyses of all phenotypic traits is of interest, lodging is considered the primary response. Therefore, we examine the Percent Lodging measured at each site/year combination. Note that Percent Lodging is not measured in the 2013 Bozeman data; we did not include it in this analysis.
+
+Visually, we can create beanplots to assess the differences mean percent lodging at each year/site combination.  These show both the variability of the distribution, like a traditional boxplot would, as well as information about the skew and modes. Over all years in Bozeman it appears that the distribution of lodging was slightly more variable than for sites in Moccasin; however, for some reason in 2016 the Bozeman site exhibited positive skew.  This indicates that in 2016, the majority of pea plants were lodged to a lesser degree than in 2015 or 2014.  The horizontal black bars indicate the original data values. 
 
 
 <<meanvars, include = TRUE, eval = TRUE, warning = FALSE>>=
@@ -524,6 +526,7 @@ d.var <- var(moc15$Lodging, na.rm = TRUE)
 e.var <- var(moc16$X.lodging.2016, na.rm = TRUE) 
 
 #Bean Plots (Side by Side)
+library(beanplot)
 beanplot(lodging~siteyear, cex = .8, col = c("gold2","black","red","blue"), main = "Lodging at each site/year combination", ylab = "Percent Lodging", names = c("BZ14","BZ15","BZ16","Moc15","Moc16"))
 @
 
@@ -765,7 +768,7 @@ intplot<-function (formula = NULL, data = NULL, type = "b", x.cont = FALSE,
   invisible(list(vals = mn.data, CI = CI.data))
 }
 
-intplot(lodging ~ site * year)
+intplot(lodging ~ site * year, col = c("red","blue"), lwd = 2)
 
 @
 
@@ -786,6 +789,7 @@ summary(lm.lodging)
 #fit cell means model
 lm.cellmeans <- lm(lodging ~ siteyear -1, data = as.data.frame(year.site.mat), na.action = na.omit)
 summary(lm.cellmeans)
+confint(lm.cellmeans)
  #gives a better confidence interval summarized in Regression Results document
 @
 
@@ -1005,7 +1009,7 @@ LOD is related to the F statistic. LOD = $\frac{n}{2} \times [F({\frac{df}{n-df-
 
 \section{Future Work}
 
-Future work with Jamin should be more focused with the QTL analysis. Jamin currently is using the MapDisto macro in Excel and QTL Cartographer to do preliminary QTL analyses. Both programs provide extensive documentation on their functions. R is a common program for statisticians to use, and discussion around whether packages such as {\texttt QTL} in R or outside programs should be used in the final analysis would be beneficial. While identifying specific genetic markers associated with the most variation in phenotypic traits is the end goal of the project, a QTL analysis has many steps that should be taken before using outputted results. Broman and Sen (2009) is a good reference for a basic QTL analysis. Because Jamin is interested in genetic variation associated with all phenotypic traits, the correlations between the traits should be accounted for in the final analysis. Adding in the recommendation to not combine across sites and years, we suggest the direction of the final QTL analysis done to be in a multi-trait, multi-environment setting. A resource for an introduction to the multi-trait, multi-environment setting in QTL analyses is referenced by Margarido et al. (2015).
+Future work with Jamin should be more focused with the QTL analysis and developing p-value based thresholds for significance. Jamin currently is using the MapDisto macro in Excel and QTL Cartographer to do preliminary QTL analyses. Both programs provide extensive documentation on their functions. R is a common program for statisticians to use, and discussion around whether packages such as {\texttt QTL} in R or outside programs should be used in the final analysis would be beneficial. While identifying specific genetic markers associated with the most variation in phenotypic traits is the end goal of the project, a QTL analysis has many steps that should be taken before using outputted results. Broman and Sen (2009) is a good reference for a basic QTL analysis. Because Jamin is interested in genetic variation associated with all phenotypic traits, the correlations between the traits should be accounted for in the final analysis. Adding in the recommendation to not combine across sites and years, we suggest the direction of the final QTL analysis done to be in a multi-trait, multi-environment setting. A resource for an introduction to the multi-trait, multi-environment setting in QTL analyses is referenced by Margarido et al. (2015).
 
 \newpage
 \section*{References}
