@@ -174,8 +174,12 @@ mergedbzn = mergedbzn[, c(5:6, 1:4, 7:14)]
 ##Plot Correlation
 #install.packages("psych")
 require(psych)
+library(corrplot)
 pairs.panels(mergedbzn)
+corrplot.mixed(cor(mergedbzn[,-3], use="complete.obs")) 
+
 @
+
 
 <<siteyear, include = TRUE, eval = TRUE, warning = FALSE>>=
 #setwd("C:/Users/Paul/Documents")
