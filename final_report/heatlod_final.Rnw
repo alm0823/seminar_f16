@@ -240,7 +240,7 @@ colnames(bozeman16)[colnames(bozeman16)=="avg_root_diam_boze_2016"] <- "root_dia
 ##Correlation
 #install.packages("psych")
 require(psych)
-pairs.panels(bozeman16)
+#pairs.panels(bozeman16)
 
 #names(bozeman16)
 
@@ -533,7 +533,7 @@ beanplot(lodging~siteyear, cex = .8, col = c("gold2","black","red","blue"), main
 
 \subsection{Interaction Plot}
 If the sites are reasonably similar, we would expect to see parallel lines that are either overlapping or very near each other.  The red line for Bozeman indicates that average percent lodging was higher in Bozeman than in Moccasin in both 2015 and 2016.  The bars indicate the variability of lodging for each year in Bozeman - it appears that for most years, Bozeman was slightly more variable than Moccasin. While the blue line and red line are both decreasing from 2015 to 2016, the difference in slopes indicates that there may be some interaction between year/site combinations.  More formal testing is necessary to assess differences between year and site combinations, but this visualization indicates some evidence of a difference in lodging in each location and year.
-<<tables, include = FALSE, warning = FALSE, message = FALSE>>=
+<<tables, include = TRUE, warning = FALSE, message = FALSE>>=
 #display a better interaction plot with results
 intplot<-function (formula = NULL, data = NULL, type = "b", x.cont = FALSE, 
           legend = TRUE, trace.label = NULL, leg.lab = NULL, fixed = FALSE, 
