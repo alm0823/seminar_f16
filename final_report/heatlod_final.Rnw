@@ -92,7 +92,7 @@ datf1_bz16[is.na(datf1_bz16)] <- "missing"
 @
 
 \section{Introduction}
-Jamin is a Ph.D. student in the Department of Plant Sciences and Plant Pathology at MSU. The primary focus is his research is to associate variation in genetic expression with variation in the expression of several phenotypic traits. Genotypic and pheynotypic data were collected on 257 varieties of pea, from two locations (Bozeman and Moccasin), in YEARS. Phenotypic data includes percent lodging, tendril length, tendril node length, nodes at 1st flow, maximum number of nodes, germination, number of branches, plant height, plant length, average total yield, main stem diameter, tiller diameter, ``comp" tiller diameter, and maturation time, totaling 14 traits. Data from 609 genetic markers were collected. The end result of Jamin's research will include a quantitative trait loci (QTL) analysis which will inform him about which genetic markers variation in genetic marker expression associated with variation in phenotypic traits. Prior to the QTL analysis, understanding of the data and methods are necessary. The report includes:
+Jamin is a Ph.D. student in the Department of Plant Sciences and Plant Pathology at MSU. The primary focus is his research is to associate variation in genetic expression with variation in the expression of several phenotypic traits. Genotypic and pheynotypic data were collected on 257 varieties of pea, from two locations (Bozeman and Moccasin), over 4 years. Phenotypic data includes percent lodging, tendril length, tendril node length, nodes at 1st flow, maximum number of nodes, germination, number of branches, plant height, plant length, average total yield, main stem diameter, tiller diameter, ``comp" tiller diameter, and maturation time, totaling 14 traits. Data from 609 genetic markers were collected. The end result of Jamin's research will include a quantitative trait loci (QTL) analysis. Prior to the QTL analysis, understanding of the data and methods are necessary. The report includes:
 
 \begin{itemize}
 
@@ -108,10 +108,10 @@ Jamin is a Ph.D. student in the Department of Plant Sciences and Plant Pathology
 \end{itemize}
 
 \section{Correlation Plots}
-Correlation describes the strength and direction of a linear association. Specifically, this analysis examines Pearson Correlations because the variables are measured on a quantitative scale.  The strength of the linear association between variables is measured on a scale between -1 (a perfect negative association) and 1 (a perfect positive association). Correlation does not imply causal relationships. In examining, for instance, the relationship between lodging and stem width, the pearson correlation would only give information about the linear association between the two variables.  Indeed, even a strong association between the two variables cannot be interpreted that stem width causes lodging; rather, we would simply say that the two variables are associated with each other.  Since the phenotypes in each year at each site are considered separate response values, we consider fitting correlation plots for each site/year combination. 
+Correlation describes the strength and direction of a linear association. Specifically, this analysis examines Pearson Correlations because the variables are measured on a quantitative scale.  Correlation is measured on a scale between -1 (a perfect negative linear association) and 1 (a perfect positive linear association). Correlation does not imply causal relationships. In examining, for instance, the relationship between lodging and stem width, the Pearson Correlation would only give information about the linear association between the two variables.  A strong association between the two variables cannot be interpreted as stem width causes lodging; rather, we would simply say that the two variables are associated with each other. Other confounding variables, such as climate, may be driving both. Since the phenotypes in each year at each site are considered separate response values, we consider fitting correlation plots for each site/year combination. 
 
 \subsection{Sites and Years Combined}
-
+{\it Remove combined correlation plot based on last sentence in correlation description paragraph?}
 The correlation between pairwise explanatory variables of the phenotypic data were assessed using the a pairwise correlation matrix. We assessed the pairwise correlations across sites for pairs of explanatory variables which were measured within these sites at least in two different years.
 
 The pairwise correlation matrix below shows that germination which was measured in Bozeman for all 3 years has weak correlation against all the variables measured. Also results from Bozeman shows that tendril length node of the plant was moderately to strongly correlated with the average length and tendril length of the plant with correlation coefficients of 0.61 and 0.48 respectively. The branch number and tiller diameter of the plant were also moderately correlated (r = 0.47). The maturity time of the plant was strongly and moderately correlated with the maximum nodes (r=0.65) and nodes of 1st flow (r=0.48). In addition, a correlation coefficient of 0.81 was observed for nodes 1st flow and maximum nodes of the plants.
@@ -505,7 +505,7 @@ year.site.mat <- matrix(cbind(lodging,site,year,siteyear))
 \subsection{Exploratory Analysis} 
 The data were collected over a period of 4 field seasons at sites in Bozeman and 2 field seasons in Moccasin. Phenotypic data were analyzed in order to determine whether conditions were similar enough at each year/site combination to consider as a single dataset, or if they differ by enough that the sites and years need to be considered as different groups.  
 
-Because lodging is considered the response of interest, we examine the Percent Lodging measured at each site/year combination. Note that Percent Lodging is not measured in the 2013 Bozeman data; we did not include it in this analysis. Given the result of the analysis, we do not need to consider it into the analysis to determine that there are differences in the year/site combinations.  Visually, we can create beanplots to assess the differences mean percent lodging at each year/site combination.  These show both the variability of the distribution, like a traditional boxplot would, as well as information about the skew and modes. In Bozeman in all years, it appears that the distribution of lodging was slightly more variable; however, for some reason in 2016 the Bozeman site exhibited positive skew.  This indicates that in 2016, the majority of pea plants were lodged to a lesser degree than in 2015 or 2014.  The horizontal black bars indicate the original data values. 
+Though QTL analyses of all phenotypic traits of is interest, lodging is the primary response of interest. Therefore, we examine the Percent Lodging measured at each site/year combination. Note that Percent Lodging is not measured in the 2013 Bozeman data; we did not include it in this analysis. Given the result of the analysis, we do not need to consider it into the analysis to determine that there are differences in the year/site combinations. {\it The previous sentence doesn't make sense.} Visually, we can create beanplots to assess the differences mean percent lodging at each year/site combination.  These show both the variability of the distribution, like a traditional boxplot would, as well as information about the skew and modes. Over all years in Bozeman it appears that the distribution of lodging was slightly more variable {\it clarify - more variable than Mocassin or just bz16?}; however, for some reason in 2016 the Bozeman site exhibited positive skew.  This indicates that in 2016, the majority of pea plants were lodged to a lesser degree than in 2015 or 2014.  The horizontal black bars indicate the original data values. 
 
 
 <<meanvars, include = TRUE, eval = TRUE, warning = FALSE>>=
@@ -771,9 +771,9 @@ intplot(lodging ~ site * year)
 
 \pagebreak
 \subsection{Regression Model and Pairwise Comparisons}
-  The regression treats Bozeman 2014 as the baseline (intercept) group. We can test whether or not the site-year combinations are equal using an overall F-test. This test, using 4 and 1205 Degrees of Freedom, yields a p-value less than 0.000001. This indicates strong evidence that the site/year combinations are not all the same. 
+Bozeman 2014 was treated as the baseline group. An overall F test using 4 and 1205 degrees of freedom to assess evidence against all site-year combinations yields a p-value less than 0.000001. There is strong evidence that the site/year combinations are not all the same. 
   
-We include 95 percent confidence intervals for the true mean percent lodging at each site-year combination. In order to get a better sense for which groups differ, we performed Tukey-Kramer pairwise comparisons. The results of that analysis are included below. In the plot below, we can see that the combinations that differed were between Bozeman 2015 and Bozeman 2014, as well as between Moccasin 2015 and Bozeman 2016, and between Moccasin 2016 with Bozeman in 2015 and 2016. Given that Bozeman 2015 had such a large mean relative to the other site/year combinations, this is not a surprising result. 
+We include 95 percent confidence intervals for the true mean percent lodging at each site-year combination. In order to get a better sense for which groups differ, we performed Tukey-Kramer pairwise comparisons to adjust for multiple testing. The results of that analysis are included below. The plot below shows differing pairwise combinations were between Bozeman 2015 and Bozeman 2014, as well as between Moccasin 2015 and Bozeman 2016, and between Moccasin 2016 with Bozeman in 2015 and 2016. Given that Bozeman 2015 had such a large mean relative to the other site/year combinations, this is not a surprising result. 
   
 \includegraphics [width = 6.5in] {RegressionResults}
 <<regression, include = FALSE, eval = TRUE, warning = FALSE, message = FALSE>>=
@@ -899,7 +899,7 @@ ggplot(dat25_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
         axis.text.y = element_blank())
 @
 \pagebreak
-\subsection{Less than 30\% Missing}
+\subsection{25\% - 30\% Missing}
 
 <<missing.plot30,fig.height=8, warning = FALSE>>=
 
@@ -913,7 +913,7 @@ ggplot(dat30_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
         axis.text.y = element_text(angle = 0, hjust = 1, size = 1))
 @
 \pagebreak
-\subsection{Less than 35\% Missing}
+\subsection{30\% - 35\% Missing}
 
 
 <<missing.plot35, fig.height=8, warning = FALSE, message = FALSE>>=
@@ -928,7 +928,7 @@ ggplot(dat35_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
         axis.text.y = element_text(angle = 90, hjust = 1, size = 1))
 @
 \pagebreak
-\subsection{Less than 40\% Missing}
+\subsection{35\% - 40\% Missing}
 
 
 <<missing.plot40, fig.height=8, warning = FALSE, message = FALSE>>=
@@ -989,7 +989,7 @@ summary(phen_bz16)
 
 \section{Setting Significance Thresholds}
 
-The pea genetic data include over 600 genetic markers. When a QTL analysis is done, a significance test is done for each marker. Multiple testing problems are quite common in genetic analyses. Jamin mentioned he would like to use LOD for setting a significance threshold. LOD is an abbreviation for the log-odds. LOD is the $log_{10}$ likelihood ratio comparing the null that there is not a QTL to the alternative, that there is.
+The pea genetic data include over 600 genetic markers. When a QTL analysis is done, a significance test is done at each marker. Multiple testing problems are quite common in genetic analyses. Jamin mentioned he would like to use LOD for setting a significance threshold. LOD is an abbreviation for the log-odds. LOD is the $log_{10}$ likelihood ratio comparing the null that there is not a QTL to the alternative, that there is.
 
 Null Model, $H_{o}: y_{i} \sim N(\mu, \sigma^2)$ i.e. there is no genetic dependency between the phenotype and the genotype
 
@@ -1001,11 +1001,11 @@ Alternative Model, $H_{a}: y_{i}|g_{i} \sim N(\mu_{g_{i}}, \sigma^2)$
 
 LOD = $\frac{n}{2} \times log_{10}(\frac{RSS_{o}}{RSS_{1}})$
 
-LOD is related to the F statistic. LOD = $\frac{n}{2} \times [F({\frac{df}{n-df-1} + 1)]$ and similar to the F statistic, large LOD values are associated with strong evidence for the alternative, that there is a relationship to the genetic loci and the phenotype. Since F statistics help find p-values, and LOD is related to F statistics, by setting genome wide adjusted LOD thresholds, we can easily convert these back to genome wide adjusted p-values. Broman and Sen (2009) provide a method for generating genome wide adjusted LOD thresholds, and the corresponding genome-wide adjusted p-value thresholds in Section 4.3 using the {\texttt QTL} package in R. Future work with Jamin from the Consulting Seminar would benefit from exploring using this simulation method for setting the significance thresholds. Once the data is formatted as a cross object, the method is straightforward.
+LOD is related to the F statistic. LOD = $\frac{n}{2} \times [F({\frac{df}{n-df-1} + 1)]$ and similar to the F statistic, large LOD values are associated with strong evidence for the alternative, that there is a relationship to the genetic loci and the phenotype. Since F statistics help find p-values, and LOD is related to F statistics, by setting genome wide adjusted LOD thresholds, we can easily convert these back to genome wide adjusted p-values. Broman and Sen (2009) provide a simulation based method for generating genome wide adjusted LOD thresholds, and the corresponding genome-wide adjusted p-value thresholds in Section 4.3 using the {\texttt QTL} package in R. 
 
 \section{Future Work}
 
-Future work with Jamin should be more focused with the QTL analysis. Jamin currently is using the MapDisto macro in Excel and QTL Cartographer to do preliminary QTL analyses. Both programs provide extensive documentation on their functions. R is a common program for statisticians to use, and discussion around whether packages such as {\texttt QTL} in R or outside programs should be used in the final analysis would be beneficial. While identifying specific genetic markers associated with the most variation in phenotypic traits is the end goal of the project, a QTL analysis has many steps that should be taken before using outputted results. Broman and Sen (2009) is a good beginning reference for a QTL analysis. Because Jamin is interested in genetic variation associated with all phenotypic traits, the correlations between the traits should be accounted for in the final analysis. Adding in the recommendation to not combine across sites and years, we suggest the direction of the final QTL analysis done to include be in a multi-trait, multi-environment setting. A resource for an introduction to the multi-trait, multi-environment setting in QTL analyses is referenced by Margarido et al. (2015) as a potential starting point for the complex model that is suggested by the initial exploration done in this document.
+Future work with Jamin should be more focused with the QTL analysis. Jamin currently is using the MapDisto macro in Excel and QTL Cartographer to do preliminary QTL analyses. Both programs provide extensive documentation on their functions. R is a common program for statisticians to use, and discussion around whether packages such as {\texttt QTL} in R or outside programs should be used in the final analysis would be beneficial. While identifying specific genetic markers associated with the most variation in phenotypic traits is the end goal of the project, a QTL analysis has many steps that should be taken before using outputted results. Broman and Sen (2009) is a good reference for a basic QTL analysis. Because Jamin is interested in genetic variation associated with all phenotypic traits, the correlations between the traits should be accounted for in the final analysis. Adding in the recommendation to not combine across sites and years, we suggest the direction of the final QTL analysis done to be in a multi-trait, multi-environment setting. A resource for an introduction to the multi-trait, multi-environment setting in QTL analyses is referenced by Margarido et al. (2015).
 
 \newpage
 \section*{References}
@@ -1014,7 +1014,7 @@ Future work with Jamin should be more focused with the QTL analysis. Jamin curre
 \setlength{\parskip}{3pt}
 \noindent
 
-Margarido et al. 2015. {\it Multi-trait multi-environment quantitative trait loci mapping for a sugarcane commerical cross provides insights on the inheritance of important traits}. Mol Breeding 35:175.
+Margarido et al. 2015. {\it Multi-trait multi-environment quantitative trait loci mapping for a sugarcane commercial cross provides insights on the inheritance of important traits}. Mol Breeding 35:175.
 
 Broman and Sen. 2009. {\it A guide to QTL mapping with R/QTL}. New York: Spring Science+Business Media. Retrieved from 
 
