@@ -504,7 +504,9 @@ year.site.mat <- matrix(cbind(lodging,site,year,siteyear))
 
 \subsection{Exploratory Analysis} 
 The data were collected over a period of 4 field seasons at sites in Bozeman and 2 field seasons in Moccasin. Phenotypic data were analyzed in order to determine whether conditions were similar enough at each year/site combination to consider as a single dataset, or if they differ by enough that the sites and years need to be considered as different groups.  
-Because lodging is considered the response of interest, we examine the Percent Lodging measured at each site/year combination. Note that Percent Lodging is not measured in the 2013 Bozeman data; we did not include it in this analysis. Given the result of the analysis, we do not need to consider it into the analysis to determine that there are differences in the year/site combinations.  Visually, we can create beanplots to assess the differences mean percent lodging at each year/site combination.  Below, we have percent lodging at each site. Moccasin appears to have, in both years, slighly less variability in lodging than Bozeman.
+
+Because lodging is considered the response of interest, we examine the Percent Lodging measured at each site/year combination. Note that Percent Lodging is not measured in the 2013 Bozeman data; we did not include it in this analysis. Given the result of the analysis, we do not need to consider it into the analysis to determine that there are differences in the year/site combinations.  Visually, we can create beanplots to assess the differences mean percent lodging at each year/site combination.  These show both the variability of the distribution, like a traditional boxplot would, as well as information about the skew and modes. In Bozeman in all years, it appears that the distribution of lodging was slightly more variable; however, for some reason in 2016 the Bozeman site exhibited positive skew.  This indicates that in 2016, the majority of pea plants were lodged to a lesser degree than in 2015 or 2014.  The horizontal black bars indicate the original data values. 
+
 
 <<meanvars, include = TRUE, eval = TRUE, warning = FALSE>>=
 #plots of percent lodging at each site #means
@@ -528,33 +530,6 @@ beanplot(lodging~siteyear, cex = .8, col = c("gold2","black","red","blue"), main
 
 \subsection{Interaction Plot}
 If the sites are reasonably similar, we would expect to see parallel lines that are either overlapping or very near each other.  The red line for Bozeman indicates that average percent lodging was higher in Bozeman than in Moccasin in both 2015 and 2016.  The bars indicate the variability of lodging for each year in Bozeman - it appears that for most years, Bozeman was slightly more variable than Moccasin. While the blue line and red line are both decreasing from 2015 to 2016, the difference in slopes indicates that there may be some interaction between year/site combinations.  More formal testing is necessary to assess differences between year and site combinations, but this visualization indicates some evidence of a difference in lodging in each location and year.
-
-<<interactionplot, include = TRUE, eval = TRUE>>=
-plot(seq(2014,2016,by = 1),c(a,b,c), type = "l", ylim = c(30,45),xaxt = 'n', main = "Interaction Plot", col = "tomato2", lwd = 2, xlab = "Year", ylab = "Mean Percent Lodging") 
-axis(side=1,at = c(2014,2015,2016),labels = TRUE)
-lines(x = c(2015,2016), y = c(d,e), type = "l", col = "blue", lwd = 2)
-legend('topright', fill = c("tomato2","blue"), legend = c("Bozeman", "Moccasin"))
-@
-\pagebreak
-\subsection{Regression Model}
-  The regression treats Bozeman 2014 as the baseline (intercept) group. Each site-year combination is tested against the   baseline; small p-values indicate that the given group differs from the baseline. The p-values for each of the other site-year combinations are all quite small.  The the largest, for Bozeman 2015, is only 0.015, indicating strong evidence that each of the site/year combinations differ from the baseline. Moreover, the effect size ranges from 4 to 7 points on the 1-100 percent scale on which Percent Lodging is measured.  The confidence intervals given give estimates of the true mean lodging at each site/year combination. If all the intervals overlapped, we might have evidence that the combinations are at least reasonably similar; however, the 2016 interval in Moccasin and the 2014/2015 Bozeman intervals do not overlap. 
-  
-\includegraphics [width = 6.5in] {RegressionResults}
-<<regression, include = FALSE, eval = TRUE, warning = FALSE, message = FALSE>>=
-#Fit A Simple Regression:
-library(pander)
-lm.lodging <- lm(lodging ~ siteyear, data = as.data.frame(year.site.mat), na.action = na.omit)
-summary(lm.lodging)$fstat
-summary(lm.lodging)
-
-#fit cell means model
-lm.cellmeans <- lm(lodging ~ siteyear -1, data = as.data.frame(year.site.mat), na.action = na.omit)
-summary(lm.cellmeans)
-pander(confint(lm.cellmeans)) #gives a better confidence interval
-
-
-@
-
 <<tables, include = FALSE, warning = FALSE, message = FALSE>>=
 #display a better interaction plot with results
 intplot<-function (formula = NULL, data = NULL, type = "b", x.cont = FALSE, 
@@ -793,8 +768,40 @@ intplot<-function (formula = NULL, data = NULL, type = "b", x.cont = FALSE,
 intplot(lodging ~ site * year)
 
 @
+
+\pagebreak
+\subsection{Regression Model and Pairwise Comparisons}
+  The regression treats Bozeman 2014 as the baseline (intercept) group. We can test whether or not the site-year combinations are equal using an overall F-test. This test, using 4 and 1205 Degrees of Freedom, yields a p-value less than 0.000001. This indicates strong evidence that the site/year combinations are not all the same. 
+  
+We include 95 percent confidence intervals for the true mean percent lodging at each site-year combination. In order to get a better sense for which groups differ, we performed Tukey-Kramer pairwise comparisons. The results of that analysis are included below. It appears that the 
+  
+\includegraphics [width = 6.5in] {RegressionResults}
+<<regression, include = FALSE, eval = TRUE, warning = FALSE, message = FALSE>>=
+#Fit A Simple Regression:
+library(pander)
+lm.lodging <- lm(lodging ~ siteyear, data = as.data.frame(year.site.mat), na.action = na.omit)
+summary(lm.lodging)$fstat
+summary(lm.lodging)
+
+#fit cell means model
+lm.cellmeans <- lm(lodging ~ siteyear -1, data = as.data.frame(year.site.mat), na.action = na.omit)
+summary(lm.cellmeans)
+pander(confint(lm.cellmeans)) #gives a better confidence interval
+@
+
+<<tukey, include = TRUE, eval = TRUE, warning = FALSE, message = FALSE>>=
+#Tukey HSD comparisons
+diffs <- TukeyHSD(aov(lodging~siteyear))
+col <- ifelse(diffs$siteyear[,4]>.05,"blue","red")
+par(mar = c(2.5,10,3.5,1))
+plot(diffs, col = col, cex.axis = .7, las = 2)
+
+
+@
+
+
 \subsection{Discussion}
-This analysis indicates that the measurements taken at each site in each year should be treated separately; they should not be considered homogeneous enough to be taken as a single group.  The inclusion of 2013 into the data is unlikely to change the results of this study because the differences between the combinations already considered are enough to justify splitting the dataset into separate groups. 
+This analysis indicates that the measurements taken at each site in each year should be treated separately; they should not be considered homogeneous enough to be taken as a single group.  The inclusion of 2013 into the data is unlikely to change the results of this study because the differences between the combinations already considered are enough to justify splitting the dataset into separate groups.  However, it may facilitate future calculations to consider converting lodging measurements in Bozeman in 2013 from likert-scale format (on a 1-4 scale) to the same "percent-lodging" variable that is used in subsequent years. 
 
 
 \pagebreak
