@@ -773,20 +773,20 @@ intplot(lodging ~ site * year)
 \subsection{Regression Model and Pairwise Comparisons}
   The regression treats Bozeman 2014 as the baseline (intercept) group. We can test whether or not the site-year combinations are equal using an overall F-test. This test, using 4 and 1205 Degrees of Freedom, yields a p-value less than 0.000001. This indicates strong evidence that the site/year combinations are not all the same. 
   
-We include 95 percent confidence intervals for the true mean percent lodging at each site-year combination. In order to get a better sense for which groups differ, we performed Tukey-Kramer pairwise comparisons. The results of that analysis are included below. It appears that the 
+We include 95 percent confidence intervals for the true mean percent lodging at each site-year combination. In order to get a better sense for which groups differ, we performed Tukey-Kramer pairwise comparisons. The results of that analysis are included below. In the plot below, we can see that the combinations that differed were between Bozeman 2015 and Bozeman 2014, as well as between Moccasin 2015 and Bozeman 2016, and between Moccasin 2016 with Bozeman in 2015 and 2016. Given that Bozeman 2015 had such a large mean relative to the other site/year combinations, this is not a surprising result. 
   
 \includegraphics [width = 6.5in] {RegressionResults}
 <<regression, include = FALSE, eval = TRUE, warning = FALSE, message = FALSE>>=
 #Fit A Simple Regression:
 library(pander)
 lm.lodging <- lm(lodging ~ siteyear, data = as.data.frame(year.site.mat), na.action = na.omit)
-summary(lm.lodging)$fstat
+summary(lm.lodging)$fstat #gives the f-stat included in the above image
 summary(lm.lodging)
 
 #fit cell means model
 lm.cellmeans <- lm(lodging ~ siteyear -1, data = as.data.frame(year.site.mat), na.action = na.omit)
 summary(lm.cellmeans)
-pander(confint(lm.cellmeans)) #gives a better confidence interval
+ #gives a better confidence interval summarized in Regression Results document
 @
 
 <<tukey, include = TRUE, eval = TRUE, warning = FALSE, message = FALSE>>=
