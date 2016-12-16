@@ -118,7 +118,7 @@ The pairwise correlation matrix below shows that germination which was measured 
 
 In Moccasin, only four variables were observed to have been measured both in 2015 and 2016. Of these variables, the length and main stem diameter of the plants are moderately correlated (r=-0.55). Also, the main stem diameter and root diameter of the plants are moderately correlated (r=0.45).
 
-<<merged, warning = FALSE, message = FALSE>>=
+<<merged, warning = FALSE, message = FALSE, fig.width = 7, fig.height = 6>>=
 ##Load Data (Bozeman 2014)
 #setwd("C:/Users/Paul/Documents")
 mergedbzn<-read.csv("Merged Bozeman.csv",header=T)
@@ -175,9 +175,10 @@ mergedbzn = mergedbzn[, c(5:6, 1:4, 7:14)]
 #install.packages("psych")
 require(psych)
 library(corrplot)
-pairs.panels(mergedbzn)
-corrplot.mixed(cor(mergedbzn[,-3], use="complete.obs")) 
-
+#pairs.panels(mergedbzn)
+correlation.1 <- cor(na.omit(mergedbzn[,c(1,2,4,5,6,7,8,9,10,11,12,13)]))
+corrplot.mixed(correlation.1, tl.pos = 'lt', upper = "square", cex.axis = .9)
+title("Bozeman All Years")
 @
 
 
@@ -227,11 +228,11 @@ bozeman16<-bz16
 library(data.table)
 
 ##Relabeling COlumns
-colnames(bozeman16)[colnames(bozeman16)=="pctg_Lodging_boze_2016"] <- "prcnt_lodging"
+colnames(bozeman16)[colnames(bozeman16)=="pctg_Lodging_boze_2016"] <- "pct_lodging"
 colnames(bozeman16)[colnames(bozeman16)=="GerminateNABozemanNA2016"] <- "germination"
-colnames(bozeman16)[colnames(bozeman16)=="Avg_brnch_numb_boz_2016"] <- "branch_numb"
-colnames(bozeman16)[colnames(bozeman16)=="avg_height_boze_2016"] <- "avg_plant_height"
-colnames(bozeman16)[colnames(bozeman16)=="avg_length_boze_2016"] <- "avg_plant_length"
+colnames(bozeman16)[colnames(bozeman16)=="Avg_brnch_numb_boz_2016"] <- "branch_n"
+colnames(bozeman16)[colnames(bozeman16)=="avg_height_boze_2016"] <- "avg_plant_ht"
+colnames(bozeman16)[colnames(bozeman16)=="avg_length_boze_2016"] <- "avg_plant_len"
 colnames(bozeman16)[colnames(bozeman16)=="Mat_time_boze_2016"] <- "maturity_time"
 colnames(bozeman16)[colnames(bozeman16)=="avg_tend_length_boze_2016"] <- "tendril_length"
 colnames(bozeman16)[colnames(bozeman16)=="Avg_Main_stem_diam_boze_2016"] <- "main_stem_diam"
@@ -259,7 +260,8 @@ bozeman16v2 <- subset(bozeman16, select = -c(Line_name, planting_generation,
 bozeman16v3 = bozeman16v2[, c(5:6, 1:4, 7:12)]
 #names(bozeman16v3)
 pairs.panels(bozeman16v3)
-
+correlation.2 <- cor(na.omit(bozeman16v3[,c(1,2,3,4,5,6,7,8,9,10,11,12)]))
+corrplot.mixed (correlation.2, upper = "square", tl.pos = "lt")
 ##########################
 # Bozeman 2014 Dataset  #
 #########################
@@ -270,12 +272,12 @@ bozeman14<-bz14
 #names(bozeman14)
 
 ##Relabeling COlumns
-colnames(bozeman14)[colnames(bozeman14)=="Prcnt.Lodging"] <- "prcnt_lodging"
-colnames(bozeman14)[colnames(bozeman14)=="Germination.2014.."] <- "gemination"
-colnames(bozeman14)[colnames(bozeman14)=="branch.numb.2014"] <- "branch_numb"
+colnames(bozeman14)[colnames(bozeman14)=="Prcnt.Lodging"] <- "pct.lodging"
+colnames(bozeman14)[colnames(bozeman14)=="Germination.2014.."] <- "germinate"
+colnames(bozeman14)[colnames(bozeman14)=="branch.numb.2014"] <- "branch_num"
 colnames(bozeman14)[colnames(bozeman14)=="height"] <- "plant_height"
 colnames(bozeman14)[colnames(bozeman14)=="length"] <- "plant_length"
-colnames(bozeman14)[colnames(bozeman14)=="tendril.length.14.node.2014"] <- "tendril_length_node"
+colnames(bozeman14)[colnames(bozeman14)=="tendril.length.14.node.2014"] <- "tendril_l_node"
 colnames(bozeman14)[colnames(bozeman14)=="tendril.length.2014"] <- "tendril_length"
 colnames(bozeman14)[colnames(bozeman14)=="Nodes.1st.flow.2014"] <- "nodes_1st_flow"
 colnames(bozeman14)[colnames(bozeman14)=="max.nodes.2014"] <- "max_nodes"
@@ -285,7 +287,7 @@ colnames(bozeman14)[colnames(bozeman14)=="Avg.Yld.Plant.2014"] <- "avg_total_yie
 colnames(bozeman14)[colnames(bozeman14)=="Main.stm.diameter.2014"] <- "main_stm_diam"
 colnames(bozeman14)[colnames(bozeman14)=="Average.compressed.main.stem.thickness.2014"] <- "comp_main_stm"
 colnames(bozeman14)[colnames(bozeman14)=="Tiller.diameter.2014"] <- "tiller_diam"
-colnames(bozeman14)[colnames(bozeman14)=="compressed.tiller.thickness.2014"] <- "comp_tiller_diam"
+colnames(bozeman14)[colnames(bozeman14)=="compressed.tiller.thickness.2014"] <- "c_tiller_diam"
 colnames(bozeman14)[colnames(bozeman14)=="length.1"] <- "length_1"
 
 ##Drop Columns
@@ -304,9 +306,14 @@ bozeman14 = bozeman14[, c(5:6, 1:4, 7:17)]
 #names(bozeman14)
 
 ##Plot Correlation
-pairs.panels(bozeman14)
+pairs.panels(bozeman14) #Is too big...
+correlation.3 <- cor(na.omit(bozeman14[,c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17)]))
+corrplot.mixed(correlation.3, tl.pos = "lt")
+par(mai =c(2,.5,.5,.5))
+corrplot(correlation.3, type = "lower", method ="square" ,mar = c(4,0,0,0)) 
+title("Bozeman 2014")
 
-##########################
+r#########################
 # Bozeman 2015 Dataset  #
 #########################
 
@@ -317,23 +324,23 @@ bozeman15<-bz15
 
 ##Relabeling COlumns
 colnames(bozeman15)[colnames(bozeman15)=="Yield"] <- "yield"
-colnames(bozeman15)[colnames(bozeman15)=="X..GERMINATION.AVG.with.bad.germinating.lines.left.in.and.adjusted.for.seeds.planted"] <- "avg_germination"
-colnames(bozeman15)[colnames(bozeman15)=="X..of.branch"] <- "branch_numb"
-colnames(bozeman15)[colnames(bozeman15)=="plants.harvested"] <- "plants_harvested"
-colnames(bozeman15)[colnames(bozeman15)=="X..Lodging"] <- "prcnt_lodging"
-colnames(bozeman15)[colnames(bozeman15)=="Average.height"] <- "plant_height"
-colnames(bozeman15)[colnames(bozeman15)=="average.length..Median.2015.40NA45cm."] <- "plant_length"
-colnames(bozeman15)[colnames(bozeman15)=="Mat.time"] <- "maturity_time"
-colnames(bozeman15)[colnames(bozeman15)=="tendril.width"] <- "tendril_width"
-colnames(bozeman15)[colnames(bozeman15)=="tendril.Length"] <- "tendril_length"
-colnames(bozeman15)[colnames(bozeman15)=="Nodes.1st.flow"] <- "nodes_1st_flow"
+colnames(bozeman15)[colnames(bozeman15)=="X..GERMINATION.AVG.with.bad.germinating.lines.left.in.and.adjusted.for.seeds.planted"] <- "avg_germ"
+colnames(bozeman15)[colnames(bozeman15)=="X..of.branch"] <- "branch_num"
+colnames(bozeman15)[colnames(bozeman15)=="plants.harvested"] <- "plants_har"
+colnames(bozeman15)[colnames(bozeman15)=="X..Lodging"] <- "pct_lodging"
+colnames(bozeman15)[colnames(bozeman15)=="Average.height"] <- "plant_ht"
+colnames(bozeman15)[colnames(bozeman15)=="average.length..Median.2015.40NA45cm."] <- "plant_len"
+colnames(bozeman15)[colnames(bozeman15)=="Mat.time"] <- "mat_time"
+colnames(bozeman15)[colnames(bozeman15)=="tendril.width"] <- "tend_wid"
+colnames(bozeman15)[colnames(bozeman15)=="tendril.Length"] <- "tend_len"
+colnames(bozeman15)[colnames(bozeman15)=="Nodes.1st.flow"] <- "nodes_1st"
 colnames(bozeman15)[colnames(bozeman15)=="max.nodes"] <- "max_nodes"
-colnames(bozeman15)[colnames(bozeman15)=="main.stem.DIAm.avg"] <- "main_stem_diam"
-colnames(bozeman15)[colnames(bozeman15)=="Main.stem.comp..avg"] <- "comp_main_stem_diam"
-colnames(bozeman15)[colnames(bozeman15)=="tiller.Diam.AVG"] <- "tiller_diam"
-colnames(bozeman15)[colnames(bozeman15)=="tiller.compressed.avg"] <- "comp_tiller_avg"
+colnames(bozeman15)[colnames(bozeman15)=="main.stem.DIAm.avg"] <- "main_stem_d"
+colnames(bozeman15)[colnames(bozeman15)=="Main.stem.comp..avg"] <- "comp_main_stem_d"
+colnames(bozeman15)[colnames(bozeman15)=="tiller.Diam.AVG"] <- "til_diam"
+colnames(bozeman15)[colnames(bozeman15)=="tiller.compressed.avg"] <- "comp_til_av"
 colnames(bozeman15)[colnames(bozeman15)=="Root.compressed.avg"] <- "avg_comp_root"
-colnames(bozeman15)[colnames(bozeman15)=="avg.main..side.brnch.root"] <- "main_branch_root"
+colnames(bozeman15)[colnames(bozeman15)=="avg.main..side.brnch.root"] <- "main_bran_rt"
 
 ##Drop Columns
 bozeman15 <- subset(bozeman15, select = -c(line.., average.lodging.Moccasin.2015, AVERAGE.HEIGHT.Moccasin.2015,
@@ -351,7 +358,8 @@ bozeman15 = bozeman15[, c(5:6, 1:4, 7:18)]
 #install.packages("psych")
 require(psych)
 pairs.panels(bozeman15)
-
+correlation.4 <- cor(na.omit(bozeman15[,c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18)]))
+corrplot(correlation.4, mar = c(4,0,0,0), tl.pos = "lt", type = "lower", method = "upper")
 @
 
 \subsection{Moccasin by Year}
