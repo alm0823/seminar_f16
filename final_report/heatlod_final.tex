@@ -88,17 +88,18 @@ Jamin is a Ph.D. student in the Department of Plant Sciences and Plant Pathology
 
 \item Suggestions for future work
 \end{itemize}
+\pagebreak
 
 \section{Correlation Plots}
-Correlation describes the strength and direction of a linear association. Specifically, this analysis examines Pearson Correlations because the variables are measured on a quantitative scale.  Correlation is measured on a scale between -1 (a perfect negative linear association) and 1 (a perfect positive linear association). Correlation does not imply causal relationships. In examining, for instance, the relationship between lodging and stem width, the Pearson Correlation would only give information about the linear association between the two variables.  A strong association between the two variables cannot be interpreted as stem width causes lodging; rather, we would simply say that the two variables are associated with each other. Other confounding variables, such as climate, may be driving both. Since the phenotypes in each year at each site are considered separate response values, we consider fitting correlation plots for each site/year combination. 
+Correlation describes the strength and direction of a linear association. Specifically, this analysis examines Pearson Correlations because the variables are measured on a quantitative scale.  Correlation is measured on a scale between -1 (a perfect negative linear association) and 1 (a perfect positive linear association). Correlation does not imply causal relationships. In examining, for instance, the relationship between lodging and stem width, the Pearson Correlation would only give information about the linear association between the two variables.  A strong association between the two variables cannot be interpreted as stem width causes lodging; rather, we would simply say that the two variables are associated with each other. Other confounding variables, such as climate, may be driving both. Since the phenotypes in each year at each site are considered separate response values, we consider fitting correlation plots for each site/year combination as well as for the entire dataset. 
 
 \subsection{Sites and Years Combined}
-{\it Remove combined correlation plot based on last sentence in correlation description paragraph?}
 The correlation between pairwise explanatory variables of the phenotypic data were assessed using the a pairwise correlation matrix. We assessed the pairwise correlations across sites for pairs of explanatory variables which were measured within these sites at least in two different years.
 
-The pairwise correlation matrix below shows that germination which was measured in Bozeman for all 3 years has weak correlation against all the variables measured. Also results from Bozeman shows that tendril length node of the plant was moderately to strongly correlated with the average length and tendril length of the plant with correlation coefficients of 0.61 and 0.48 respectively. The branch number and tiller diameter of the plant were also moderately correlated (r = 0.47). The maturity time of the plant was strongly and moderately correlated with the maximum nodes (r=0.65) and nodes of 1st flow (r=0.48). In addition, a correlation coefficient of 0.81 was observed for nodes 1st flow and maximum nodes of the plants.
-
 In Moccasin, only four variables were observed to have been measured both in 2015 and 2016. Of these variables, the length and main stem diameter of the plants are moderately correlated (r=-0.55). Also, the main stem diameter and root diameter of the plants are moderately correlated (r=0.45).
+\pagebreak
+\subsection{Bozeman in All Years}
+The pairwise correlation matrix below shows that germination which was measured in Bozeman for all 3 years has weak correlation against all the variables measured. Also results from Bozeman shows that tendril length node of the plant was moderately to strongly correlated with the average length and tendril length of the plant with correlation coefficients of 0.61 and 0.48 respectively. The branch number and tiller diameter of the plant were also moderately correlated (r = 0.47). The maturity time of the plant was strongly and moderately correlated with the maximum nodes (r=0.65) and nodes of 1st flow (r=0.48). In addition, a correlation coefficient of 0.81 was observed for nodes 1st flow and maximum nodes of the plants.
 
 \begin{knitrout}\footnotesize
 \definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
@@ -110,6 +111,7 @@ In Moccasin, only four variables were observed to have been measured both in 201
 
 
 \end{knitrout}
+
 
 
 
@@ -125,22 +127,19 @@ We assessed the pairwise correlation of the different sites each year. In 2014, 
 
 
 
+\end{knitrout}
 
-{\centering \includegraphics[width=\maxwidth]{figure/bz-2} 
+\begin{knitrout}\footnotesize
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
 
-}
-
-
-
-
-{\centering \includegraphics[width=\maxwidth]{figure/bz-3} 
+{\centering \includegraphics[width=\maxwidth]{figure/nextchunk-1} 
 
 }
 
 
 
 
-{\centering \includegraphics[width=\maxwidth]{figure/bz-4} 
+{\centering \includegraphics[width=\maxwidth]{figure/nextchunk-2} 
 
 }
 
@@ -149,6 +148,9 @@ We assessed the pairwise correlation of the different sites each year. In 2014, 
 \end{knitrout}
 
 \subsection{Moccasin by Year}
+Examining the phenotypes at Moccasin in each year, we can see that several of the variables were relatively highly correlated in 2016. The strongest correlations were between tendril length and plant length, which makes sense, as well as between percent lodging and plant length. While none of the correlations would be interpreted as very strong, there are moderate postive and negative relationships in both years. 
+
+
 
 \begin{knitrout}\footnotesize
 \definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
@@ -159,22 +161,28 @@ We assessed the pairwise correlation of the different sites each year. In 2014, 
 
 
 
+\end{knitrout}
+\pagebreak
+In Moccasin in 2015, several notable correlations were found. Stress minus equation was strongly negatively correlated with tiller diameter, tiller compressed, tiller compressed flex, and flex after crushing. Lodging was not found to be moderately correlated with plant height as expected. 
 
-{\centering \includegraphics[width=\maxwidth]{figure/moc-2} 
+\begin{knitrout}\footnotesize
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/Moc15-1} 
 
 }
 
 
 
 
-{\centering \includegraphics[width=\maxwidth]{figure/moc-3} 
+{\centering \includegraphics[width=\maxwidth]{figure/Moc15-2} 
 
 }
 
 
 
 \end{knitrout}
-
+\pagebreak
 
 \section{Site Year Combinations for Lodging}
 
@@ -184,20 +192,35 @@ We assessed the pairwise correlation of the different sites each year. In 2014, 
 \subsection{Exploratory Analysis} 
 The data were collected over a period of 4 field seasons at sites in Bozeman and 2 field seasons in Moccasin. Phenotypic data were analyzed in order to determine whether conditions were similar enough at each year/site combination to consider as a single dataset, or if they differ by enough that the sites and years need to be considered as different groups.  
 
-Though QTL analyses of all phenotypic traits of is interest, lodging is the primary response of interest. Therefore, we examine the Percent Lodging measured at each site/year combination. Note that Percent Lodging is not measured in the 2013 Bozeman data; we did not include it in this analysis. Given the result of the analysis, we do not need to consider it into the analysis to determine that there are differences in the year/site combinations. {\it The previous sentence doesn't make sense.} Visually, we can create beanplots to assess the differences mean percent lodging at each year/site combination.  These show both the variability of the distribution, like a traditional boxplot would, as well as information about the skew and modes. Over all years in Bozeman it appears that the distribution of lodging was slightly more variable {\it clarify - more variable than Mocassin or just bz16?}; however, for some reason in 2016 the Bozeman site exhibited positive skew.  This indicates that in 2016, the majority of pea plants were lodged to a lesser degree than in 2015 or 2014.  The horizontal black bars indicate the original data values. 
+Though QTL analyses of all phenotypic traits is of interest, lodging is considered the primary response. Therefore, we examine the Percent Lodging measured at each site/year combination. Note that Percent Lodging is not measured in the 2013 Bozeman data; we did not include it in this analysis.
+
+Visually, we can create beanplots to assess the differences mean percent lodging at each year/site combination.  These show both the variability of the distribution, like a traditional boxplot would, as well as information about the skew and modes. Over all years in Bozeman it appears that the distribution of lodging was slightly more variable than for sites in Moccasin; however, for some reason in 2016 the Bozeman site exhibited positive skew.  This indicates that in 2016, the majority of pea plants were lodged to a lesser degree than in 2015 or 2014.  The horizontal black bars indicate the original data values. 
 
 
 \begin{knitrout}\footnotesize
-\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/meanvars-1} 
+
+}
 
 
-{\ttfamily\noindent\bfseries\color{errorcolor}{Error in eval(expr, envir, enclos): could not find function "{}beanplot"{}}}\end{kframe}
+
 \end{knitrout}
 
 
 \subsection{Interaction Plot}
 If the sites are reasonably similar, we would expect to see parallel lines that are either overlapping or very near each other.  The red line for Bozeman indicates that average percent lodging was higher in Bozeman than in Moccasin in both 2015 and 2016.  The bars indicate the variability of lodging for each year in Bozeman - it appears that for most years, Bozeman was slightly more variable than Moccasin. While the blue line and red line are both decreasing from 2015 to 2016, the difference in slopes indicates that there may be some interaction between year/site combinations.  More formal testing is necessary to assess differences between year and site combinations, but this visualization indicates some evidence of a difference in lodging in each location and year.
+\begin{knitrout}\footnotesize
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
 
+{\centering \includegraphics[width=\maxwidth]{figure/tables-1} 
+
+}
+
+
+
+\end{knitrout}
 
 \pagebreak
 \subsection{Regression Model and Pairwise Comparisons}
@@ -205,7 +228,7 @@ Bozeman 2014 was treated as the baseline group. An overall F test using 4 and 12
   
 We include 95 percent confidence intervals for the true mean percent lodging at each site-year combination. In order to get a better sense for which groups differ, we performed Tukey-Kramer pairwise comparisons to adjust for multiple testing. The results of that analysis are included below. The plot below shows differing pairwise combinations were between Bozeman 2015 and Bozeman 2014, as well as between Moccasin 2015 and Bozeman 2016, and between Moccasin 2016 with Bozeman in 2015 and 2016. Given that Bozeman 2015 had such a large mean relative to the other site/year combinations, this is not a surprising result. 
   
-\includegraphics [width = 6.5in] {RegressionResults}
+\includegraphics [width = 4.5 in] {RegressionResults}
 
 
 \begin{knitrout}\footnotesize
@@ -332,7 +355,7 @@ LOD is related to the F statistic. LOD = $\frac{n}{2} \times [F({\frac{df}{n-df-
 
 \section{Future Work}
 
-Future work with Jamin should be more focused with the QTL analysis. Jamin currently is using the MapDisto macro in Excel and QTL Cartographer to do preliminary QTL analyses. Both programs provide extensive documentation on their functions. R is a common program for statisticians to use, and discussion around whether packages such as {\texttt QTL} in R or outside programs should be used in the final analysis would be beneficial. While identifying specific genetic markers associated with the most variation in phenotypic traits is the end goal of the project, a QTL analysis has many steps that should be taken before using outputted results. Broman and Sen (2009) is a good reference for a basic QTL analysis. Because Jamin is interested in genetic variation associated with all phenotypic traits, the correlations between the traits should be accounted for in the final analysis. Adding in the recommendation to not combine across sites and years, we suggest the direction of the final QTL analysis done to be in a multi-trait, multi-environment setting. A resource for an introduction to the multi-trait, multi-environment setting in QTL analyses is referenced by Margarido et al. (2015).
+Future work with Jamin should be more focused with the QTL analysis and developing p-value based thresholds for significance. Jamin currently is using the MapDisto macro in Excel and QTL Cartographer to do preliminary QTL analyses. Both programs provide extensive documentation on their functions. R is a common program for statisticians to use, and discussion around whether packages such as {\texttt QTL} in R or outside programs should be used in the final analysis would be beneficial. While identifying specific genetic markers associated with the most variation in phenotypic traits is the end goal of the project, a QTL analysis has many steps that should be taken before using outputted results. Broman and Sen (2009) is a good reference for a basic QTL analysis. Because Jamin is interested in genetic variation associated with all phenotypic traits, the correlations between the traits should be accounted for in the final analysis. Adding in the recommendation to not combine across sites and years, we suggest the direction of the final QTL analysis done to be in a multi-trait, multi-environment setting. A resource for an introduction to the multi-trait, multi-environment setting in QTL analyses is referenced by Margarido et al. (2015).
 
 \newpage
 \section*{References}
@@ -358,7 +381,7 @@ Broman and Sen. 2009. {\it A guide to QTL mapping with R/QTL}. New York: Spring 
 {\bf Tables of Missing Rates by Genetic Marker}
 
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:48 2016
+% Thu Dec 15 23:21:49 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -373,7 +396,7 @@ Count & 194.00 & 199.00 & 202.00 & 195.00 & 199.00 & 185.00 & 163.00 & 163.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:48 2016
+% Thu Dec 15 23:21:49 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -388,7 +411,7 @@ Count & 163.00 & 165.00 & 173.00 & 185.00 & 162.00 & 161.00 & 168.00 & 164.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:48 2016
+% Thu Dec 15 23:21:49 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -403,7 +426,7 @@ Count & 162.00 & 163.00 & 162.00 & 163.00 & 163.00 & 211.00 & 226.00 & 164.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:48 2016
+% Thu Dec 15 23:21:49 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -418,7 +441,7 @@ Count & 163.00 & 5.00 & 129.00 & 166.00 & 218.00 & 192.00 & 171.00 & 161.00 & 16
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:48 2016
+% Thu Dec 15 23:21:49 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -433,7 +456,7 @@ Count & 167.00 & 163.00 & 162.00 & 162.00 & 171.00 & 163.00 & 172.00 & 173.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:48 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -448,7 +471,7 @@ Count & 166.00 & 190.00 & 169.00 & 198.00 & 202.00 & 181.00 & 180.00 & 163.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:48 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -463,7 +486,7 @@ Count & 224.00 & 206.00 & 217.00 & 227.00 & 16.00 & 190.00 & 182.00 & 190.00 & 1
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:48 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -478,7 +501,7 @@ Count & 162.00 & 161.00 & 169.00 & 200.00 & 207.00 & 178.00 & 166.00 & 196.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:48 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -493,7 +516,7 @@ Count & 218.00 & 164.00 & 164.00 & 162.00 & 163.00 & 164.00 & 164.00 & 162.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:48 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -508,7 +531,7 @@ Count & 219.00 & 198.00 & 186.00 & 200.00 & 166.00 & 201.00 & 163.00 & 203.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:48 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -523,7 +546,7 @@ Count & 164.00 & 162.00 & 162.00 & 166.00 & 162.00 & 182.00 & 171.00 & 200.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:48 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -538,7 +561,7 @@ Count & 176.00 & 162.00 & 163.00 & 163.00 & 162.00 & 161.00 & 161.00 & 163.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:48 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -553,7 +576,7 @@ Count & 161.00 & 161.00 & 169.00 & 167.00 & 164.00 & 161.00 & 183.00 & 167.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:48 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -568,7 +591,7 @@ Count & 162.00 & 175.00 & 162.00 & 163.00 & 162.00 & 162.00 & 162.00 & 162.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:48 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -583,7 +606,7 @@ Count & 162.00 & 162.00 & 162.00 & 162.00 & 163.00 & 163.00 & 163.00 & 162.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -598,7 +621,7 @@ Count & 165.00 & 163.00 & 161.00 & 161.00 & 161.00 & 162.00 & 162.00 & 161.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -613,7 +636,7 @@ Count & 161.00 & 162.00 & 163.00 & 161.00 & 162.00 & 7.00 & 162.00 & 163.00 & 22
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -628,7 +651,7 @@ Count & 162.00 & 161.00 & 161.00 & 163.00 & 206.00 & 161.00 & 161.00 & 166.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -643,7 +666,7 @@ Count & 222.00 & 217.00 & 220.00 & 224.00 & 220.00 & 218.00 & 215.00 & 217.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -658,7 +681,7 @@ Count & 220.00 & 217.00 & 205.00 & 199.00 & 211.00 & 208.00 & 209.00 & 206.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -673,7 +696,7 @@ Count & 193.00 & 224.00 & 191.00 & 226.00 & 216.00 & 220.00 & 223.00 & 219.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -688,7 +711,7 @@ Count & 224.00 & 222.00 & 220.00 & 222.00 & 225.00 & 214.00 & 165.00 & 224.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -703,7 +726,7 @@ Count & 225.00 & 226.00 & 222.00 & 220.00 & 208.00 & 228.00 & 203.00 & 208.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -718,7 +741,7 @@ Count & 213.00 & 211.00 & 212.00 & 214.00 & 180.00 & 207.00 & 199.00 & 218.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -733,7 +756,7 @@ Count & 225.00 & 190.00 & 223.00 & 231.00 & 225.00 & 227.00 & 223.00 & 226.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -748,7 +771,7 @@ Count & 226.00 & 226.00 & 230.00 & 226.00 & 226.00 & 231.00 & 226.00 & 224.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -763,7 +786,7 @@ Count & 214.00 & 204.00 & 214.00 & 215.00 & 230.00 & 209.00 & 227.00 & 221.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -778,7 +801,7 @@ Count & 210.00 & 227.00 & 223.00 & 223.00 & 221.00 & 215.00 & 217.00 & 216.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -793,7 +816,7 @@ Count & 196.00 & 225.00 & 217.00 & 227.00 & 224.00 & 225.00 & 214.00 & 219.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -808,7 +831,7 @@ Count & 219.00 & 223.00 & 224.00 & 229.00 & 225.00 & 224.00 & 209.00 & 215.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -827,7 +850,7 @@ Count & 222.00 & 223.00 & 227.00 & 218.00 & 225.00 & 224.00 & 217.00 & 210.00 & 
 {\bf Tables of Missing Rates by Variety}
 
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -842,7 +865,7 @@ Count & 2.00 & 2.00 & 599.00 & 172.00 & 266.00 & 226.00 & 604.00 & 203.00 & 599.
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -857,7 +880,7 @@ Count & 601.00 & 602.00 & 600.00 & 260.00 & 601.00 & 599.00 & 602.00 & 599.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -872,7 +895,7 @@ Count & 599.00 & 184.00 & 210.00 & 195.00 & 600.00 & 213.00 & 177.00 & 601.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -887,7 +910,7 @@ Count & 269.00 & 308.00 & 252.00 & 599.00 & 209.00 & 291.00 & 599.00 & 189.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -902,7 +925,7 @@ Count & 244.00 & 599.00 & 248.00 & 599.00 & 280.00 & 599.00 & 599.00 & 599.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -917,7 +940,7 @@ Count & 600.00 & 600.00 & 170.00 & 600.00 & 600.00 & 602.00 & 164.00 & 601.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -932,7 +955,7 @@ Count & 600.00 & 602.00 & 174.00 & 600.00 & 600.00 & 226.00 & 600.00 & 227.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -947,7 +970,7 @@ Count & 207.00 & 600.00 & 602.00 & 182.00 & 600.00 & 600.00 & 209.00 & 178.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -962,7 +985,7 @@ Count & 601.00 & 195.00 & 602.00 & 171.00 & 603.00 & 600.00 & 602.00 & 600.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -977,7 +1000,7 @@ Count & 600.00 & 600.00 & 600.00 & 601.00 & 601.00 & 186.00 & 167.00 & 194.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -992,7 +1015,7 @@ Count & 600.00 & 209.00 & 600.00 & 600.00 & 600.00 & 200.00 & 600.00 & 601.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
@@ -1007,7 +1030,7 @@ Count & 172.00 & 186.00 & 601.00 & 600.00 & 600.00 & 601.00 & 600.00 & 601.00 & 
 }
 \end{table}
 % latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu Dec 15 05:37:49 2016
+% Thu Dec 15 23:21:50 2016
 \begin{table}[H]
 \centering
 \scalebox{0.5}{
