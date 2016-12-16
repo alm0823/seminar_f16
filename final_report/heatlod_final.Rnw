@@ -559,7 +559,7 @@ e.var <- var(moc16$X.lodging.2016, na.rm = TRUE)
 
 #Bean Plots (Side by Side)
 library(beanplot)
-beanplot(lodging~siteyear, cex = .8, col = c("gold2","black","red","blue"), main = "Lodging at each site/year combination", ylab = "Percent Lodging", names = c("BZ14","BZ15","BZ16","Moc15","Moc16"))
+beanplot(lodging~siteyear, cex = .8, col = c("gold2","black","red","blue"), main = "Lodging at each site/year combination", ylab = "Percent Lodging", names = c("BZ14","BZ15","BZ16","Moc15","Moc16"),method = "jitter")
 @
 
 
