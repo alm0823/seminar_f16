@@ -106,17 +106,18 @@ Jamin is a Ph.D. student in the Department of Plant Sciences and Plant Pathology
 
 \item Suggestions for future work
 \end{itemize}
+\pagebreak
 
 \section{Correlation Plots}
-Correlation describes the strength and direction of a linear association. Specifically, this analysis examines Pearson Correlations because the variables are measured on a quantitative scale.  Correlation is measured on a scale between -1 (a perfect negative linear association) and 1 (a perfect positive linear association). Correlation does not imply causal relationships. In examining, for instance, the relationship between lodging and stem width, the Pearson Correlation would only give information about the linear association between the two variables.  A strong association between the two variables cannot be interpreted as stem width causes lodging; rather, we would simply say that the two variables are associated with each other. Other confounding variables, such as climate, may be driving both. Since the phenotypes in each year at each site are considered separate response values, we consider fitting correlation plots for each site/year combination. 
+Correlation describes the strength and direction of a linear association. Specifically, this analysis examines Pearson Correlations because the variables are measured on a quantitative scale.  Correlation is measured on a scale between -1 (a perfect negative linear association) and 1 (a perfect positive linear association). Correlation does not imply causal relationships. In examining, for instance, the relationship between lodging and stem width, the Pearson Correlation would only give information about the linear association between the two variables.  A strong association between the two variables cannot be interpreted as stem width causes lodging; rather, we would simply say that the two variables are associated with each other. Other confounding variables, such as climate, may be driving both. Since the phenotypes in each year at each site are considered separate response values, we consider fitting correlation plots for each site/year combination as well as for the entire dataset. 
 
 \subsection{Sites and Years Combined}
-{\it Remove combined correlation plot based on last sentence in correlation description paragraph?}
 The correlation between pairwise explanatory variables of the phenotypic data were assessed using the a pairwise correlation matrix. We assessed the pairwise correlations across sites for pairs of explanatory variables which were measured within these sites at least in two different years.
 
-The pairwise correlation matrix below shows that germination which was measured in Bozeman for all 3 years has weak correlation against all the variables measured. Also results from Bozeman shows that tendril length node of the plant was moderately to strongly correlated with the average length and tendril length of the plant with correlation coefficients of 0.61 and 0.48 respectively. The branch number and tiller diameter of the plant were also moderately correlated (r = 0.47). The maturity time of the plant was strongly and moderately correlated with the maximum nodes (r=0.65) and nodes of 1st flow (r=0.48). In addition, a correlation coefficient of 0.81 was observed for nodes 1st flow and maximum nodes of the plants.
-
 In Moccasin, only four variables were observed to have been measured both in 2015 and 2016. Of these variables, the length and main stem diameter of the plants are moderately correlated (r=-0.55). Also, the main stem diameter and root diameter of the plants are moderately correlated (r=0.45).
+\pagebreak
+\subsection{Bozeman in All Years}
+The pairwise correlation matrix below shows that germination which was measured in Bozeman for all 3 years has weak correlation against all the variables measured. Also results from Bozeman shows that tendril length node of the plant was moderately to strongly correlated with the average length and tendril length of the plant with correlation coefficients of 0.61 and 0.48 respectively. The branch number and tiller diameter of the plant were also moderately correlated (r = 0.47). The maturity time of the plant was strongly and moderately correlated with the maximum nodes (r=0.65) and nodes of 1st flow (r=0.48). In addition, a correlation coefficient of 0.81 was observed for nodes 1st flow and maximum nodes of the plants.
 
 <<merged, warning = FALSE, message = FALSE, fig.width = 7, fig.height = 6>>=
 ##Load Data (Bozeman 2014)
@@ -177,8 +178,8 @@ require(psych)
 library(corrplot)
 #pairs.panels(mergedbzn)
 correlation.1 <- cor(na.omit(mergedbzn[,c(1,2,4,5,6,7,8,9,10,11,12,13)]))
-corrplot.mixed(correlation.1, tl.pos = 'lt', upper = "square", cex.axis = .9)
-title("Bozeman All Years")
+corrplot.mixed(correlation.1, tl.pos = 'lt', upper = "square", tl.cex = .7, number.cex = .75,bg = NULL)
+
 @
 
 
@@ -213,7 +214,7 @@ year.site.mat <- matrix(cbind(lodging,site,year,siteyear))
 \subsection{Bozeman by Year}
 We assessed the pairwise correlation of the different sites each year. In 2014, twelve pairs of explanatory variables had correlation coefficients between 0.42 and 0.91. The pairwise correlations are shown in the matrix below. Germination and total yield was strongly correlated (r=0.66) while the length and internode length of the plants recorded a very high correlation coefficient (r=0.91). In 2015 and 2016, of the pairwise combinations assessed, 28 combinations yielded correlation coefficients between 0.40 and 0.85. The results are presented in the pairwise correlation matrices below.
 
-<<bz, warning = FALSE, message = FALSE>>=
+<<bz, warning = FALSE, message = FALSE, fig.width = 7, fig.height = 7>>=
 ##########################
 # Bozeman 2016 Dataset  #
 #########################
@@ -229,22 +230,22 @@ library(data.table)
 
 ##Relabeling COlumns
 colnames(bozeman16)[colnames(bozeman16)=="pctg_Lodging_boze_2016"] <- "pct_lodging"
-colnames(bozeman16)[colnames(bozeman16)=="GerminateNABozemanNA2016"] <- "germination"
+colnames(bozeman16)[colnames(bozeman16)=="GerminateNABozemanNA2016"] <- "germ"
 colnames(bozeman16)[colnames(bozeman16)=="Avg_brnch_numb_boz_2016"] <- "branch_n"
-colnames(bozeman16)[colnames(bozeman16)=="avg_height_boze_2016"] <- "avg_plant_ht"
-colnames(bozeman16)[colnames(bozeman16)=="avg_length_boze_2016"] <- "avg_plant_len"
-colnames(bozeman16)[colnames(bozeman16)=="Mat_time_boze_2016"] <- "maturity_time"
-colnames(bozeman16)[colnames(bozeman16)=="avg_tend_length_boze_2016"] <- "tendril_length"
-colnames(bozeman16)[colnames(bozeman16)=="Avg_Main_stem_diam_boze_2016"] <- "main_stem_diam"
-colnames(bozeman16)[colnames(bozeman16)=="avg_comp_mn_stm_dia_boze_2016"] <- "comp_main_stem_diam"
-colnames(bozeman16)[colnames(bozeman16)=="avg_comp_brnch_diam_boze_2016"] <- "comp_branch_diam"
+colnames(bozeman16)[colnames(bozeman16)=="avg_height_boze_2016"] <- "avg_p_ht"
+colnames(bozeman16)[colnames(bozeman16)=="avg_length_boze_2016"] <- "avg_p_len"
+colnames(bozeman16)[colnames(bozeman16)=="Mat_time_boze_2016"] <- "mat_time"
+colnames(bozeman16)[colnames(bozeman16)=="avg_tend_length_boze_2016"] <- "tend_length"
+colnames(bozeman16)[colnames(bozeman16)=="Avg_Main_stem_diam_boze_2016"] <- "m_stem_diam"
+colnames(bozeman16)[colnames(bozeman16)=="avg_comp_mn_stm_dia_boze_2016"] <- "c_m_stem_diam"
+colnames(bozeman16)[colnames(bozeman16)=="avg_comp_brnch_diam_boze_2016"] <- "c_branch_diam"
 colnames(bozeman16)[colnames(bozeman16)=="avg_branch_diam_boze_2016"] <- "branch_diam"
-colnames(bozeman16)[colnames(bozeman16)=="comp_brnch_diam_boze_2016"] <- "comp_branch_diam"
+colnames(bozeman16)[colnames(bozeman16)=="comp_brnch_diam_boze_2016"] <- "c_branch_diam"
 colnames(bozeman16)[colnames(bozeman16)=="avg_root_diam_boze_2016"] <- "root_diam"
 
 ##Correlation
 #install.packages("psych")
-require(psych)
+
 #pairs.panels(bozeman16)
 
 #names(bozeman16)
@@ -259,9 +260,13 @@ bozeman16v2 <- subset(bozeman16, select = -c(Line_name, planting_generation,
 ##Reorder Colums
 bozeman16v3 = bozeman16v2[, c(5:6, 1:4, 7:12)]
 #names(bozeman16v3)
-pairs.panels(bozeman16v3)
+#pairs.panels(bozeman16v3)
 correlation.2 <- cor(na.omit(bozeman16v3[,c(1,2,3,4,5,6,7,8,9,10,11,12)]))
-corrplot.mixed (correlation.2, upper = "square", tl.pos = "lt")
+corrplot(correlation.2, type = "lower" ,method = "number", tl.cex = .7, number.cex = .6,bg = "black")
+title("Bozeman2016")
+@
+
+<<nextchunk, message = FALSE, warning = FALSE, >>=
 ##########################
 # Bozeman 2014 Dataset  #
 #########################
@@ -306,14 +311,14 @@ bozeman14 = bozeman14[, c(5:6, 1:4, 7:17)]
 #names(bozeman14)
 
 ##Plot Correlation
-pairs.panels(bozeman14) #Is too big...
+#pairs.panels(bozeman14) #Is too big...
 correlation.3 <- cor(na.omit(bozeman14[,c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17)]))
-corrplot.mixed(correlation.3, tl.pos = "lt")
-par(mai =c(2,.5,.5,.5))
-corrplot(correlation.3, type = "lower", method ="square" ,mar = c(4,0,0,0)) 
+#corrplot.mixed(correlation.3, tl.pos = "lt")
+
+corrplot(correlation.3, type = "lower", method ="square",number.cex = .6) 
 title("Bozeman 2014")
 
-r#########################
+#########################
 # Bozeman 2015 Dataset  #
 #########################
 
@@ -357,14 +362,18 @@ bozeman15 = bozeman15[, c(5:6, 1:4, 7:18)]
 ##Plot Correlation
 #install.packages("psych")
 require(psych)
-pairs.panels(bozeman15)
+#pairs.panels(bozeman15)
 correlation.4 <- cor(na.omit(bozeman15[,c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18)]))
-corrplot(correlation.4, mar = c(4,0,0,0), tl.pos = "lt", type = "lower", method = "upper")
+corrplot(correlation.4,type = "lower", method = "square",number.cex = .5)
+title("Bozeman 2015")
 @
 
 \subsection{Moccasin by Year}
+Examining the phenotypes at Moccasin in each year, we can see that several of the variables were relatively highly correlated in 2016. The strongest correlations were between tendril length and plant length, which makes sense, as well as between percent lodging and plant length. While none of the correlations would be interpreted as very strong, there are moderate postive and negative relationships in both years. 
 
-<<moc, warning = FALSE, message = FALSE>>=
+
+
+<<moc, warning = FALSE, message = FALSE, fig.width = 7, fig.heigh = 7>>=
 
 ##########################
 # Mocassin 2016 Dataset  #
@@ -406,9 +415,15 @@ moccasin16 <- moccasin16[, c(5:6, 1:4, 7:9)]
 ##Correlation Plot
 
 library(psych)
-pairs.panels(moccasin16)
+#pairs.panels(moccasin16)
+correlation.5 <- cor(na.omit(moccasin16[,c(5:6,1:4,7:9)]))
+corrplot(correlation.5,tl.cex = .7, method = "number", type = "lower",number.cex = .8,bg = "black")
+title("Moccasin 2016")
+@
+\pagebreak
+In Moccasin in 2015, several notable correlations were found. Stress minus equation was strongly negatively correlated with tiller diameter, tiller compressed, tiller compressed flex, and flex after crushing. Lodging was not found to be moderately correlated with plant height as expected. 
 
-
+<<Moc15, message = FALSE, warning = FALSE, fig.width = 8 ,fig.height = 7>>=
 ##########################
 # Moccasin 2015 Dataset  #
 #########################
@@ -438,7 +453,9 @@ moccasin15 <- subset(moccasin15, select = -c(X))
 #names(moccasin15)
 
 ##Plot Correlation
-pairs.panels(moccasin15)
+#pairs.panels(moccasin15)
+correlation.15 <- cor(na.omit(moccasin15[,c(1,2,3,5,6,7,8,9,10,11)]))
+corrplot(correlation.15,type = "lower",method ="number",number.cex = .65,bg="black", main = "Moccasin 2015",mar = c(1,1,1,1))
 
 ##########################
 # Mocassin Merged Dataset  #
@@ -479,9 +496,12 @@ mergedmc = mergedmc[, c(2:1, 3:4)]
 #names(mergedmc)
 
 ##Correlation Plot
-pairs.panels(moccasin16)
-@
+#pairs.panels(moccasin16,smooth = FALSE, scale = TRUE, density = TRUE, ellipses = FALSE)
+correlation.6 <- cor(na.omit(moccasin16[,c(1,2,3,4,5,6,7,8,9)]))
+corrplot(correlation.6, type = "lower", method = "number", number.cex = .8, bg ="black", tl.cex = .7, mar = c(1,2,1,2), main = "Moccasin in All Years")
 
+@
+\pagebreak
 
 \section{Site Year Combinations for Lodging}
 <<intro, include = FALSE >>=
@@ -790,7 +810,7 @@ Bozeman 2014 was treated as the baseline group. An overall F test using 4 and 12
   
 We include 95 percent confidence intervals for the true mean percent lodging at each site-year combination. In order to get a better sense for which groups differ, we performed Tukey-Kramer pairwise comparisons to adjust for multiple testing. The results of that analysis are included below. The plot below shows differing pairwise combinations were between Bozeman 2015 and Bozeman 2014, as well as between Moccasin 2015 and Bozeman 2016, and between Moccasin 2016 with Bozeman in 2015 and 2016. Given that Bozeman 2015 had such a large mean relative to the other site/year combinations, this is not a surprising result. 
   
-\includegraphics [width = 6.5in] {RegressionResults}
+\includegraphics [width = 4.5 in] {RegressionResults}
 <<regression, include = FALSE, eval = TRUE, warning = FALSE, message = FALSE>>=
 #Fit A Simple Regression:
 library(pander)
