@@ -855,19 +855,21 @@ ggplot(datf1_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
  xlab("Genetic Marker") + ylab("Variety") +
   theme(legend.position = "bottom",
         axis.text.x = element_text(angle = 90, hjust = 1, size = 0.5), 
-        axis.text.y = element_blank())
+        axis.text.y = element_blank()) + coord_flip()
 @
 
 <<missing.pattern, include = FALSE>>=
 #str(md.pattern(gen))
 colnames(gen)
 
-gen_markers <- gen[,-c(1,611)]
+gen_markers <- gen[,-610]
 dim(gen_markers)
 marker_miss <- apply(gen_markers,2,function(t){length(which(is.na(t) == TRUE))})
 variety_miss <- apply(gen_markers,1,function(t){length(which(is.na(t) == TRUE))})
 
 marker_miss
+# give the percent that is missing
+# both across markers and across varieties
 marker_miss.percent <- marker_miss/dim(gen_markers)[2]
 variety_miss.percent <- variety_miss/dim(gen_markers)[1]
 
@@ -879,7 +881,7 @@ rownames(vmiss) <- c("Count", "Percent")
 @
 \pagebreak
 
-\subsection{Less than 25\% Missing}
+\subsection{Less than 25\% Missing by Genetic Marker}
 
 <<subset.25, warning = FALSE>>=
 mmiss25 <- which(mmiss[2,] <= 0.25)
@@ -932,10 +934,10 @@ ggplot(dat25_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
  xlab("Genetic Marker") + ylab("Variety") +
   theme(legend.position = "bottom", legend.title = element_text(""),
         axis.text.x = element_text(angle = 90, hjust = 1, size = 10), 
-        axis.text.y = element_blank())
+        axis.text.y = element_text(angle = 0, hjust = 1, size = 10)) + coord_flip()
 @
 \pagebreak
-\subsection{25\% - 30\% Missing}
+\subsection{25\% - 30\% Missing by Genetic Marker}
 
 <<missing.plot30,fig.height=8, warning = FALSE>>=
 
@@ -946,10 +948,10 @@ ggplot(dat30_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
  xlab("Genetic Marker") + ylab("Variety") +
   theme(legend.position = "bottom", legend.title = element_text(""),
         axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
-        axis.text.y = element_text(angle = 0, hjust = 1, size = 1))
+        axis.text.y = element_text(angle = 0, hjust = 1, size = 1)) + coord_flip()
 @
 \pagebreak
-\subsection{30\% - 35\% Missing}
+\subsection{30\% - 35\% Missing by Genetic Marker}
 
 
 <<missing.plot35, fig.height=8, warning = FALSE, message = FALSE>>=
@@ -961,10 +963,10 @@ ggplot(dat35_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
  xlab("Genetic Marker") + ylab("Variety") +
   theme(legend.position = "bottom", legend.title = element_text(""),
         axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
-        axis.text.y = element_text(angle = 90, hjust = 1, size = 1))
+        axis.text.y = element_text(angle = 90, hjust = 1, size = 1)) + coord_flip()
 @
 \pagebreak
-\subsection{35\% - 40\% Missing}
+\subsection{35\% - 40\% Missing by Genetic Marker}
 
 
 <<missing.plot40, fig.height=8, warning = FALSE, message = FALSE>>=
@@ -976,7 +978,7 @@ ggplot(dat40_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
  xlab("Genetic Marker") + ylab("Variety") +
   theme(legend.position = "bottom", legend.title = element_text(""),
         axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
-        axis.text.y = element_text(angle = 90, hjust = 1, size = 1))
+        axis.text.y = element_text(angle = 90, hjust = 1, size = 1)) + coord_flip()
 @
 
 <<missing.plot45,fig.height=8, include = FALSE, eval = FALSE>>=
@@ -988,7 +990,7 @@ ggplot(dat45_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
  xlab("Genetic Marker") + ylab("Variety") +
   theme(legend.position = "bottom", legend.title = element_text(""),
         axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
-        axis.text.y = element_text(angle = 90, hjust = 1, size = 1))
+        axis.text.y = element_text(angle = 90, hjust = 1, size = 1)) + coord_flip()
 @
 
 <<missing.plot50, fig.height=8, include = FALSE, eval = FALSE>>=
@@ -1037,7 +1039,7 @@ Alternative Model, $H_{a}: y_{i}|g_{i} \sim N(\mu_{g_{i}}, \sigma^2)$
 
 LOD = $\frac{n}{2} \times log_{10}(\frac{RSS_{o}}{RSS_{1}})$
 
-LOD is related to the F statistic. LOD = $\frac{n}{2} \times [F({\frac{df}{n-df-1} + 1)]$ and similar to the F statistic, large LOD values are associated with strong evidence for the alternative, that there is a relationship to the genetic loci and the phenotype. Since F statistics help find p-values, and LOD is related to F statistics, by setting genome wide adjusted LOD thresholds, we can easily convert these back to genome wide adjusted p-values. Broman and Sen (2009) provide a simulation based method for generating genome wide adjusted LOD thresholds, and the corresponding genome-wide adjusted p-value thresholds in Section 4.3 using the {\texttt QTL} package in R. 
+LOD is related to the F statistic. LOD = $\frac{n}{2} \times [F(\frac{df}{n-df-1} + 1)]$ and similar to the F statistic, large LOD values are associated with strong evidence for the alternative, that there is a relationship to the genetic loci and the phenotype. Since F statistics help find p-values, and LOD is related to F statistics, by setting genome wide adjusted LOD thresholds, we can easily convert these back to genome wide adjusted p-values. Broman and Sen (2009) provide a simulation based method for generating genome wide adjusted LOD thresholds, and the corresponding genome-wide adjusted p-value thresholds in Section 4.3 using the {\texttt QTL} package in R. 
 
 \section{Future Work}
 
