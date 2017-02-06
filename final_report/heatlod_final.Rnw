@@ -109,17 +109,17 @@ Jamin is a Ph.D. student in the Department of Plant Sciences and Plant Pathology
 \pagebreak
 
 \section{Correlation Plots}
-Correlation describes the strength and direction of a linear association. Specifically, this analysis examines Pearson Correlations because the variables are measured on a quantitative scale.  Correlation is measured on a scale between -1 (a perfect negative linear association) and 1 (a perfect positive linear association). Correlation does not imply causal relationships. In examining, for instance, the relationship between lodging and stem width, the Pearson Correlation would only give information about the linear association between the two variables.  A strong association between the two variables cannot be interpreted as stem width causes lodging; rather, we would simply say that the two variables are associated with each other. Other confounding variables, such as climate, may be driving both. Since the phenotypes in each year at each site are considered separate response values, we consider fitting correlation plots for each site/year combination as well as for the entire dataset. 
+Correlation describes the strength and direction of a linear association. Specifically, this analysis examines Pearson Correlations because the variables are measured on a quantitative scale.  Correlation is measured on a scale between -1 (a perfect negative linear association) and 1 (a perfect positive linear association). Correlation does not imply causal relationships. In examining, for instance, the relationship between lodging and stem width, the Pearson Correlation would only give information about the linear association between the two variables.  A strong association between the two variables cannot be interpreted that changes in stem width cause changes in lodging; rather, we would simply say that the two variables are associated with each other. Other confounding variables, such as climate, may be driving both. Since the phenotypes in each year at each site are considered separate response values, we consider examining plots of correlation matrices for each site/year combination as well as for the entire dataset. This allows for direct examination of linear relationships between covariates; however, non-linear relationships may not be accurately measured by Pearson correlation. Further investigation of outlying values in the data may be necessary as Pearson correlations are sensitive to the presence of outliers in the data. 
 
 \subsection{Sites and Years Combined}
-The correlation between pairwise explanatory variables of the phenotypic data were assessed using the a pairwise correlation matrix. We assessed the pairwise correlations across sites for pairs of explanatory variables which were measured within these sites at least in two different years.
+The correlation between pairwise explanatory variables of the phenotypic data were assessed using the a pairwise correlation matrix. We assessed the pairwise correlations across sites for pairs of explanatory variables which were measured within these sitesin at least two different years.
 
 In Moccasin, only four variables were observed to have been measured both in 2015 and 2016. Of these variables, the length and main stem diameter of the plants are moderately correlated (r=-0.55). Also, the main stem diameter and root diameter of the plants are moderately correlated (r=0.45).
 \pagebreak
 \subsection{Bozeman in All Years}
 The pairwise correlation matrix below shows that germination which was measured in Bozeman for all 3 years has weak correlation against all the variables measured. Also results from Bozeman shows that tendril length node of the plant was moderately to strongly correlated with the average length and tendril length of the plant with correlation coefficients of 0.61 and 0.48 respectively. The branch number and tiller diameter of the plant were also moderately correlated (r = 0.47). The maturity time of the plant was strongly and moderately correlated with the maximum nodes (r=0.65) and nodes of 1st flow (r=0.48). In addition, a correlation coefficient of 0.81 was observed for nodes 1st flow and maximum nodes of the plants.
 
-<<merged, warning = FALSE, message = FALSE, fig.width = 7, fig.height = 6>>=
+<<merged, warning = FALSE, message = FALSE, fig.width = 7, fig.height = 6, fig.cap = "Correlation Plot for Bozeman (In All Years)">>=
 ##Load Data (Bozeman 2014)
 #setwd("C:/Users/Paul/Documents")
 mergedbzn<-read.csv("Merged Bozeman.csv",header=T)
@@ -214,7 +214,7 @@ year.site.mat <- matrix(cbind(lodging,site,year,siteyear))
 \subsection{Bozeman by Year}
 We assessed the pairwise correlation of the different sites each year. In 2014, twelve pairs of explanatory variables had correlation coefficients between 0.42 and 0.91. The pairwise correlations are shown in the matrix below. Germination and total yield was strongly correlated (r=0.66) while the length and internode length of the plants recorded a very high correlation coefficient (r=0.91). In 2015 and 2016, of the pairwise combinations assessed, 28 combinations yielded correlation coefficients between 0.40 and 0.85. The results are presented in the pairwise correlation matrices below.
 
-<<bz, warning = FALSE, message = FALSE, fig.width = 7, fig.height = 7>>=
+<<bz, warning = FALSE, message = FALSE, fig.width = 7, fig.height = 7, fig.cap = "Correlation Plot for Bozeman in 2016">>=
 ##########################
 # Bozeman 2016 Dataset  #
 #########################
@@ -266,7 +266,7 @@ corrplot(correlation.2, type = "lower" ,method = "number", tl.cex = .7, number.c
 title("Bozeman2016")
 @
 
-<<nextchunk, message = FALSE, warning = FALSE, >>=
+<<nextchunk, message = FALSE, warning = FALSE, fig.cap = "Correlation Matrix for Bozeman in 2014" >>=
 ##########################
 # Bozeman 2014 Dataset  #
 #########################
@@ -314,10 +314,11 @@ bozeman14 = bozeman14[, c(5:6, 1:4, 7:17)]
 #pairs.panels(bozeman14) #Is too big...
 correlation.3 <- cor(na.omit(bozeman14[,c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17)]))
 #corrplot.mixed(correlation.3, tl.pos = "lt")
-
 corrplot(correlation.3, type = "lower", method ="square",number.cex = .6) 
 title("Bozeman 2014")
+@
 
+<<nextchunk, message = FALSE, warning = FALSE, fig.cap = "Correlation Matrix for Bozeman in 2015" >>=
 #########################
 # Bozeman 2015 Dataset  #
 #########################
@@ -373,7 +374,7 @@ Examining the phenotypes at Moccasin in each year, we can see that several of th
 
 
 
-<<moc, warning = FALSE, message = FALSE, fig.width = 7, fig.heigh = 7>>=
+<<moc, warning = FALSE, message = FALSE, fig.width = 7, fig.heigh = 7,  fig.cap = "Correlation Matrix for Moccasin in 2016">>=
 
 ##########################
 # Mocassin 2016 Dataset  #
@@ -421,9 +422,9 @@ corrplot(correlation.5,tl.cex = .7, method = "number", type = "lower",number.cex
 title("Moccasin 2016")
 @
 \pagebreak
-In Moccasin in 2015, several notable correlations were found. Stress minus equation was strongly negatively correlated with tiller diameter, tiller compressed, tiller compressed flex, and flex after crushing. Lodging was not found to be moderately correlated with plant height as expected. 
+In Moccasin in 2015, several notable correlations were found. Stress minus equation was strongly negatively correlated with tiller diameter, tiller compressed, tiller compressed flex, and flex after crushing. Lodging was found to be correlated with plant height as expected. 
 
-<<Moc15, message = FALSE, warning = FALSE, fig.width = 8 ,fig.height = 7>>=
+<<Moc15, message = FALSE, warning = FALSE, fig.width = 8 ,fig.height = 7,  fig.cap = "Correlation Matrix for Moccasin in 2015">>=
 ##########################
 # Moccasin 2015 Dataset  #
 #########################
@@ -456,7 +457,9 @@ moccasin15 <- subset(moccasin15, select = -c(X))
 #pairs.panels(moccasin15)
 correlation.15 <- cor(na.omit(moccasin15[,c(1,2,3,5,6,7,8,9,10,11)]))
 corrplot(correlation.15,type = "lower",method ="number",number.cex = .65,bg="black", main = "Moccasin 2015",mar = c(1,1,1,1))
+@
 
+<<MocAllYear, message = FALSE, warning = FALSE, fig.width = 8 ,fig.height = 7,  fig.cap = "Correlation Matrix for Moccasin (In All Years)">>=
 ##########################
 # Mocassin Merged Dataset  #
 #########################
@@ -522,7 +525,7 @@ bz16$Year <- moc16$Year <- 2016
 
 #Merge into a single dataset
 #lodging response
-lodging<- c(bz14$Prcnt.Lodging,bz15$X..Lodging,bz16$pctg_Lodging_boze_2016,moc15$Lodging,moc16$X.lodging.2016)
+lodging<- c(bz14$Prcnt.Lodging,bz15$X..Lodging,bz16$X..Lodging.boze.2016,moc15$Lodging,moc16$X.lodging.2016)
 #site year combo as a factor
 site <- c(bz14$Site,bz15$Site, bz16$Site,moc15$Site,moc16$Site)
 year <- c(bz14$Year, bz15$Year,bz16$Year,moc15$Year,moc16$Year)
@@ -539,10 +542,10 @@ The data were collected over a period of 4 field seasons at sites in Bozeman and
 
 Though QTL analyses of all phenotypic traits is of interest, lodging is considered the primary response. Therefore, we examine the Percent Lodging measured at each site/year combination. Note that Percent Lodging is not measured in the 2013 Bozeman data; we did not include it in this analysis.
 
-Visually, we can create beanplots to assess the differences mean percent lodging at each year/site combination.  These show both the variability of the distribution, like a traditional boxplot would, as well as information about the skew and modes. Over all years in Bozeman it appears that the distribution of lodging was slightly more variable than for sites in Moccasin; however, for some reason in 2016 the Bozeman site exhibited positive skew.  This indicates that in 2016, the majority of pea plants were lodged to a lesser degree than in 2015 or 2014.  The horizontal black bars indicate the original data values. 
+Visually, we can create beanplots (Kampstra 2008) to assess the differences mean percent lodging at each year/site combination.  These show both the variability of the distribution, like a traditional boxplot would, as well as information about the skew and modes. Over all years in Bozeman it appears that the distribution of lodging was slightly more variable than for sites in Moccasin; however, for some reason in 2016 the Bozeman site exhibited positive skew.  This indicates that in 2016, the majority of pea plants were lodged to a lesser degree than in 2015 or 2014.  The thin horizontal black bars indicate the original data values; the bold black lines indicate group means. 
 
 
-<<meanvars, include = TRUE, eval = TRUE, warning = FALSE>>=
+<<meanvars, include = TRUE, eval = TRUE, warning = FALSE, fig.cap = "Comparative Beanplot of Site/Year Combinations">>=
 #plots of percent lodging at each site #means
 a <- mean(bz14$Prcnt.Lodging, na.rm = TRUE)
 b <- mean(bz15$X..Lodging, na.rm = TRUE)  
@@ -559,13 +562,16 @@ e.var <- var(moc16$X.lodging.2016, na.rm = TRUE)
 
 #Bean Plots (Side by Side)
 library(beanplot)
-beanplot(lodging~siteyear, cex = .8, col = c("gold2","black","red","blue"), main = "Lodging at each site/year combination", ylab = "Percent Lodging", names = c("BZ14","BZ15","BZ16","Moc15","Moc16"),method = "jitter")
+set.seed(2062017)
+beanplot(lodging~siteyear, cex = .8, col = c("gold2","black","red","blue"), main = "Lodging at each site/year combination", ylab = "Percent Lodging", names = c("BZ14","BZ15","BZ16","Moc15","Moc16"), method = "jitter", cutmin = -1)
+
 @
 
 
 \subsection{Interaction Plot}
-If the sites are reasonably similar, we would expect to see parallel lines that are either overlapping or very near each other.  The red line for Bozeman indicates that average percent lodging was higher in Bozeman than in Moccasin in both 2015 and 2016.  The bars indicate the variability of lodging for each year in Bozeman - it appears that for most years, Bozeman was slightly more variable than Moccasin. While the blue line and red line are both decreasing from 2015 to 2016, the difference in slopes indicates that there may be some interaction between year/site combinations.  More formal testing is necessary to assess differences between year and site combinations, but this visualization indicates some evidence of a difference in lodging in each location and year.
-<<tables, include = TRUE, warning = FALSE, message = FALSE>>=
+If the sites are reasonably similar, we would expect to see parallel lines that are either overlapping or very near each other.  The dashed red line for Bozeman indicates that average percent lodging was higher in Bozeman than in Moccasin in both 2015 and 2016.  The bars indicate the variability of lodging for each year in Bozeman - it appears that for most years, Bozeman was slightly more variable than Moccasin. While the blue line and red line are both decreasing from 2015 to 2016, the difference in slopes indicates that there may be some interaction between year/site combinations.  This visualization indicates some evidence of a difference in lodging in each location and year. However, since there are no observations from Moccasin in 2014, we cannot formally test for a site by year interaction. 
+
+<<tables, include = TRUE, warning = FALSE, message = FALSE, fig.cap = "Interaction Plot for Sites and Years">>=
 #display a better interaction plot with results
 intplot<-function (formula = NULL, data = NULL, type = "b", x.cont = FALSE, 
           legend = TRUE, trace.label = NULL, leg.lab = NULL, fixed = FALSE, 
@@ -806,7 +812,7 @@ intplot(lodging ~ site * year, col = c("red","blue"), lwd = 2)
 
 \pagebreak
 \subsection{Regression Model and Pairwise Comparisons}
-Bozeman 2014 was treated as the baseline group. An overall F test using 4 and 1205 degrees of freedom to assess evidence against all site-year combinations yields a p-value less than 0.000001. There is strong evidence that the site/year combinations are not all the same. 
+A model was fit to include all site and year combinations in order to test for differences between the combinations. Bozeman 2014 was treated as the baseline group. An overall F test using 4 and 1205 degrees of freedom to assess evidence against all site-year combinations yields a p-value less than 0.000001. There is strong evidence that the site/year combinations do not have all the same mean percent lodging. 
   
 We include 95 percent confidence intervals for the true mean percent lodging at each site-year combination. In order to get a better sense for which groups differ, we performed Tukey-Kramer pairwise comparisons to adjust for multiple testing. The results of that analysis are included below. The plot below shows differing pairwise combinations were between Bozeman 2015 and Bozeman 2014, as well as between Moccasin 2015 and Bozeman 2016, and between Moccasin 2016 with Bozeman in 2015 and 2016. Given that Bozeman 2015 had such a large mean relative to the other site/year combinations, this is not a surprising result. 
   
@@ -825,7 +831,7 @@ confint(lm.cellmeans)
  #gives a better confidence interval summarized in Regression Results document
 @
 
-<<tukey, include = TRUE, eval = TRUE, warning = FALSE, message = FALSE>>=
+<<tukey, include = TRUE, eval = TRUE, warning = FALSE, message = FALSE, fig.cap = "Multiple Comparisons of Lodging at Sites and Years">>=
 #Tukey HSD comparisons
 diffs <- TukeyHSD(aov(lodging~siteyear))
 col <- ifelse(diffs$siteyear[,4]>.05,"blue","red")
@@ -925,12 +931,12 @@ dat50_bz16[is.na(dat50_bz16)] <- "missing"
 @
 
 
-<<missing.plot25, fig.height=7.5, warning=FALSE>>=
+<<missing.plot25, fig.height=7.5, warning=FALSE, fig.cap = "Less Than 25% Missing">>=
 
 ggplot(dat25_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
    colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
                                             guide = guide_legend(title = "") ) + 
-  ggtitle("Genetic Data < 25% Missing") +
+  ggtitle("Genetic Data: < 25% Missing") +
  xlab("Genetic Marker") + ylab("Variety") +
   theme(legend.position = "bottom", legend.title = element_text(""),
         axis.text.x = element_text(angle = 90, hjust = 1, size = 10), 
@@ -939,12 +945,12 @@ ggplot(dat25_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
 \pagebreak
 \subsection{25\% - 30\% Missing by Genetic Marker}
 
-<<missing.plot30,fig.height=8, warning = FALSE>>=
+<<missing.plot30,fig.height=8, warning = FALSE, fig.cap = "25-30 Percent Missing Data">>=
 
 ggplot(dat30_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
    colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
                                             guide = guide_legend(title = "") ) + 
-  ggtitle("Genetic Data < 25 % - 30% Missing") +
+  ggtitle("Genetic Data: 25 % - 30% Missing") +
  xlab("Genetic Marker") + ylab("Variety") +
   theme(legend.position = "bottom", legend.title = element_text(""),
         axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
@@ -954,12 +960,12 @@ ggplot(dat30_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
 \subsection{30\% - 35\% Missing by Genetic Marker}
 
 
-<<missing.plot35, fig.height=8, warning = FALSE, message = FALSE>>=
+<<missing.plot35, fig.height=8, warning = FALSE, message = FALSE, fig.cap = "30-35 Percent Missing Data">>=
 
 ggplot(dat35_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
    colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
                                             guide = guide_legend(title = "") ) + 
-  ggtitle("Genetic Data < 30 % - 35% Missing") +
+  ggtitle("Genetic Data: 30 % - 35% Missing") +
  xlab("Genetic Marker") + ylab("Variety") +
   theme(legend.position = "bottom", legend.title = element_text(""),
         axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
@@ -969,7 +975,7 @@ ggplot(dat35_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
 \subsection{35\% - 40\% Missing by Genetic Marker}
 
 
-<<missing.plot40, fig.height=8, warning = FALSE, message = FALSE>>=
+<<missing.plot40, fig.height=8, warning = FALSE, message = FALSE, "35-40% Percent Missing Data">>=
 
 ggplot(dat40_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
    colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
@@ -981,7 +987,7 @@ ggplot(dat40_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
         axis.text.y = element_text(angle = 90, hjust = 1, size = 1)) + coord_flip()
 @
 
-<<missing.plot45,fig.height=8, include = FALSE, eval = FALSE>>=
+<<missing.plot45,fig.height=8, include = FALSE, eval = FALSE, "40-45% Percent Missing Data">>=
 # 0 markers had more than 40% missing, so not needed
 ggplot(dat45_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
    colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
@@ -993,7 +999,7 @@ ggplot(dat45_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
         axis.text.y = element_text(angle = 90, hjust = 1, size = 1)) + coord_flip()
 @
 
-<<missing.plot50, fig.height=8, include = FALSE, eval = FALSE>>=
+<<missing.plot50, fig.height=8, include = FALSE, eval = FALSE, "45-50% Percent Missing Data">>=
 
 ggplot(dat50_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
    colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
@@ -1027,9 +1033,9 @@ summary(phen_bz16)
 
 \section{Setting Significance Thresholds}
 
-The pea genetic data include over 600 genetic markers. When a QTL analysis is done, a significance test is done at each marker. Multiple testing problems are quite common in genetic analyses. Jamin mentioned he would like to use LOD for setting a significance threshold. LOD is an abbreviation for the log-odds. LOD is the $log_{10}$ likelihood ratio comparing the null that there is not a QTL to the alternative, that there is.
+The pea genetic data include over 600 genetic markers. When a QTL analysis is done, a significance test is done at each genetic marker to test for an association between the average quantiative trait and the genotype. Multiple testing problems are quite common in genetic analyses. Jamin mentioned he would like to use LOD for setting a significance threshold. LOD is an abbreviation for the log-odds. LOD is the $log_{10}$ likelihood ratio comparing the null that there is not a QTL to the alternative, that there is.
 
-Null Model, $H_{o}: y_{i} \sim N(\mu, \sigma^2)$ i.e. there is no genetic dependency between the phenotype and the genotype
+Null Model, $H_{o}: y_{i} \sim N(\mu, \sigma^2)$ i.e., there is no genetic dependency between the phenotype and the genotype. We define the Residual Sum of Squares ($RSS_{0}$) to be the squared difference between the expected mean lodging for each marker and the overall mean lodging under the null model. 
 
 - Where the maximum likelihood estimates (MLEs) for parameter estimates $\mu = \bar{y}; \sigma^2 = RSS_{o}/n$ are used.
 
@@ -1039,7 +1045,7 @@ Alternative Model, $H_{a}: y_{i}|g_{i} \sim N(\mu_{g_{i}}, \sigma^2)$
 
 LOD = $\frac{n}{2} \times log_{10}(\frac{RSS_{o}}{RSS_{1}})$
 
-LOD is related to the F statistic. LOD = $\frac{n}{2} \times [F(\frac{df}{n-df-1} + 1)]$ and similar to the F statistic, large LOD values are associated with strong evidence for the alternative, that there is a relationship to the genetic loci and the phenotype. Since F statistics help find p-values, and LOD is related to F statistics, by setting genome wide adjusted LOD thresholds, we can easily convert these back to genome wide adjusted p-values. Broman and Sen (2009) provide a simulation based method for generating genome wide adjusted LOD thresholds, and the corresponding genome-wide adjusted p-value thresholds in Section 4.3 using the {\texttt QTL} package in R. 
+LOD is related to the F statistic. LOD = $\frac{n}{2} \times [F(\frac{df}{n-df-1} + 1)]$ and similar to the F statistic, large LOD values are associated with strong evidence against the null hypothesis, suggesting that there is a relationship between the genetic loci and the phenotype. Since F statistics help find p-values, and LOD is related to F statistics, by setting genome wide adjusted LOD thresholds, we can easily convert these back to genome wide adjusted p-values. Broman and Sen (2009) provide a simulation based method for generating genome wide adjusted LOD thresholds, and the corresponding genome-wide adjusted p-value thresholds in Section 4.3 using the {\texttt QTL} package in R (Broman et al. 2003). 
 
 \section{Future Work}
 
