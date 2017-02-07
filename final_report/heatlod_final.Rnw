@@ -21,7 +21,7 @@ Consultants: Paul Harmon, Nnamdi Ezike, and Andrea Mack}
 
 <<setup, echo = FALSE, message = FALSE, cache = FALSE>>=
 library(knitr)
-opts_chunk$set(echo = FALSE, comment = NA, fig.align = "center",
+opts_chunk$set(echo = FALSE, comment = NA, cache = TRUE, fig.align = "center",
                fig.width = 6.5, fig.height = 4, fig.pos = "H",
                size = "footnotesize", dev = "pdf",
                dev.args = list(pointsize = 11))
@@ -266,7 +266,7 @@ corrplot(correlation.2, type = "lower" ,method = "number", tl.cex = .7, number.c
 title("Bozeman2016")
 @
 
-<<nextchunk, message = FALSE, warning = FALSE, fig.cap = "Correlation Matrix for Bozeman in 2014" >>=
+<<nextchunk1, message = FALSE, warning = FALSE, fig.cap = "Correlation Matrix for Bozeman in 2014" >>=
 ##########################
 # Bozeman 2014 Dataset  #
 #########################
@@ -525,13 +525,21 @@ bz16$Year <- moc16$Year <- 2016
 
 #Merge into a single dataset
 #lodging response
-lodging<- c(bz14$Prcnt.Lodging,bz15$X..Lodging,bz16$X..Lodging.boze.2016,moc15$Lodging,moc16$X.lodging.2016)
+
+# there appears to have been different numbers of varieties in
+# different years, assuming the first 257 in each data set
+# represents the same varieties, I subsetted the envXyear
+# comb to only include the first 257 observations
+lodging <- NULL
+lodging<- c(bz14$Prcnt.Lodging,bz15$X..Lodging,bz16$pctg_Lodging_boze_2016,moc15$Lodging,moc16$X.lodging.2016)
+
 #site year combo as a factor
 site <- c(bz14$Site,bz15$Site, bz16$Site,moc15$Site,moc16$Site)
 year <- c(bz14$Year, bz15$Year,bz16$Year,moc15$Year,moc16$Year)
 siteyear <- as.factor(paste(site,year, sep = ""))
 
-year.site.mat <- matrix(cbind(lodging,site,year,siteyear))
+year.site.mat <- data.frame(cbind(lodging,site,year,siteyear))
+year.site.mat$lodging <- as.numeric(year.site.mat$lodging)
 
 @
 
@@ -820,7 +828,8 @@ We include 95 percent confidence intervals for the true mean percent lodging at 
 <<regression, include = FALSE, eval = TRUE, warning = FALSE, message = FALSE>>=
 #Fit A Simple Regression:
 library(pander)
-lm.lodging <- lm(lodging ~ siteyear, data = as.data.frame(year.site.mat), na.action = na.omit)
+# list() issues, with , na.action = na.omit -- removed
+lm.lodging <- lm(lodging ~ siteyear, data = year.site.mat, na.action = na.omit)
 summary(lm.lodging)$fstat #gives the f-stat included in the above image
 summary(lm.lodging)
 
@@ -931,7 +940,7 @@ dat50_bz16[is.na(dat50_bz16)] <- "missing"
 @
 
 
-<<missing.plot25, fig.height=7.5, warning=FALSE, fig.cap = "Less Than 25% Missing">>=
+<<missing.plot25, fig.height=7, warning=FALSE, fig.cap = "Less Than 25 Percent Missing">>=
 
 ggplot(dat25_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
    colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
@@ -942,25 +951,30 @@ ggplot(dat25_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
         axis.text.x = element_text(angle = 90, hjust = 1, size = 10), 
         axis.text.y = element_text(angle = 0, hjust = 1, size = 10)) + coord_flip()
 @
-\pagebreak
+
+\newpage
+
 \subsection{25\% - 30\% Missing by Genetic Marker}
 
-<<missing.plot30,fig.height=8, warning = FALSE, fig.cap = "25-30 Percent Missing Data">>=
+<<missing.plot30,fig.height=7, warning = FALSE, fig.cap = "25-30 Percent Missing Data">>=
 
 ggplot(dat30_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
    colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
                                             guide = guide_legend(title = "") ) + 
-  ggtitle("Genetic Data: 25 % - 30% Missing") +
+  ggtitle("Genetic Data: 25% - 30% Missing") +
  xlab("Genetic Marker") + ylab("Variety") +
   theme(legend.position = "bottom", legend.title = element_text(""),
         axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
         axis.text.y = element_text(angle = 0, hjust = 1, size = 1)) + coord_flip()
 @
-\pagebreak
+
+\newpage
+
+
 \subsection{30\% - 35\% Missing by Genetic Marker}
 
 
-<<missing.plot35, fig.height=8, warning = FALSE, message = FALSE, fig.cap = "30-35 Percent Missing Data">>=
+<<missing.plot35, fig.height=7, warning = FALSE, message = FALSE, fig.cap = "30-35 Percent Missing Data">>=
 
 ggplot(dat35_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
    colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
@@ -971,11 +985,13 @@ ggplot(dat35_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
         axis.text.x = element_text(angle = 90, hjust = 1, size = 1), 
         axis.text.y = element_text(angle = 90, hjust = 1, size = 1)) + coord_flip()
 @
-\pagebreak
+
+\newpage
+
 \subsection{35\% - 40\% Missing by Genetic Marker}
 
 
-<<missing.plot40, fig.height=8, warning = FALSE, message = FALSE, "35-40% Percent Missing Data">>=
+<<missing.plot40, fig.height=7, warning = FALSE, message = FALSE, fig.cap="35-40 Percent Missing Data">>=
 
 ggplot(dat40_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
    colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
@@ -987,7 +1003,9 @@ ggplot(dat40_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
         axis.text.y = element_text(angle = 90, hjust = 1, size = 1)) + coord_flip()
 @
 
-<<missing.plot45,fig.height=8, include = FALSE, eval = FALSE, "40-45% Percent Missing Data">>=
+\newpage
+
+<<missing.plot45,fig.height=7, include = FALSE, eval = FALSE, fig.cap="40-45 Percent Missing Data">>=
 # 0 markers had more than 40% missing, so not needed
 ggplot(dat45_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
    colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
@@ -999,7 +1017,9 @@ ggplot(dat45_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
         axis.text.y = element_text(angle = 90, hjust = 1, size = 1)) + coord_flip()
 @
 
-<<missing.plot50, fig.height=8, include = FALSE, eval = FALSE, "45-50% Percent Missing Data">>=
+\newpage
+
+<<missing.plot50, fig.height=7, include = FALSE, eval = FALSE, fig.cap="45-50 Percent Missing Data">>=
 
 ggplot(dat50_bz16, aes(variable, ind)) + geom_tile(aes(fill = value),
    colour = "white")  +   scale_fill_manual(values = c("green", "blue","red"),
