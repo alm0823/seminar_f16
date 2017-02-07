@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  6 FEB 2017 18:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  7 FEB 2017 11:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -361,181 +361,181 @@ Package color Info: Redefining color shadecolor on input line 105.
 <figure/merged-1.pdf, id=94, 505.89pt x 433.62pt>
 File: figure/merged-1.pdf Graphic file (type pdf)
  <use figure/merged-1.pdf>
-Package pdftex.def Info: figure/merged-1.pdf used on input line 107.
+Package pdftex.def Info: figure/merged-1.pdf used on input line 125.
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
-[3 <./figure/merged-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 124.
- <figure/bz-1.pdf, id=106, 505.89pt x 505.89pt>
+[3]
+Package color Info: Redefining color shadecolor on input line 142.
+ <figure/bz-1.pdf, id=100, 505.89pt x 505.89pt>
 File: figure/bz-1.pdf Graphic file (type pdf)
-
-<use figure/bz-1.pdf>
-Package pdftex.def Info: figure/bz-1.pdf used on input line 126.
+ <use figure/bz-1.pdf>
+Package pdftex.def Info: figure/bz-1.pdf used on input line 144.
 (pdftex.def)             Requested size: 469.75502pt x 469.76265pt.
- [4]
-Package color Info: Redefining color shadecolor on input line 137.
 
-<figure/nextchunk1-1.pdf, id=111, 469.755pt x 289.08pt>
+[4 <./figure/merged-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 155.
+
+<figure/nextchunk1-1.pdf, id=112, 469.755pt x 289.08pt>
 File: figure/nextchunk1-1.pdf Graphic file (type pdf)
 
 <use figure/nextchunk1-1.pdf>
-Package pdftex.def Info: figure/nextchunk1-1.pdf used on input line 139.
+Package pdftex.def Info: figure/nextchunk1-1.pdf used on input line 157.
 (pdftex.def)             Requested size: 469.75386pt x 289.07928pt.
  [5 <./figure/bz-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 150.
+Package color Info: Redefining color shadecolor on input line 168.
 
-<figure/nextchunk-1.pdf, id=123, 469.755pt x 289.08pt>
+<figure/nextchunk-1.pdf, id=124, 469.755pt x 289.08pt>
 File: figure/nextchunk-1.pdf Graphic file (type pdf)
 
 <use figure/nextchunk-1.pdf>
-Package pdftex.def Info: figure/nextchunk-1.pdf used on input line 152.
+Package pdftex.def Info: figure/nextchunk-1.pdf used on input line 170.
 (pdftex.def)             Requested size: 469.75386pt x 289.07928pt.
  [6 <./figure/nextchunk1-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 168.
+Package color Info: Redefining color shadecolor on input line 186.
 
-<figure/moc-1.pdf, id=135, 505.89pt x 289.08pt>
+<figure/moc-1.pdf, id=136, 505.89pt x 289.08pt>
 File: figure/moc-1.pdf Graphic file (type pdf)
  <use figure/moc-1.pdf>
-Package pdftex.def Info: figure/moc-1.pdf used on input line 170.
+Package pdftex.def Info: figure/moc-1.pdf used on input line 188.
 (pdftex.def)             Requested size: 469.75502pt x 268.43579pt.
  [7 <./figure/nextchunk-1.pdf>] [8 <./figure/moc-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 183.
+Package color Info: Redefining color shadecolor on input line 201.
 
-<figure/Moc15-1.pdf, id=159, 578.16pt x 505.89pt>
+<figure/Moc15-1.pdf, id=160, 578.16pt x 505.89pt>
 File: figure/Moc15-1.pdf Graphic file (type pdf)
  <use figure/Moc15-1.pdf>
-Package pdftex.def Info: figure/Moc15-1.pdf used on input line 185.
+Package pdftex.def Info: figure/Moc15-1.pdf used on input line 203.
 (pdftex.def)             Requested size: 469.75502pt x 411.0346pt.
-Package color Info: Redefining color shadecolor on input line 196.
+Package color Info: Redefining color shadecolor on input line 214.
 
-<figure/MocAllYear-1.pdf, id=160, 578.16pt x 505.89pt>
+<figure/MocAllYear-1.pdf, id=161, 578.16pt x 505.89pt>
 File: figure/MocAllYear-1.pdf Graphic file (type pdf)
 
 <use figure/MocAllYear-1.pdf>
-Package pdftex.def Info: figure/MocAllYear-1.pdf used on input line 198.
+Package pdftex.def Info: figure/MocAllYear-1.pdf used on input line 216.
 (pdftex.def)             Requested size: 469.75502pt x 411.0346pt.
  [9 <./figure/Moc15-1.pdf>] [10 <./figure/MocAllYear-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 223.
- <figure/meanvars-1.pdf, id=184, 469.755pt x 289.08pt>
+Package color Info: Redefining color shadecolor on input line 241.
+ <figure/meanvars-1.pdf, id=185, 469.755pt x 289.08pt>
 File: figure/meanvars-1.pdf Graphic file (type pdf)
 
 <use figure/meanvars-1.pdf>
-Package pdftex.def Info: figure/meanvars-1.pdf used on input line 225.
+Package pdftex.def Info: figure/meanvars-1.pdf used on input line 243.
 (pdftex.def)             Requested size: 469.75386pt x 289.07928pt.
  [11]
-Package color Info: Redefining color shadecolor on input line 240.
+Package color Info: Redefining color shadecolor on input line 258.
 
-<figure/tables-1.pdf, id=189, 469.755pt x 289.08pt>
+<figure/tables-1.pdf, id=190, 469.755pt x 289.08pt>
 File: figure/tables-1.pdf Graphic file (type pdf)
  <use figure/tables-1.pdf>
-Package pdftex.def Info: figure/tables-1.pdf used on input line 242.
+Package pdftex.def Info: figure/tables-1.pdf used on input line 260.
 (pdftex.def)             Requested size: 469.75386pt x 289.07928pt.
 
 [12 <./figure/meanvars-1.pdf>] [13 <./figure/tables-1.pdf>]
-<RegressionResults.png, id=213, 539.01375pt x 173.89969pt>
+<RegressionResults.png, id=214, 539.01375pt x 173.89969pt>
 File: RegressionResults.png Graphic file (type png)
 
 <use RegressionResults.png>
-Package pdftex.def Info: RegressionResults.png used on input line 258.
+Package pdftex.def Info: RegressionResults.png used on input line 276.
 (pdftex.def)             Requested size: 325.215pt x 104.92436pt.
-Package color Info: Redefining color shadecolor on input line 262.
- <figure/tukey-1.pdf, id=215, 469.755pt x 289.08pt>
+Package color Info: Redefining color shadecolor on input line 280.
+ <figure/tukey-1.pdf, id=216, 469.755pt x 289.08pt>
 File: figure/tukey-1.pdf Graphic file (type pdf)
 
 <use figure/tukey-1.pdf>
-Package pdftex.def Info: figure/tukey-1.pdf used on input line 264.
+Package pdftex.def Info: figure/tukey-1.pdf used on input line 282.
 (pdftex.def)             Requested size: 469.75386pt x 289.07928pt.
  [14 <./RegressionResults.png>] [15 <./figure/tukey-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 286.
- <figure/missing_plot-1.pdf, id=232, 469.755pt x 289.08pt>
+Package color Info: Redefining color shadecolor on input line 304.
+ <figure/missing_plot-1.pdf, id=233, 469.755pt x 289.08pt>
 File: figure/missing_plot-1.pdf Graphic file (type pdf)
 
 <use figure/missing_plot-1.pdf>
-Package pdftex.def Info: figure/missing_plot-1.pdf used on input line 288.
+Package pdftex.def Info: figure/missing_plot-1.pdf used on input line 306.
 (pdftex.def)             Requested size: 469.75386pt x 289.07928pt.
  [16 <./figure/missing_plot-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 307.
+Package color Info: Redefining color shadecolor on input line 325.
 
-<figure/missing_plot25-1.pdf, id=243, 469.755pt x 505.89pt>
+<figure/missing_plot25-1.pdf, id=244, 469.755pt x 505.89pt>
 File: figure/missing_plot25-1.pdf Graphic file (type pdf)
 
 <use figure/missing_plot25-1.pdf>
-Package pdftex.def Info: figure/missing_plot25-1.pdf used on input line 309.
+Package pdftex.def Info: figure/missing_plot25-1.pdf used on input line 327.
 (pdftex.def)             Requested size: 469.75386pt x 505.88875pt.
  [17 <./figure/missing_plot25-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 324.
+Package color Info: Redefining color shadecolor on input line 342.
 
-<figure/missing_plot30-1.pdf, id=254, 469.755pt x 505.89pt>
+<figure/missing_plot30-1.pdf, id=255, 469.755pt x 505.89pt>
 File: figure/missing_plot30-1.pdf Graphic file (type pdf)
 
 <use figure/missing_plot30-1.pdf>
-Package pdftex.def Info: figure/missing_plot30-1.pdf used on input line 326.
+Package pdftex.def Info: figure/missing_plot30-1.pdf used on input line 344.
 (pdftex.def)             Requested size: 469.75386pt x 505.88875pt.
  [18 <./figure/missing_plot30-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 343.
+Package color Info: Redefining color shadecolor on input line 361.
 
-<figure/missing_plot35-1.pdf, id=265, 469.755pt x 505.89pt>
+<figure/missing_plot35-1.pdf, id=266, 469.755pt x 505.89pt>
 File: figure/missing_plot35-1.pdf Graphic file (type pdf)
 
 <use figure/missing_plot35-1.pdf>
-Package pdftex.def Info: figure/missing_plot35-1.pdf used on input line 345.
+Package pdftex.def Info: figure/missing_plot35-1.pdf used on input line 363.
 (pdftex.def)             Requested size: 469.75386pt x 505.88875pt.
  [19 <./figure/missing_plot35-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 361.
+Package color Info: Redefining color shadecolor on input line 379.
 
-<figure/missing_plot40-1.pdf, id=277, 469.755pt x 505.89pt>
+<figure/missing_plot40-1.pdf, id=278, 469.755pt x 505.89pt>
 File: figure/missing_plot40-1.pdf Graphic file (type pdf)
 
 <use figure/missing_plot40-1.pdf>
-Package pdftex.def Info: figure/missing_plot40-1.pdf used on input line 363.
+Package pdftex.def Info: figure/missing_plot40-1.pdf used on input line 381.
 (pdftex.def)             Requested size: 469.75386pt x 505.88875pt.
  [20 <./figure/missing_plot40-1.pdf>] [21]
 [22]
-Overfull \hbox (0.41458pt too wide) in paragraph at lines 417--418
+Overfull \hbox (0.41458pt too wide) in paragraph at lines 435--436
  []\OT1/cmr/m/n/10.95 Broman and Sen. 2009. \OT1/cmr/m/it/10.95 A guide to QTL 
 map-ping with R/QTL\OT1/cmr/m/n/10.95 . New York: Spring Sci-ence+Business
  []
 
 [23]
-Overfull \hbox (6.9649pt too wide) in paragraph at lines 474--475
+Overfull \hbox (6.9649pt too wide) in paragraph at lines 492--493
  [][] 
  []
 
 
-Overfull \hbox (29.09308pt too wide) in paragraph at lines 489--490
+Overfull \hbox (29.09308pt too wide) in paragraph at lines 507--508
  [][] 
  []
 
 
-Overfull \hbox (7.87741pt too wide) in paragraph at lines 564--565
+Overfull \hbox (7.87741pt too wide) in paragraph at lines 582--583
  [][] 
  []
 
 
-Overfull \hbox (6.5847pt too wide) in paragraph at lines 579--580
+Overfull \hbox (6.5847pt too wide) in paragraph at lines 597--598
  [][] 
  []
 
 [24] [25] [26]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1107.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1125.
  [27]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1107.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1125.
  (./heatlod_final.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1107.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1107.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1125.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1125.
 
 Package rerunfilecheck Info: File `heatlod_final.out' has not changed.
 (rerunfilecheck)             Checksum: 700EDA56DB4C461F25E348945C2A6A64;1320.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1107.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1125.
  ) 
 Here is how much of TeX's memory you used:
- 6466 strings out of 493014
- 95078 string characters out of 6133351
- 234438 words of memory out of 5000000
- 9857 multiletter control sequences out of 15000+600000
- 10522 words of font info for 38 fonts, out of 8000000 for 9000
+ 6468 strings out of 493014
+ 95097 string characters out of 6133351
+ 233438 words of memory out of 5000000
+ 9858 multiletter control sequences out of 15000+600000
+ 10689 words of font info for 39 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 29i,11n,43p,1376b,382s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,11n,43p,1376b,383s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
@@ -549,11 +549,12 @@ xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texli
 ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texliv
 e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/
 2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2
-016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on heatlod_final.pdf (27 pages, 1598298 bytes).
+016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/20
+16/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
+Output written on heatlod_final.pdf (27 pages, 1611974 bytes).
 PDF statistics:
- 392 PDF objects out of 1000 (max. 8388607)
- 313 compressed objects within 4 object streams
+ 396 PDF objects out of 1000 (max. 8388607)
+ 316 compressed objects within 4 object streams
  64 named destinations out of 1000 (max. 500000)
  233 words of extra memory for PDF output out of 10000 (max. 10000000)
 
